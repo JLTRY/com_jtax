@@ -4,7 +4,7 @@
 /-------------------------------------------------------------------------------------------------------/
 
 	@version		1.0.5
-	@build			2nd April, 2025
+	@build			12th August, 2025
 	@created		4th March, 2025
 	@package		JTax
 	@subpackage		JtaxInstallerScript.php

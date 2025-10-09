@@ -35,6 +35,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Document\Document;
 use JCB\Component\Jtax\Administrator\Helper\JtaxHelper;
 use JCB\Joomla\Utilities\StringHelper;
+use Joomla\CMS\Toolbar\ToolbarFactoryInterface;
 
 // No direct access to this file
 \defined('_JEXEC') or die;
@@ -157,18 +158,18 @@ class HtmlView extends BaseHtmlView
 		if ($this->refid && $this->ref)
 		{
 			// return to the item that referred to this item
-			$this->referral = '&ref=' . (string)$this->ref . '&refid=' . (int)$this->refid;
+			$this->referral = '&ref=' . (string) $this->ref . '&refid=' . (int) $this->refid;
 		}
 		elseif($this->ref)
 		{
 			// return to the list view that referred to this item
-			$this->referral = '&ref=' . (string)$this->ref;
+			$this->referral = '&ref=' . (string) $this->ref;
 		}
 		// check return value
 		if (!is_null($return))
 		{
 			// add the return value
-			$this->referral .= '&return=' . (string)$return;
+			$this->referral .= '&return=' . (string) $return;
 		}
 
 		// Set the toolbar
@@ -196,7 +197,7 @@ class HtmlView extends BaseHtmlView
 	protected function addToolbar(): void
 	{
 		Factory::getApplication()->input->set('hidemainmenu', true);
-		$user = Factory::getApplication()->getIdentity();
+		$user = $this->getCurrentUser();
 		$userId	= $user->id;
 		$isNew = $this->item->id == 0;
 
@@ -278,8 +279,8 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::help('COM_JTAX_HELP_MANAGER', false, $this->help_url);
 		}
 
-		// now initiate the toolbar
-		$this->toolbar ??= Toolbar::getInstance();
+		// add the toolbar if it's not already loaded
+		$this->toolbar ??= Factory::getContainer()->get(ToolbarFactoryInterface::class)->createToolbar('toolbar');
 	}
 
 	/**

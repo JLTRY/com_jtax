@@ -191,7 +191,7 @@ abstract class JtaxHelper
 		// set fileName if not set
 		if (!$fileName)
 		{
-			$fileName = 'exported_'.Factory::getDate()->format('jS_F_Y');
+			$fileName = 'exported_' . Factory::getDate()->format('jS_F_Y');
 		}
 		// set modified if not set
 		if (!$modified)

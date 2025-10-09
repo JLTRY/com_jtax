@@ -35,6 +35,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Document\Document;
 use JCB\Component\Jtax\Administrator\Helper\JtaxHelper;
 use JCB\Joomla\Utilities\StringHelper;
+use Joomla\Input\Input;
 
 // No direct access to this file
 \defined('_JEXEC') or die;
@@ -54,6 +55,14 @@ class HtmlView extends BaseHtmlView
 	 * @since  3.10.11
 	 */
 	public mixed $item;
+
+	/**
+	 * The input class
+	 *
+	 * @var    Input
+	 * @since  5.2.1
+	 */
+	public Input $input;
 
 	/**
 	 * The state object
@@ -128,6 +137,14 @@ class HtmlView extends BaseHtmlView
 	public string $referral;
 
 	/**
+	 * The modal state
+	 *
+	 * @var    bool
+	 * @since  5.2.1
+	 */
+	public bool $isModal;
+
+	/**
 	 * Year view display method
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -150,10 +167,10 @@ class HtmlView extends BaseHtmlView
 		// get action permissions
 		$this->canDo = JtaxHelper::getActions('year', $this->item);
 		// get input
-		$jinput = Factory::getApplication()->input;
-		$this->ref = $jinput->get('ref', 0, 'word');
-		$this->refid = $jinput->get('refid', 0, 'int');
-		$return = $jinput->get('return', null, 'base64');
+		$this->input ??= Factory::getApplication()->input;
+		$this->ref = $this->input->get('ref', 0, 'word');
+		$this->refid = $this->input->get('refid', 0, 'int');
+		$return = $this->input->get('return', null, 'base64');
 		// set the referral string
 		$this->referral = '';
 		if ($this->refid && $this->ref)
@@ -174,7 +191,16 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Set the toolbar
-		$this->addToolBar();
+		if ($this->getLayout() !== 'modal')
+		{
+			$this->isModal = false;
+			$this->addToolbar();
+		}
+		else
+		{
+			$this->isModal = true;
+			$this->addModalToolbar();
+		}
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -189,17 +215,17 @@ class HtmlView extends BaseHtmlView
 		parent::display($tpl);
 	}
 
-
 	/**
 	 * Add the page title and toolbar.
 	 *
 	 * @return  void
+	 * @throws  \Exception
 	 * @since   1.6
 	 */
 	protected function addToolbar(): void
 	{
 		Factory::getApplication()->input->set('hidemainmenu', true);
-		$user = Factory::getApplication()->getIdentity();
+		$user = $this->getCurrentUser();
 		$userId	= $user->id;
 		$isNew = $this->item->id == 0;
 
@@ -274,6 +300,71 @@ class HtmlView extends BaseHtmlView
 		if (StringHelper::check($this->help_url))
 		{
 			ToolbarHelper::help('COM_JTAX_HELP_MANAGER', false, $this->help_url);
+		}
+	}
+
+	/**
+	 * Add the modal toolbar.
+	 *
+	 * @return  void
+	 * @throws  \Exception
+	 * @since   5.0.0
+	 */
+	protected function addModalToolbar()
+	{
+		Factory::getApplication()->input->set('hidemainmenu', true);
+		$user = $this->getCurrentUser();
+		$userId	= $user->id;
+		$isNew = $this->item->id == 0;
+
+		ToolbarHelper::title( Text::_($isNew ? 'COM_JTAX_YEAR_NEW' : 'COM_JTAX_YEAR_EDIT'), 'pencil-2 article-add');
+		// Built the actions for new and existing records.
+		if (StringHelper::check($this->referral))
+		{
+			if ($this->canDo->get('core.create') && $isNew)
+			{
+				// We can create the record.
+				ToolbarHelper::save('year.save', 'JTOOLBAR_SAVE');
+			}
+			elseif ($this->canDo->get('core.edit'))
+			{
+				// We can save the record.
+				ToolbarHelper::save('year.save', 'JTOOLBAR_SAVE');
+			}
+			if ($isNew)
+			{
+				// Do not creat but cancel.
+				ToolbarHelper::cancel('year.cancel', 'JTOOLBAR_CANCEL');
+			}
+			else
+			{
+				// We can close it.
+				ToolbarHelper::cancel('year.cancel', 'JTOOLBAR_CLOSE');
+			}
+		}
+		else
+		{
+			if ($isNew)
+			{
+				// For new records, check the create permission.
+				if ($this->canDo->get('core.create'))
+				{
+					ToolbarHelper::apply('year.apply', 'JTOOLBAR_APPLY');
+					ToolbarHelper::save('year.save', 'JTOOLBAR_SAVE');
+					ToolbarHelper::custom('year.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+				};
+				ToolbarHelper::cancel('year.cancel', 'JTOOLBAR_CANCEL');
+			}
+			else
+			{
+				if ($this->canDo->get('core.edit'))
+				{
+					// We can save the new record
+					ToolbarHelper::apply('year.apply', 'JTOOLBAR_APPLY');
+					ToolbarHelper::save('year.save', 'JTOOLBAR_SAVE');
+				}
+				ToolbarHelper::cancel('year.cancel', 'JTOOLBAR_CLOSE');
+			}
 		}
 	}
 
