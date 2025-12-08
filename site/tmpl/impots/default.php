@@ -3,8 +3,8 @@
 				JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-	@version		1.0.5
-	@build			2nd April, 2025
+	@version		1.0.7
+	@build			8th December, 2025
 	@created		4th March, 2025
 	@package		JTax
 	@subpackage		default.php
@@ -58,12 +58,12 @@ defined('_JEXEC') or die;
 
 
 <?php if (isset($this->items) && isset($this->pagination) && isset($this->pagination->pagesTotal) && $this->pagination->pagesTotal > 1): ?>
-	<div class="pagination">
-		<?php if ($this->params->def('show_pagination_results', 1)) : ?>
-			<p class="counter pull-right"> <?php echo $this->pagination->getPagesCounter(); ?> <?php echo $this->pagination->getLimitBox(); ?></p>
-		<?php endif; ?>
-		<?php echo $this->pagination->getPagesLinks(); ?>
-	</div>
+    <div class="pagination">
+        <?php if ($this->params->def('show_pagination_results', 1)) : ?>
+            <p class="counter pull-right"> <?php echo $this->pagination->getPagesCounter(); ?> <?php echo $this->pagination->getLimitBox(); ?></p>
+        <?php endif; ?>
+        <?php echo $this->pagination->getPagesLinks(); ?>
+    </div>
 <?php endif; ?>
 <input type="hidden" name="task" value="" />
 <?php echo Html::_('form.token'); ?>

@@ -3,8 +3,8 @@
 				JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-	@version		1.0.5
-	@build			2nd April, 2025
+	@version		1.0.7
+	@build			8th December, 2025
 	@created		4th March, 2025
 	@package		JTax
 	@subpackage		default_head.php
@@ -26,34 +26,34 @@ defined('_JEXEC') or die;
 
 ?>
 <tr>
-	<?php if (!$this->isModal && $this->canEdit && $this->canState): ?>
-		<th width="1%" class="nowrap center hidden-phone">
-			<?php echo Html::_('searchtools.sort', '', 'a.ordering', $this->listDirn, $this->listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
-		</th>
-		<th width="20" class="nowrap center">
-			<?php echo Html::_('grid.checkall'); ?>
-		</th>
-	<?php else: ?>
-		<th width="20" class="nowrap center hidden-phone">
-			&#9662;
-		</th>
-		<th width="20" class="nowrap center">
-			&#9632;
-		</th>
-	<?php endif; ?>
-	<th class="nowrap" >
-			<?php echo Html::_('searchtools.sort', 'COM_JTAX_YEAR_NAME_LABEL', 'a.name', $this->listDirn, $this->listOrder); ?>
-	</th>
-	<?php if ($this->canState): ?>
-		<th width="10" class="nowrap center" >
-			<?php echo Html::_('searchtools.sort', 'COM_JTAX_YEAR_STATUS', 'a.published', $this->listDirn, $this->listOrder); ?>
-		</th>
-	<?php else: ?>
-		<th width="10" class="nowrap center" >
-			<?php echo Text::_('COM_JTAX_YEAR_STATUS'); ?>
-		</th>
-	<?php endif; ?>
-	<th width="5" class="nowrap center hidden-phone" >
-			<?php echo Html::_('searchtools.sort', 'COM_JTAX_YEAR_ID', 'a.id', $this->listDirn, $this->listOrder); ?>
-	</th>
+    <?php if (!$this->isModal && $this->canEdit && $this->canState): ?>
+        <th width="1%" class="nowrap center hidden-phone">
+            <?php echo Html::_('searchtools.sort', '', 'a.ordering', $this->listDirn, $this->listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+        </th>
+        <th width="20" class="nowrap center">
+            <?php echo Html::_('grid.checkall'); ?>
+        </th>
+    <?php else: ?>
+        <th width="20" class="nowrap center hidden-phone">
+            &#9662;
+        </th>
+        <th width="20" class="nowrap center">
+            &#9632;
+        </th>
+    <?php endif; ?>
+    <th class="nowrap" >
+            <?php echo Html::_('searchtools.sort', 'COM_JTAX_YEAR_NAME_LABEL', 'a.name', $this->listDirn, $this->listOrder); ?>
+    </th>
+    <?php if ($this->canState): ?>
+        <th width="10" class="nowrap center" >
+            <?php echo Html::_('searchtools.sort', 'COM_JTAX_YEAR_STATUS', 'a.published', $this->listDirn, $this->listOrder); ?>
+        </th>
+    <?php else: ?>
+        <th width="10" class="nowrap center" >
+            <?php echo Text::_('COM_JTAX_YEAR_STATUS'); ?>
+        </th>
+    <?php endif; ?>
+    <th width="5" class="nowrap center hidden-phone" >
+            <?php echo Html::_('searchtools.sort', 'COM_JTAX_YEAR_ID', 'a.id', $this->listDirn, $this->listOrder); ?>
+    </th>
 </tr>

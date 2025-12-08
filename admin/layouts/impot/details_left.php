@@ -3,8 +3,8 @@
 				JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-	@version		1.0.5
-	@build			2nd April, 2025
+	@version		1.0.7
+	@build			8th December, 2025
 	@created		4th March, 2025
 	@package		JTax
 	@subpackage		details_left.php
@@ -36,13 +36,13 @@ $fields_tab_layout = 'fields_' . $layout_path_array[1];
 // get the fields
 $fields = $displayData->get($fields_tab_layout) ?: array(
 	'name',
-	'year',
-	'revenu',
-	'nbparts',
-	'deduction',
-	'fraisreels',
-	'pel',
-	'dons'
+    'year',
+    'revenu',
+    'nbparts',
+    'deduction',
+    'fraisreels',
+    'pel',
+    'dons'
 );
 
 $hiddenFields = $displayData->get('hidden_fields') ?: [];

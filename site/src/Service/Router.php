@@ -3,8 +3,8 @@
 				JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-	@version		1.0.5
-	@build			2nd April, 2025
+	@version		1.0.7
+	@build			8th December, 2025
 	@created		4th March, 2025
 	@package		JTax
 	@subpackage		Router.php
@@ -106,13 +106,13 @@ class Router extends RouterView
 		$this->params          = ComponentHelper::getParams('com_jtax');
 		$this->noIDs           = (bool) $this->params->get('sef_ids', false);
 
-		// Add the (impots:view) router configuration
-		$impots = new RouterViewConfiguration('impots');
-		$this->registerView($impots);
+        // Add the (impots:view) router configuration
+        $impots = new RouterViewConfiguration('impots');
+        $this->registerView($impots);
 
-		// Add the (impot:view) router configuration
-		$impot = new RouterViewConfiguration('impot');
-		$this->registerView($impot);
+        // Add the (impot:view) router configuration
+        $impot = new RouterViewConfiguration('impot');
+        $this->registerView($impot);
 
 		parent::__construct($app, $menu);
 

@@ -3,8 +3,8 @@
 				JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-	@version		1.0.5
-	@build			2nd April, 2025
+	@version		1.0.7
+	@build			8th December, 2025
 	@created		4th March, 2025
 	@package		JTax
 	@subpackage		JtaxModel.php
@@ -65,23 +65,23 @@ class JtaxModel extends ListModel
 		'main' => ['png.impot.add', 'png.impots', 'png.year.add', 'png.years'],
 	];
 
-	/**
-	 * View access array.
-	 *
-	 * @var   array<string, string>
-	 * @since 5.1.1
-	 */
-	protected array $viewAccess = [
-		'impots.access' => 'impot.access',
-		'impot.access' => 'impot.access',
-		'impots.dashboard_list' => 'impot.dashboard_list',
-		'impot.dashboard_add' => 'impot.dashboard_add',
-		'years.access' => 'year.access',
-		'year.access' => 'year.access',
-		'years.submenu' => 'year.submenu',
-		'years.dashboard_list' => 'year.dashboard_list',
-		'year.dashboard_add' => 'year.dashboard_add',
-	];
+    /**
+     * View access array.
+     *
+     * @var   array<string, string>
+     * @since 5.1.1
+     */
+    protected array $viewAccess = [
+        'impots.access' => 'impot.access',
+        'impot.access' => 'impot.access',
+        'impots.dashboard_list' => 'impot.dashboard_list',
+        'impot.dashboard_add' => 'impot.dashboard_add',
+        'years.access' => 'year.access',
+        'year.access' => 'year.access',
+        'years.submenu' => 'year.submenu',
+        'years.dashboard_list' => 'year.dashboard_list',
+        'year.dashboard_add' => 'year.dashboard_add',
+    ];
 
 	/**
 	 * The styles array.
@@ -113,7 +113,7 @@ class JtaxModel extends ListModel
 	 * @since   1.6
 	 * @throws  \Exception
 	 */
-	public function __construct($config = [], MVCFactoryInterface $factory = null)
+	public function __construct($config = [], ?MVCFactoryInterface $factory = null)
 	{
 		parent::__construct($config, $factory);
 

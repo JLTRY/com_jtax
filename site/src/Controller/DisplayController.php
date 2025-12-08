@@ -3,8 +3,8 @@
 				JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-	@version		1.0.5
-	@build			2nd April, 2025
+	@version		1.0.7
+	@build			8th December, 2025
 	@created		4th March, 2025
 	@package		JTax
 	@subpackage		DisplayController.php
@@ -48,10 +48,10 @@ class DisplayController extends BaseController
 	 * @since  4.0.0
 	 */
 	protected array $allowed_edit_views = [
-		'impot' => [
-			'edit' => 'core.edit',
-			'edit.own' => 'core.edit.own'
-		]
+        'impot' => [
+            'edit' => 'core.edit',
+            'edit.own' => 'core.edit.own'
+        ]
 	];
 
 	/**
@@ -73,7 +73,7 @@ class DisplayController extends BaseController
 	 * @throws \Exception
 	 * @since   3.0.1
 	 */
-	public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
+	public function __construct($config = [], ?MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
 		$app ??= Factory::getApplication();
 		$this->identity ??= $app->getIdentity();

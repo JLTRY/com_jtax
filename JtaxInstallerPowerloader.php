@@ -7,7 +7,7 @@
 	@build			8th December, 2025
 	@created		4th March, 2025
 	@package		JTax
-	@subpackage		PowerloaderHelper.php
+	@subpackage		JtaxInstallerPowerloader.php
 	@author			Jean-Luc Tryoen <http://www.jltryoen.fr>	
 	@copyright		Copyright (C) 2015. All Rights Reserved
 	@license		GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html
@@ -56,7 +56,7 @@ spl_autoload_register(function ($class) {
     // replace the namespace prefix with the base directory, replace namespace
     // separators with directory separators in the relative class name, append
     // with .php
-    $file = JPATH_ROOT . '/' . $found_base_dir . '/src' . str_replace('\\', '/', $relative_class) . '.php';
+    $file = __DIR__ . '/' . $found_base_dir . '/src' . str_replace('\\', '/', $relative_class) . '.php';
     // if the file exists, require it
     if (file_exists($file))
     {

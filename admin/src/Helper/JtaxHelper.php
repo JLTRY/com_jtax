@@ -3,8 +3,8 @@
 				JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-	@version		1.0.5
-	@build			2nd April, 2025
+	@version		1.0.7
+	@build			8th December, 2025
 	@created		4th March, 2025
 	@package		JTax
 	@subpackage		JtaxHelper.php
@@ -23,7 +23,7 @@ namespace JCB\Component\Jtax\Administrator\Helper;
 $power_autoloader = JPATH_ADMINISTRATOR . '/components/com_jtax/src/Helper/PowerloaderHelper.php';
 if (file_exists($power_autoloader))
 {
-	require_once $power_autoloader;
+    require_once $power_autoloader;
 }
 
 use Joomla\CMS\Factory;
@@ -48,6 +48,7 @@ use JCB\Joomla\Utilities\ObjectHelper;
 use JCB\Joomla\Utilities\ArrayHelper as UtilitiesArrayHelper;
 use JCB\Joomla\Utilities\GetHelper;
 use JCB\Joomla\Utilities\JsonHelper;
+use JCB\Joomla\Jtax\Utilities\Permitted\Actions;
 use JCB\Joomla\Utilities\FormHelper;
 
 // No direct access to this file
@@ -159,13 +160,13 @@ abstract class JtaxHelper
 		return $contributors;
 	}
 
-	/**
-	 *	Can be used to build help urls.
-	 **/
-	public static function getHelpUrl($view)
-	{
-		return false;
-	}
+    /**
+     *	Can be used to build help urls.
+     **/
+    public static function getHelpUrl($view)
+    {
+        return false;
+    }
 
 	/**
 	 * Configure the Linkbar.
@@ -176,229 +177,229 @@ abstract class JtaxHelper
 		$user = Factory::getApplication()->getIdentity();
 		// load the submenus to sidebar
 		\JHtmlSidebar::addEntry(Text::_('COM_JTAX_SUBMENU_DASHBOARD'), 'index.php?option=com_jtax&view=jtax', $submenu === 'jtax');
-		if ($user->authorise('year.access', 'com_jtax') && $user->authorise('year.submenu', 'com_jtax'))
-		{
-			\JHtmlSidebar::addEntry(Text::_('COM_JTAX_SUBMENU_YEARS'), 'index.php?option=com_jtax&view=years', $submenu === 'years');
-		}
+        if ($user->authorise('year.access', 'com_jtax') && $user->authorise('year.submenu', 'com_jtax'))
+        {
+            \JHtmlSidebar::addEntry(Text::_('COM_JTAX_SUBMENU_YEARS'), 'index.php?option=com_jtax&view=years', $submenu === 'years');
+        }
 	}
 
-	/**
-	* Prepares the xml document
-	*/
-	public static function xls($rows, $fileName = null, $title = null, $subjectTab = null, $creator = 'JL Tryoen', $description = null, $category = null,$keywords = null, $modified = null)
-	{
-		// set the user
-		// set fileName if not set
-		if (!$fileName)
-		{
-			$fileName = 'exported_' . Factory::getDate()->format('jS_F_Y');
-		}
-		// set modified if not set
-		if (!$modified)
-		{
-			$modified = $user->name;
-		}
-		// set title if not set
-		if (!$title)
-		{
-			$title = 'Book1';
-		}
-		// set tab name if not set
-		if (!$subjectTab)
-		{
-			$subjectTab = 'Sheet1';
-		}
+    /**
+    * Prepares the xml document
+    */
+    public static function xls($rows, $fileName = null, $title = null, $subjectTab = null, $creator = 'JL Tryoen', $description = null, $category = null,$keywords = null, $modified = null)
+    {
+        // set the user
+        // set fileName if not set
+        if (!$fileName)
+        {
+            $fileName = 'exported_' . Factory::getDate()->format('jS_F_Y');
+        }
+        // set modified if not set
+        if (!$modified)
+        {
+            $modified = $user->name;
+        }
+        // set title if not set
+        if (!$title)
+        {
+            $title = 'Book1';
+        }
+        // set tab name if not set
+        if (!$subjectTab)
+        {
+            $subjectTab = 'Sheet1';
+        }
 
-		// make sure we have the composer classes loaded
-		self::composerAutoload('phpspreadsheet');
+        // make sure we have the composer classes loaded
+        self::composerAutoload('phpspreadsheet');
 
-		// Create new Spreadsheet object
-		$spreadsheet = new Spreadsheet();
+        // Create new Spreadsheet object
+        $spreadsheet = new Spreadsheet();
 
-		// Set document properties
-		$spreadsheet->getProperties()
-			->setCreator($creator)
-			->setCompany('JL Tryoen')
-			->setLastModifiedBy($modified)
-			->setTitle($title)
-			->setSubject($subjectTab);
-		// The file type
-		$file_type = 'Xls';
-		// set description
-		if ($description)
-		{
-			$spreadsheet->getProperties()->setDescription($description);
-		}
-		// set keywords
-		if ($keywords)
-		{
-			$spreadsheet->getProperties()->setKeywords($keywords);
-		}
-		// set category
-		if ($category)
-		{
-			$spreadsheet->getProperties()->setCategory($category);
-		}
+        // Set document properties
+        $spreadsheet->getProperties()
+            ->setCreator($creator)
+            ->setCompany('JL Tryoen')
+            ->setLastModifiedBy($modified)
+            ->setTitle($title)
+            ->setSubject($subjectTab);
+        // The file type
+        $file_type = 'Xls';
+        // set description
+        if ($description)
+        {
+            $spreadsheet->getProperties()->setDescription($description);
+        }
+        // set keywords
+        if ($keywords)
+        {
+            $spreadsheet->getProperties()->setKeywords($keywords);
+        }
+        // set category
+        if ($category)
+        {
+            $spreadsheet->getProperties()->setCategory($category);
+        }
 
-		// Some styles
-		$headerStyles = array(
-			'font'  => array(
-				'bold'  => true,
-				'color' => array('rgb' => '1171A3'),
-				'size'  => 12,
-				'name'  => 'Verdana'
-		));
-		$sideStyles = array(
-			'font'  => array(
-				'bold'  => true,
-				'color' => array('rgb' => '444444'),
-				'size'  => 11,
-				'name'  => 'Verdana'
-		));
-		$normalStyles = array(
-			'font'  => array(
-				'color' => array('rgb' => '444444'),
-				'size'  => 11,
-				'name'  => 'Verdana'
-		));
+        // Some styles
+        $headerStyles = array(
+            'font'  => array(
+                'bold'  => true,
+                'color' => array('rgb' => '1171A3'),
+                'size'  => 12,
+                'name'  => 'Verdana'
+        ));
+        $sideStyles = array(
+            'font'  => array(
+                'bold'  => true,
+                'color' => array('rgb' => '444444'),
+                'size'  => 11,
+                'name'  => 'Verdana'
+        ));
+        $normalStyles = array(
+            'font'  => array(
+                'color' => array('rgb' => '444444'),
+                'size'  => 11,
+                'name'  => 'Verdana'
+        ));
 
-		// Add some data
-		if (($size = UtilitiesArrayHelper::check($rows)) !== false)
-		{
-			$i = 1;
+        // Add some data
+        if (($size = UtilitiesArrayHelper::check($rows)) !== false)
+        {
+            $i = 1;
 
-			// Based on data size we adapt the behaviour.
-			$xls_mode = 1;
-			if ($size > 3000)
-			{
-				$xls_mode = 3;
-				$file_type = 'Csv';
-			}
-			elseif ($size > 2000)
-			{
-				$xls_mode = 2;
-			}
+            // Based on data size we adapt the behaviour.
+            $xls_mode = 1;
+            if ($size > 3000)
+            {
+                $xls_mode = 3;
+                $file_type = 'Csv';
+            }
+            elseif ($size > 2000)
+            {
+                $xls_mode = 2;
+            }
 
-			// Set active sheet and get it.
-			$active_sheet = $spreadsheet->setActiveSheetIndex(0);
-			foreach ($rows as $array)
-			{
-				$a = 'A';
-				foreach ($array as $value)
-				{
-					$active_sheet->setCellValue($a.$i, $value);
-					if ($xls_mode != 3)
-					{
-						if ($i == 1)
-						{
-							$active_sheet->getColumnDimension($a)->setAutoSize(true);
-							$active_sheet->getStyle($a.$i)->applyFromArray($headerStyles);
-							$active_sheet->getStyle($a.$i)->getAlignment()->setHorizontal(PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-						}
-						elseif ($a === 'A')
-						{
-							$active_sheet->getStyle($a.$i)->applyFromArray($sideStyles);
-						}
-						elseif ($xls_mode == 1)
-						{
-							$active_sheet->getStyle($a.$i)->applyFromArray($normalStyles);
-						}
-					}
-					$a++;
-				}
-				$i++;
-			}
-		}
-		else
-		{
-			return false;
-		}
+            // Set active sheet and get it.
+            $active_sheet = $spreadsheet->setActiveSheetIndex(0);
+            foreach ($rows as $array)
+            {
+                $a = 'A';
+                foreach ($array as $value)
+                {
+                    $active_sheet->setCellValue($a.$i, $value);
+                    if ($xls_mode != 3)
+                    {
+                        if ($i == 1)
+                        {
+                            $active_sheet->getColumnDimension($a)->setAutoSize(true);
+                            $active_sheet->getStyle($a.$i)->applyFromArray($headerStyles);
+                            $active_sheet->getStyle($a.$i)->getAlignment()->setHorizontal(PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+                        }
+                        elseif ($a === 'A')
+                        {
+                            $active_sheet->getStyle($a.$i)->applyFromArray($sideStyles);
+                        }
+                        elseif ($xls_mode == 1)
+                        {
+                            $active_sheet->getStyle($a.$i)->applyFromArray($normalStyles);
+                        }
+                    }
+                    $a++;
+                }
+                $i++;
+            }
+        }
+        else
+        {
+            return false;
+        }
 
-		// Rename worksheet
-		$spreadsheet->getActiveSheet()->setTitle($subjectTab);
+        // Rename worksheet
+        $spreadsheet->getActiveSheet()->setTitle($subjectTab);
 
-		// Set active sheet index to the first sheet, so Excel opens this as the first sheet
-		$spreadsheet->setActiveSheetIndex(0);
+        // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+        $spreadsheet->setActiveSheetIndex(0);
 
-		// Redirect output to a client's web browser (Excel5)
-		header('Content-Type: application/vnd.ms-excel');
-		header('Content-Disposition: attachment;filename="' . $fileName . '.' . strtolower($file_type) .'"');
-		header('Cache-Control: max-age=0');
-		// If you're serving to IE 9, then the following may be needed
-		header('Cache-Control: max-age=1');
+        // Redirect output to a client's web browser (Excel5)
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="' . $fileName . '.' . strtolower($file_type) .'"');
+        header('Cache-Control: max-age=0');
+        // If you're serving to IE 9, then the following may be needed
+        header('Cache-Control: max-age=1');
 
-		// If you're serving to IE over SSL, then the following may be needed
-		header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
-		header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
-		header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
-		header ('Pragma: public'); // HTTP/1.0
+        // If you're serving to IE over SSL, then the following may be needed
+        header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+        header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+        header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+        header ('Pragma: public'); // HTTP/1.0
 
-		$writer = IOFactory::createWriter($spreadsheet, $file_type);
-		$writer->save('php://output');
-		jexit();
-	}
+        $writer = IOFactory::createWriter($spreadsheet, $file_type);
+        $writer->save('php://output');
+        jexit();
+    }
 
-	/**
-	* Get CSV Headers
-	*/
-	public static function getFileHeaders($dataType)
-	{
-		// make sure we have the composer classes loaded
-		self::composerAutoload('phpspreadsheet');
-		// get session object
-		$session = Factory::getSession();
-		$package = $session->get('package', null);
-		$package = json_decode($package, true);
-		// set the headers
-		if(isset($package['dir']))
-		{
-			// only load first three rows
-			$chunkFilter = new PhpOffice\PhpSpreadsheet\Reader\chunkReadFilter(2,1);
-			// identify the file type
-			$inputFileType = IOFactory::identify($package['dir']);
-			// create the reader for this file type
-			$excelReader = IOFactory::createReader($inputFileType);
-			// load the limiting filter
-			$excelReader->setReadFilter($chunkFilter);
-			$excelReader->setReadDataOnly(true);
-			// load the rows (only first three)
-			$excelObj = $excelReader->load($package['dir']);
-			$headers = [];
-			foreach ($excelObj->getActiveSheet()->getRowIterator() as $row)
-			{
-				if($row->getRowIndex() == 1)
-				{
-					$cellIterator = $row->getCellIterator();
-					$cellIterator->setIterateOnlyExistingCells(false);
-					foreach ($cellIterator as $cell)
-					{
-						if (!is_null($cell))
-						{
-							$headers[$cell->getColumn()] = $cell->getValue();
-						}
-					}
-					$excelObj->disconnectWorksheets();
-					unset($excelObj);
-					break;
-				}
-			}
-			return $headers;
-		}
-		return false;
-	}
+    /**
+    * Get CSV Headers
+    */
+    public static function getFileHeaders($dataType)
+    {
+        // make sure we have the composer classes loaded
+        self::composerAutoload('phpspreadsheet');
+        // get session object
+        $session = Factory::getSession();
+        $package = $session->get('package', null);
+        $package = json_decode($package, true);
+        // set the headers
+        if(isset($package['dir']))
+        {
+            // only load first three rows
+            $chunkFilter = new PhpOffice\PhpSpreadsheet\Reader\chunkReadFilter(2,1);
+            // identify the file type
+            $inputFileType = IOFactory::identify($package['dir']);
+            // create the reader for this file type
+            $excelReader = IOFactory::createReader($inputFileType);
+            // load the limiting filter
+            $excelReader->setReadFilter($chunkFilter);
+            $excelReader->setReadDataOnly(true);
+            // load the rows (only first three)
+            $excelObj = $excelReader->load($package['dir']);
+            $headers = [];
+            foreach ($excelObj->getActiveSheet()->getRowIterator() as $row)
+            {
+                if($row->getRowIndex() == 1)
+                {
+                    $cellIterator = $row->getCellIterator();
+                    $cellIterator->setIterateOnlyExistingCells(false);
+                    foreach ($cellIterator as $cell)
+                    {
+                        if (!is_null($cell))
+                        {
+                            $headers[$cell->getColumn()] = $cell->getValue();
+                        }
+                    }
+                    $excelObj->disconnectWorksheets();
+                    unset($excelObj);
+                    break;
+                }
+            }
+            return $headers;
+        }
+        return false;
+    }
 
-	/**
-	* Load the Composer Vendor phpspreadsheet
-	*/
-	protected static function composephpspreadsheet()
-	{
-		// load the autoloader for phpspreadsheet
-		require_once JPATH_SITE . '/libraries/phpspreadsheet/vendor/autoload.php';
-		// do not load again
-		self::$composer['phpspreadsheet'] = true;
+    /**
+    * Load the Composer Vendor phpspreadsheet
+    */
+    protected static function composephpspreadsheet()
+    {
+        // load the autoloader for phpspreadsheet
+        require_once JPATH_SITE . '/libraries/phpspreadsheet/vendor/autoload.php';
+        // do not load again
+        self::$composer['phpspreadsheet'] = true;
 
-		return  true;
-	}
+        return  true;
+    }
 
 	/**
 	 * Get a Variable
@@ -511,201 +512,23 @@ abstract class JtaxHelper
 	}
 
 	/**
-	 * Get the action permissions
+	 * Get the permitted actions of a user.
 	 *
 	 * @param  string   $view        The related view name
-	 * @param  int      $record      The item to act upon
-	 * @param  string   $views       The related list view name
+	 * @param  ?object  $record      The item to act upon
+	 * @param  ?string  $views       The related list view name
 	 * @param  mixed    $target      Only get this permission (like edit, create, delete)
 	 * @param  string   $component   The target component
 	 * @param  object   $user        The user whose permissions we are loading
 	 *
-	 * @return  object   The CMSObject of permission/authorised actions
+	 * @return  object   The Registry of permission/authorised actions
+	 * @since   2.5.0
 	 *
+	 * @deprecated 5.1.4 Use Actions::get(...);
 	 */
 	public static function getActions($view, &$record = null, $views = null, $target = null, $component = 'jtax', $user = 'null')
 	{
-		// load the user if not given
-		if (!ObjectHelper::check($user))
-		{
-			// get the user object
-			$user = Factory::getApplication()->getIdentity();
-		}
-		// load the CMSObject
-		$result = new CMSObject;
-		// make view name safe (just incase)
-		$view = UtilitiesStringHelper::safe($view);
-		if (UtilitiesStringHelper::check($views))
-		{
-			$views = UtilitiesStringHelper::safe($views);
-		 }
-		// get all actions from component
-		$actions = Access::getActionsFromFile(
-			JPATH_ADMINISTRATOR . '/components/com_' . $component . '/access.xml',
-			"/access/section[@name='component']/"
-		);
-		// if non found then return empty CMSObject
-		if (empty($actions))
-		{
-			return $result;
-		}
-		// get created by if not found
-		if (ObjectHelper::check($record) && !isset($record->created_by) && isset($record->id))
-		{
-			$record->created_by = GetHelper::var($view, $record->id, 'id', 'created_by', '=', $component);
-		}
-		// set actions only set in component settings
-		$componentActions = array('core.admin', 'core.manage', 'core.options', 'core.export');
-		// check if we have a target
-		$checkTarget = false;
-		if ($target)
-		{
-			// convert to an array
-			if (UtilitiesStringHelper::check($target))
-			{
-				$target = array($target);
-			}
-			// check if we are good to go
-			if (UtilitiesArrayHelper::check($target))
-			{
-				$checkTarget = true;
-			}
-		}
-		// loop the actions and set the permissions
-		foreach ($actions as $action)
-		{
-			// check target action filter
-			if ($checkTarget && self::filterActions($view, $action->name, $target))
-			{
-				continue;
-			}
-			// set to use component default
-			$fallback = true;
-			// reset permission per/action
-			$permission = false;
-			$catpermission = false;
-			// set area
-			$area = 'comp';
-			// check if the record has an ID and the action is item related (not a component action)
-			if (ObjectHelper::check($record) && isset($record->id) && $record->id > 0 && !in_array($action->name, $componentActions) &&
-				(strpos($action->name, 'core.') !== false || strpos($action->name, $view . '.') !== false))
-			{
-				// we are in item
-				$area = 'item';
-				// The record has been set. Check the record permissions.
-				$permission = $user->authorise($action->name, 'com_' . $component . '.' . $view . '.' . (int) $record->id);
-				// if no permission found, check edit own
-				if (!$permission)
-				{
-					// With edit, if the created_by matches current user then dig deeper.
-					if (($action->name === 'core.edit' || $action->name === $view . '.edit') && $record->created_by > 0 && ($record->created_by == $user->id))
-					{
-						// the correct target
-						$coreCheck = (array) explode('.', $action->name);
-						// check that we have both local and global access
-						if ($user->authorise($coreCheck[0] . '.edit.own', 'com_' . $component . '.' . $view . '.' . (int) $record->id) &&
-							$user->authorise($coreCheck[0]  . '.edit.own', 'com_' . $component))
-						{
-							// allow edit
-							$result->set($action->name, true);
-							// set not to use global default
-							// because we already validated it
-							$fallback = false;
-						}
-						else
-						{
-							// do not allow edit
-							$result->set($action->name, false);
-							$fallback = false;
-						}
-					}
-				}
-				elseif (UtilitiesStringHelper::check($views) && isset($record->catid) && $record->catid > 0)
-				{
-					// we are in item
-					$area = 'category';
-					// set the core check
-					$coreCheck = explode('.', $action->name);
-					$core = $coreCheck[0];
-					// make sure we use the core. action check for the categories
-					if (strpos($action->name, $view) !== false && strpos($action->name, 'core.') === false )
-					{
-						$coreCheck[0] = 'core';
-						$categoryCheck = implode('.', $coreCheck);
-					}
-					else
-					{
-						$categoryCheck = $action->name;
-					}
-					// The record has a category. Check the category permissions.
-					$catpermission = $user->authorise($categoryCheck, 'com_' . $component . '.' . $views . '.category.' . (int) $record->catid);
-					if (!$catpermission && !is_null($catpermission))
-					{
-						// With edit, if the created_by matches current user then dig deeper.
-						if (($action->name === 'core.edit' || $action->name === $view . '.edit') && $record->created_by > 0 && ($record->created_by == $user->id))
-						{
-							// check that we have both local and global access
-							if ($user->authorise('core.edit.own', 'com_' . $component . '.' . $views . '.category.' . (int) $record->catid) &&
-								$user->authorise($core . '.edit.own', 'com_' . $component))
-							{
-								// allow edit
-								$result->set($action->name, true);
-								// set not to use global default
-								// because we already validated it
-								$fallback = false;
-							}
-							else
-							{
-								// do not allow edit
-								$result->set($action->name, false);
-								$fallback = false;
-							}
-						}
-					}
-				}
-			}
-			// if allowed then fallback on component global settings
-			if ($fallback)
-			{
-				// if item/category blocks access then don't fall back on global
-				if ((($area === 'item') && !$permission) || (($area === 'category') && !$catpermission))
-				{
-					// do not allow
-					$result->set($action->name, false);
-				}
-				// Finally remember the global settings have the final say. (even if item allow)
-				// The local item permissions can block, but it can't open and override of global permissions.
-				// Since items are created by users and global permissions is set by system admin.
-				else
-				{
-					$result->set($action->name, $user->authorise($action->name, 'com_' . $component));
-				}
-			}
-		}
-		return $result;
-	}
-
-	/**
-	 * Filter the action permissions
-	 *
-	 * @param  string   $action   The action to check
-	 * @param  array    $targets  The array of target actions
-	 *
-	 * @return  boolean   true if action should be filtered out
-	 *
-	 */
-	protected static function filterActions(&$view, &$action, &$targets)
-	{
-		foreach ($targets as $target)
-		{
-			if (strpos($action, $view . '.' . $target) !== false ||
-				strpos($action, 'core.' . $target) !== false)
-			{
-				return false;
-				break;
-			}
-		}
-		return true;
+		return Actions::get($view, $record, $views, $target, $component, $user);
 	}
 
 	/**

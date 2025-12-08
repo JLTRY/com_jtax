@@ -3,8 +3,8 @@
 				JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-	@version		1.0.5
-	@build			2nd April, 2025
+	@version		1.0.7
+	@build			8th December, 2025
 	@created		4th March, 2025
 	@package		JTax
 	@subpackage		publishing.php
@@ -36,10 +36,10 @@ $fields_tab_layout = 'fields_' . $layout_path_array[1];
 // get the fields
 $fields = $displayData->get($fields_tab_layout) ?: array(
 	'title',
-	'created',
-	'created_by',
-	'modified',
-	'modified_by'
+    'created',
+    'created_by',
+    'modified',
+    'modified_by'
 );
 
 $hiddenFields = $displayData->get('hidden_fields') ?: [];

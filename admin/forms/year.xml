@@ -7,229 +7,229 @@
 		<inlinehelp button="show"/>
 	</config>
 	<fieldset name="details">
-		<!-- Default Fields. -->
-		<!-- Id Field. Type: Text (joomla) -->
-		<field
-			name="id"
-			type="text" class="readonly" label="JGLOBAL_FIELD_ID_LABEL"
-			description ="JGLOBAL_FIELD_ID_DESC" size="10" default="0"
-			readonly="true"
-		/>
-		<!-- Date Created Field. Type: Calendar (joomla) -->
-		<field
-			name="created"
-			type="calendar"
-			label="COM_JTAX_YEAR_CREATED_DATE_LABEL"
-			description="COM_JTAX_YEAR_CREATED_DATE_DESC"
-			size="22"
-			format="%Y-%m-%d %H:%M:%S"
-			filter="user_utc"
-		/>
-		<!-- User Created Field. Type: User (joomla) -->
-		<field
-			name="created_by"
-			type="user"
-			label="COM_JTAX_YEAR_CREATED_BY_LABEL"
-			description="COM_JTAX_YEAR_CREATED_BY_DESC"
-		/>
-		<!-- Published Field. Type: List (joomla) -->
-		<field name="published" type="list" label="JSTATUS"
-			description="JFIELD_PUBLISHED_DESC" class="chzn-color-state"
-			filter="intval" size="1" default="1" >
-			<option value="1">
-				JPUBLISHED</option>
-			<option value="0">
-				JUNPUBLISHED</option>
-			<option value="2">
-				JARCHIVED</option>
-			<option value="-2">
-				JTRASHED</option>
-		</field>
-		<!-- Date Modified Field. Type: Calendar (joomla) -->
-		<field name="modified" type="calendar" class="readonly"
-			label="COM_JTAX_YEAR_MODIFIED_DATE_LABEL" description="COM_JTAX_YEAR_MODIFIED_DATE_DESC"
-			size="22" readonly="true" format="%Y-%m-%d %H:%M:%S" filter="user_utc" />
-		<!-- User Modified Field. Type: User (joomla) -->
-		<field name="modified_by" type="user"
-			label="COM_JTAX_YEAR_MODIFIED_BY_LABEL"
-			description="COM_JTAX_YEAR_MODIFIED_BY_DESC"
-			class="readonly"
-			readonly="true"
-			filter="unset"
-		/>
-		<!-- Access Field. Type: Accesslevel (joomla) -->
-		<field name="access"
-			type="accesslevel"
-			label="JFIELD_ACCESS_LABEL"
-			description="JFIELD_ACCESS_DESC"
-			default="1"
-			required="false"
-		/>
-		<!-- Ordering Field. Type: Numbers (joomla) -->
-		<field
-			name="ordering"
-			type="number"
-			class="inputbox validate-ordering"
-			label="COM_JTAX_YEAR_ORDERING_LABEL"
-			description=""
-			default="0"
-			size="6"
-			required="false"
-		/>
-		<!-- Version Field. Type: Text (joomla) -->
-		<field
-			name="version"
-			type="text"
-			class="readonly"
-			label="COM_JTAX_YEAR_VERSION_LABEL"
-			description="COM_JTAX_YEAR_VERSION_DESC"
-			size="6"
-			default="1"
-			readonly="true"
-			filter="unset"
-		/>
-		<!-- Was added due to Permissions JS needing a Title field -->
-		<!-- Let us know at gh-629 should this change -->
-		<!-- https://github.com/vdm-io/Joomla-Component-Builder/issues/629#issuecomment-750117235 -->
-		<field
-			name="title"
-			type="hidden"
-			default="jtax year"
-		/>
-		<!-- Dynamic Fields. -->
-		<!-- Name Field. Type: Text. (joomla) -->
-		<field
-			type="text"
-			name="name"
-			label="COM_JTAX_YEAR_NAME_LABEL"
-			size="40"
-			maxlength="150"
-			description="COM_JTAX_YEAR_NAME_DESCRIPTION"
-			class="text_area"
-			readonly="false"
-			disabled="false"
-			required="true"
-			filter="STRING"
-			message="COM_JTAX_YEAR_NAME_MESSAGE"
-			hint="COM_JTAX_YEAR_NAME_HINT"
-		/>
-		<!-- Taux4 Field. Type: Number. (joomla) -->
-		<field
-			type="number"
-			name="taux4"
-			label="Taux tranche 4"
-			default="0"
-			description="taux d'imposition tranche 4"
-			class="text_area"
-			min="0"
-			max="50"
-			step="0.1"
-		/>
-		<!-- Taux3 Field. Type: Number. (joomla) -->
-		<field
-			type="number"
-			name="taux3"
-			label="Taux tranche 3"
-			default="0"
-			description="taux d'imposition tranche 3"
-			class="text_area"
-			min="0"
-			max="50"
-			step="0.1"
-		/>
-		<!-- Taux2 Field. Type: Number. (joomla) -->
-		<field
-			type="number"
-			name="taux2"
-			label="Taux tranche 2"
-			default="0"
-			description="taux d'imposition tranche 2"
-			class="text_area"
-			min="0"
-			max="50"
-			step="0.1"
-		/>
-		<!-- Taux1 Field. Type: Number. (joomla) -->
-		<field
-			type="number"
-			name="taux1"
-			label="Taux tranche 1"
-			default="0"
-			description="taux d'imposition tranche 1"
-			class="text_area"
-			min="0"
-			max="50"
-			step="0.1"
-		/>
-		<!-- Tranche4 Field. Type: Number. (joomla) -->
-		<field
-			type="number"
-			name="tranche4"
-			label="Tranche 4"
-			default="0"
-			description="Tranche d'impôts"
-			class="text_area"
-			min="1"
-			max="500000"
-			step="1"
-		/>
-		<!-- Tranche3 Field. Type: Number. (joomla) -->
-		<field
-			type="number"
-			name="tranche3"
-			label="Tranche 3"
-			default="0"
-			description="Tranche d'impôts"
-			class="text_area"
-			min="1"
-			max="500000"
-			step="1"
-		/>
-		<!-- Tranche2 Field. Type: Number. (joomla) -->
-		<field
-			type="number"
-			name="tranche2"
-			label="Tranche 2"
-			default="0"
-			description="Tranche d'impôts"
-			class="text_area"
-			min="1"
-			max="500000"
-			step="1"
-		/>
-		<!-- Tranche1 Field. Type: Number. (joomla) -->
-		<field
-			type="number"
-			name="tranche1"
-			label="Tranche 1"
-			default="0"
-			description="Tranche d'impôts"
-			class="text_area"
-			min="1"
-			max="500000"
-			step="1"
-		/>
-	</fieldset>
+        <!-- Default Fields. -->
+        <!-- Id Field. Type: Text (joomla) -->
+        <field
+            name="id"
+            type="text" class="readonly" label="JGLOBAL_FIELD_ID_LABEL"
+            description ="JGLOBAL_FIELD_ID_DESC" size="10" default="0"
+            readonly="true"
+        />
+        <!-- Date Created Field. Type: Calendar (joomla) -->
+        <field
+            name="created"
+            type="calendar"
+            label="COM_JTAX_YEAR_CREATED_DATE_LABEL"
+            description="COM_JTAX_YEAR_CREATED_DATE_DESC"
+            size="22"
+            format="%Y-%m-%d %H:%M:%S"
+            filter="user_utc"
+        />
+        <!-- User Created Field. Type: User (joomla) -->
+        <field
+            name="created_by"
+            type="user"
+            label="COM_JTAX_YEAR_CREATED_BY_LABEL"
+            description="COM_JTAX_YEAR_CREATED_BY_DESC"
+        />
+        <!-- Published Field. Type: List (joomla) -->
+        <field name="published" type="list" label="JSTATUS"
+            description="JFIELD_PUBLISHED_DESC" class="chzn-color-state"
+            filter="intval" size="1" default="1" >
+            <option value="1">
+                JPUBLISHED</option>
+            <option value="0">
+                JUNPUBLISHED</option>
+            <option value="2">
+                JARCHIVED</option>
+            <option value="-2">
+                JTRASHED</option>
+        </field>
+        <!-- Date Modified Field. Type: Calendar (joomla) -->
+        <field name="modified" type="calendar" class="readonly"
+            label="COM_JTAX_YEAR_MODIFIED_DATE_LABEL" description="COM_JTAX_YEAR_MODIFIED_DATE_DESC"
+            size="22" readonly="true" format="%Y-%m-%d %H:%M:%S" filter="user_utc" />
+        <!-- User Modified Field. Type: User (joomla) -->
+        <field name="modified_by" type="user"
+            label="COM_JTAX_YEAR_MODIFIED_BY_LABEL"
+            description="COM_JTAX_YEAR_MODIFIED_BY_DESC"
+            class="readonly"
+            readonly="true"
+            filter="unset"
+        />
+        <!-- Access Field. Type: Accesslevel (joomla) -->
+        <field name="access"
+            type="accesslevel"
+            label="JFIELD_ACCESS_LABEL"
+            description="JFIELD_ACCESS_DESC"
+            default="1"
+            required="false"
+        />
+        <!-- Ordering Field. Type: Numbers (joomla) -->
+        <field
+            name="ordering"
+            type="number"
+            class="inputbox validate-ordering"
+            label="COM_JTAX_YEAR_ORDERING_LABEL"
+            description=""
+            default="0"
+            size="6"
+            required="false"
+        />
+        <!-- Version Field. Type: Text (joomla) -->
+        <field
+            name="version"
+            type="text"
+            class="readonly"
+            label="COM_JTAX_YEAR_VERSION_LABEL"
+            description="COM_JTAX_YEAR_VERSION_DESC"
+            size="6"
+            default="1"
+            readonly="true"
+            filter="unset"
+        />
+        <!-- Was added due to Permissions JS needing a Title field -->
+        <!-- Let us know at gh-629 should this change -->
+        <!-- https://github.com/vdm-io/Joomla-Component-Builder/issues/629#issuecomment-750117235 -->
+        <field
+            name="title"
+            type="hidden"
+            default="jtax year"
+        />
+        <!-- Dynamic Fields. -->
+        <!-- Name Field. Type: Text. (joomla) -->
+        <field
+            type="text"
+            name="name"
+            label="COM_JTAX_YEAR_NAME_LABEL"
+            size="40"
+            maxlength="150"
+            description="COM_JTAX_YEAR_NAME_DESCRIPTION"
+            class="text_area"
+            readonly="false"
+            disabled="false"
+            required="true"
+            filter="STRING"
+            message="COM_JTAX_YEAR_NAME_MESSAGE"
+            hint="COM_JTAX_YEAR_NAME_HINT"
+        />
+        <!-- Taux4 Field. Type: Number. (joomla) -->
+        <field
+            type="number"
+            name="taux4"
+            label="Taux tranche 4"
+            default="0"
+            description="taux d'imposition tranche 4"
+            class="text_area"
+            min="0"
+            max="50"
+            step="0.1"
+        />
+        <!-- Taux3 Field. Type: Number. (joomla) -->
+        <field
+            type="number"
+            name="taux3"
+            label="Taux tranche 3"
+            default="0"
+            description="taux d'imposition tranche 3"
+            class="text_area"
+            min="0"
+            max="50"
+            step="0.1"
+        />
+        <!-- Taux2 Field. Type: Number. (joomla) -->
+        <field
+            type="number"
+            name="taux2"
+            label="Taux tranche 2"
+            default="0"
+            description="taux d'imposition tranche 2"
+            class="text_area"
+            min="0"
+            max="50"
+            step="0.1"
+        />
+        <!-- Taux1 Field. Type: Number. (joomla) -->
+        <field
+            type="number"
+            name="taux1"
+            label="Taux tranche 1"
+            default="0"
+            description="taux d'imposition tranche 1"
+            class="text_area"
+            min="0"
+            max="50"
+            step="0.1"
+        />
+        <!-- Tranche4 Field. Type: Number. (joomla) -->
+        <field
+            type="number"
+            name="tranche4"
+            label="Tranche 4"
+            default="0"
+            description="Tranche d'impôts"
+            class="text_area"
+            min="1"
+            max="500000"
+            step="1"
+        />
+        <!-- Tranche3 Field. Type: Number. (joomla) -->
+        <field
+            type="number"
+            name="tranche3"
+            label="Tranche 3"
+            default="0"
+            description="Tranche d'impôts"
+            class="text_area"
+            min="1"
+            max="500000"
+            step="1"
+        />
+        <!-- Tranche2 Field. Type: Number. (joomla) -->
+        <field
+            type="number"
+            name="tranche2"
+            label="Tranche 2"
+            default="0"
+            description="Tranche d'impôts"
+            class="text_area"
+            min="1"
+            max="500000"
+            step="1"
+        />
+        <!-- Tranche1 Field. Type: Number. (joomla) -->
+        <field
+            type="number"
+            name="tranche1"
+            label="Tranche 1"
+            default="0"
+            description="Tranche d'impôts"
+            class="text_area"
+            min="1"
+            max="500000"
+            step="1"
+        />
+    </fieldset>
 
 	<!-- Access Control Fields. -->
-	<fieldset name="accesscontrol">
-		<!-- Asset Id Field. Type: Hidden (joomla) -->
-		<field
-			name="asset_id"
-			type="hidden"
-			filter="unset"
-		/>
-		<!-- Rules Field. Type: Rules (joomla) -->
-		<field
-			name="rules"
-			type="rules"
-			label="Permissions in relation to this year"
-			translate_label="false"
-			filter="rules"
-			validate="rules"
-			class="inputbox"
-			component="com_jtax"
-			section="year"
-		/>
-	</fieldset>
+    <fieldset name="accesscontrol">
+        <!-- Asset Id Field. Type: Hidden (joomla) -->
+        <field
+            name="asset_id"
+            type="hidden"
+            filter="unset"
+        />
+        <!-- Rules Field. Type: Rules (joomla) -->
+        <field
+            name="rules"
+            type="rules"
+            label="Permissions in relation to this year"
+            translate_label="false"
+            filter="rules"
+            validate="rules"
+            class="inputbox"
+            component="com_jtax"
+            section="year"
+        />
+    </fieldset>
 </form>

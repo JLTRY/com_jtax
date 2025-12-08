@@ -3,8 +3,8 @@
 				JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-	@version		1.0.5
-	@build			2nd April, 2025
+	@version		1.0.7
+	@build			8th December, 2025
 	@created		4th March, 2025
 	@package		JTax
 	@subpackage		ImpotController.php
@@ -83,6 +83,22 @@ class ImpotController extends FormController
 	 */
 	protected $view_list = '';
 
+	/**
+	 * Referral value
+	 *
+	 * @var    string
+	 * @since  5.0
+	 */
+	protected string $ref;
+
+	/**
+	 * Referral ID value
+	 *
+	 * @var    int
+	 * @since  5.0
+	 */
+	protected int $refid;
+
 
 /***[JCBGUI.admin_view.php_controller.288.$$$$]***/
 function calculate()
@@ -150,17 +166,17 @@ function calculate()
 	 */
 	protected function allowAdd($data = [])
 	{
-		// Get user object.
-		$user = $this->app->getIdentity();
-		// Access check.
-		$access = $user->authorise('impot.access', 'com_jtax');
-		if (!$access)
-		{
-			return false;
-		}
+        // Get user object.
+        $user = $this->app->getIdentity();
+        // Access check.
+        $access = $user->authorise('impot.access', 'com_jtax');
+        if (!$access)
+        {
+            return false;
+        }
 
-		// In the absence of better information, revert to the component permissions.
-		return parent::allowAdd($data);
+        // In the absence of better information, revert to the component permissions.
+        return parent::allowAdd($data);
 	}
 
 	/**
@@ -175,48 +191,48 @@ function calculate()
 	 */
 	protected function allowEdit($data = [], $key = 'id')
 	{
-		// get user object.
-		$user = $this->app->getIdentity();
-		// get record id.
-		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
+        // get user object.
+        $user = $this->app->getIdentity();
+        // get record id.
+        $recordId = (int) isset($data[$key]) ? $data[$key] : 0;
 
 
-		if ($recordId)
-		{
-			// The record has been set. Check the record permissions.
-			$permission = $user->authorise('core.edit', 'com_jtax.impot.' . (int) $recordId);
-			if (!$permission)
-			{
-				if ($user->authorise('core.edit.own', 'com_jtax.impot.' . $recordId))
-				{
-					// Now test the owner is the user.
-					$ownerId = (int) isset($data['created_by']) ? $data['created_by'] : 0;
-					if (empty($ownerId))
-					{
-						// Need to do a lookup from the model.
-						$record = $this->getModel()->getItem($recordId);
+        if ($recordId)
+        {
+            // The record has been set. Check the record permissions.
+            $permission = $user->authorise('core.edit', 'com_jtax.impot.' . (int) $recordId);
+            if (!$permission)
+            {
+                if ($user->authorise('core.edit.own', 'com_jtax.impot.' . $recordId))
+                {
+                    // Now test the owner is the user.
+                    $ownerId = (int) isset($data['created_by']) ? $data['created_by'] : 0;
+                    if (empty($ownerId))
+                    {
+                        // Need to do a lookup from the model.
+                        $record = $this->getModel()->getItem($recordId);
 
-						if (empty($record))
-						{
-							return false;
-						}
-						$ownerId = $record->created_by;
-					}
+                        if (empty($record))
+                        {
+                            return false;
+                        }
+                        $ownerId = $record->created_by;
+                    }
 
-					// If the owner matches 'me' then allow.
-					if ($ownerId == $user->id)
-					{
-						if ($user->authorise('core.edit.own', 'com_jtax'))
-						{
-							return true;
-						}
-					}
-				}
-				return false;
-			}
-		}
-		// Since there is no permission, revert to the component permissions.
-		return parent::allowEdit($data, $key);
+                    // If the owner matches 'me' then allow.
+                    if ($ownerId == $user->id)
+                    {
+                        if ($user->authorise('core.edit.own', 'com_jtax'))
+                        {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }
+        }
+        // Since there is no permission, revert to the component permissions.
+        return parent::allowEdit($data, $key);
 	}
 
 	/**
@@ -258,28 +274,6 @@ function calculate()
 		}
 
 		return $append;
-	}
-
-	/**
-	 * Method to run batch operations.
-	 *
-	 * @param   object  $model  The model.
-	 *
-	 * @return  boolean   True if successful, false otherwise and internal error is set.
-	 *
-	 * @since   2.5
-	 */
-	public function batch($model = null)
-	{
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
-
-		// Set the model
-		$model = $this->getModel('Impot', '', []);
-
-		// Preset the redirect
-		$this->setRedirect(Route::_('index.php?option=com_jtax&view=impots' . $this->getRedirectToListAppend(), false));
-
-		return parent::batch($model);
 	}
 
 	/**
@@ -417,7 +411,7 @@ function calculate()
 	 */
 	protected function postSaveHook(BaseDatabaseModel $model, $validData = [])
 	{
-		return;
+        return;
 	}
 
 }

@@ -3,8 +3,8 @@
 				JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-	@version		1.0.5
-	@build			2nd April, 2025
+	@version		1.0.7
+	@build			8th December, 2025
 	@created		4th March, 2025
 	@package		JTax
 	@subpackage		HtmlView.php
@@ -34,8 +34,9 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Document\Document;
 use JCB\Component\Jtax\Administrator\Helper\JtaxHelper;
-use JCB\Joomla\Utilities\ArrayHelper;
+use JCB\Joomla\Jtax\Utilities\Permitted\Actions;
 use JCB\Joomla\Utilities\StringHelper;
+use Joomla\CMS\Toolbar\Button\DropdownButton;
 
 // No direct access to this file
 \defined('_JEXEC') or die;
@@ -113,12 +114,60 @@ class HtmlView extends BaseHtmlView
 	public bool $isModal;
 
 	/**
+	 * The empty state
+	 *
+	 * @var    bool
+	 * @since  5.2.1
+	 */
+	protected bool $isEmptyState;
+
+	/**
 	 * The user object.
 	 *
 	 * @var    User
 	 * @since  3.10.11
 	 */
 	public User $user;
+
+	/**
+	 * The Can Edit permission
+	 *
+	 * @var    ?bool
+	 * @since  5.2.1
+	 */
+	public ?bool $canEdit = null;
+
+	/**
+	 * The Can Edit State permission
+	 *
+	 * @var    ?bool
+	 * @since  5.2.1
+	 */
+	public ?bool $canState = null;
+
+	/**
+	 * The Can Create permission
+	 *
+	 * @var    ?bool
+	 * @since  5.2.1
+	 */
+	public ?bool $canCreate = null;
+
+	/**
+	 * The Can Delete permission
+	 *
+	 * @var    ?bool
+	 * @since  5.2.1
+	 */
+	public ?bool $canDelete = null;
+
+	/**
+	 * The Can Batch permission
+	 *
+	 * @var    ?bool
+	 * @since  5.2.1
+	 */
+	public ?bool $canBatch = null;
 
 	/**
 	 * Years view display method
@@ -131,33 +180,35 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null): void
 	{
-		// Assign data to the view
-		$this->items = $this->get('Items');
-		$this->pagination = $this->get('Pagination');
-		$this->state = $this->get('State');
-		$this->styles = $this->get('Styles');
-		$this->scripts = $this->get('Scripts');
+		// Load module values
+		$model = $this->getModel();
+		$this->items = $model->getItems();
+		$this->pagination = $model->getPagination();
+		$this->state = $model->getState();
+		$this->isEmptyState = $model->getIsEmptyState();
+		$this->styles = $model->getStyles();
+		$this->scripts = $model->getScripts();
 		$this->user ??= $this->getCurrentUser();
-		// Load the filter form from xml.
-		$this->filterForm = $this->get('FilterForm');
-		// Load the active filters.
-		$this->activeFilters = $this->get('ActiveFilters');
-		// Add the list ordering clause.
-		$this->listOrder = $this->escape($this->state->get('list.ordering', 'a.id'));
-		$this->listDirn = $this->escape($this->state->get('list.direction', 'DESC'));
+        // Load the filter form from xml for searchtools.
+        $this->filterForm = $model->getFilterForm();
+        // Load the active filters for searchtools.
+        $this->activeFilters = $model->getActiveFilters();
+        // Add the list ordering clause.
+        $this->listOrder = $this->escape($this->state->get('list.ordering', 'a.id'));
+        $this->listDirn = $this->escape($this->state->get('list.direction', 'DESC'));
 		$this->saveOrder = $this->listOrder == 'a.ordering';
 		// set the return here value
 		$this->return_here = urlencode(base64_encode((string) Uri::getInstance()));
-		// get global action permissions
-		$this->canDo = JtaxHelper::getActions('year');
-		$this->canEdit = $this->canDo->get('core.edit');
-		$this->canState = $this->canDo->get('core.edit.state');
-		$this->canCreate = $this->canDo->get('core.create');
-		$this->canDelete = $this->canDo->get('core.delete');
-		$this->canBatch = ($this->canDo->get('year.batch') && $this->canDo->get('core.batch'));
+		// get the permitted actions the current user can do
+		$this->canDo = Actions::get('year');
+        $this->canEdit = $this->canDo->get('core.edit');
+        $this->canState = $this->canDo->get('core.edit.state');
+        $this->canCreate = $this->canDo->get('core.create');
+        $this->canDelete = $this->canDo->get('core.delete');
+        $this->canBatch = ($this->canDo->get('year.batch') && $this->canDo->get('core.batch'));
 
 		// If we don't have items we load the empty state
-		if (is_array($this->items) && !count((array) $this->items) && $this->isEmptyState = $this->get('IsEmptyState'))
+		if (is_array($this->items) && !count((array) $this->items) && $this->isEmptyState)
 		{
 			$this->setLayout('emptystate');
 		}
@@ -187,59 +238,83 @@ class HtmlView extends BaseHtmlView
 	 * Add the page title and toolbar.
 	 *
 	 * @return  void
+	 * @throws  \Exception
 	 * @since   1.6
 	 */
 	protected function addToolbar(): void
 	{
 		ToolbarHelper::title(Text::_('COM_JTAX_YEARS'), 'arrow-left-2');
+        /** @var  Toolbar $toolbar */
+        $toolbar = $this->getDocument()->getToolbar();
+        if ($this->canCreate)
+        {
+            $toolbar->addNew('year.add');
+        }
 
-		if ($this->canCreate)
-		{
-			ToolbarHelper::addNew('year.add');
-		}
+        // Only load if there are items
+        if (!$this->isEmptyState)
+        {
+            /** @var  DropdownButton $dropdown */
+            $dropdown = $toolbar->dropdownButton('status-group')
+                ->text('JTOOLBAR_CHANGE_STATUS')
+                ->toggleSplit(false)
+                ->icon('icon-ellipsis-h')
+                ->buttonClass('btn btn-action')
+                ->listCheck(true);
 
-		// Only load if there are items
-		if (ArrayHelper::check($this->items))
-		{
-			if ($this->canEdit)
-			{
-				ToolbarHelper::editList('year.edit');
-			}
+            $childBar = $dropdown->getChildToolbar();
 
-			if ($this->canState)
-			{
-				ToolbarHelper::publishList('years.publish');
-				ToolbarHelper::unpublishList('years.unpublish');
-				ToolbarHelper::archiveList('years.archive');
+            if ($this->canEdit)
+            {
+                $childBar->edit('year.edit')->listCheck(true);
+            }
 
-				if ($this->canDo->get('core.admin'))
-				{
-					ToolbarHelper::checkin('years.checkin');
-				}
-			}
+            if ($this->canState)
+            {
+                $childBar->publish('years.publish')->listCheck(true);
+                $childBar->unpublish('years.unpublish')->listCheck(true);
+                $childBar->archive('years.archive')->listCheck(true);
 
-			if ($this->state->get('filter.published') == -2 && ($this->canState && $this->canDelete))
-			{
-				ToolbarHelper::deleteList('', 'years.delete', 'JTOOLBAR_EMPTY_TRASH');
-			}
-			elseif ($this->canState && $this->canDelete)
-			{
-				ToolbarHelper::trash('years.trash');
-			}
-		}
+                if ($this->canDo->get('core.admin'))
+                {
+                    $childBar->checkin('years.checkin')->listCheck(true);
+                }
 
-		// set help url for this view if found
-		$this->help_url = JtaxHelper::getHelpUrl('years');
-		if (StringHelper::check($this->help_url))
-		{
-			ToolbarHelper::help('COM_JTAX_HELP_MANAGER', false, $this->help_url);
-		}
+                if ($this->state->get('filter.published') == -2 && $this->canDelete)
+                {
+                    $toolbar->delete('years.delete', 'JTOOLBAR_DELETE_FROM_TRASH')
+                        ->message('JGLOBAL_CONFIRM_DELETE')
+                        ->listCheck(true);
+                }
+                elseif ($this->canDelete)
+                {
+                    $childBar->trash('years.trash')->listCheck(true);
+                }
+            }
+            if ($this->user->authorise('year.exportdata', 'com_jtax'))
+            {
+                // add ExportData button.
+                ToolbarHelper::custom('years.ExportData', 'joomla custom-button-exportdata', '', 'COM_JTAX_EXPORTDATA', 'true');
+            }
+            if ($this->user->authorise('year.importdata', 'com_jtax'))
+            {
+                // add ImportData button.
+                ToolbarHelper::custom('years.ImportData', 'arrow-down-4 custom-button-importdata', '', 'COM_JTAX_IMPORTDATA', 'true');
+            }
+        }
 
-		// add the options comp button
-		if ($this->canDo->get('core.admin') || $this->canDo->get('core.options'))
-		{
-			ToolbarHelper::preferences('com_jtax');
-		}
+        // set help url for this view if found
+        $this->help_url = JtaxHelper::getHelpUrl('years');
+        if (StringHelper::check($this->help_url))
+        {
+            $toolbar->help('COM_JTAX_HELP_MANAGER', false, $this->help_url);
+        }
+
+        // add the options comp button
+        if ($this->canDo->get('core.admin') || $this->canDo->get('core.options'))
+        {
+            $toolbar->preferences('com_jtax');
+        }
 	}
 
 	/**
@@ -250,9 +325,8 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function _prepareDocument(): void
 	{
-		// Load jQuery
-		Html::_('jquery.framework');
-		$this->getDocument()->setTitle(Text::_('COM_JTAX_YEARS'));
+        // Load jQuery
+        Html::_('jquery.framework');
 		// add styles
 		foreach ($this->styles as $style)
 		{
@@ -305,10 +379,10 @@ class HtmlView extends BaseHtmlView
 	protected function getSortFields()
 	{
 		return array(
-			'a.ordering' => Text::_('JGRID_HEADING_ORDERING'),
-			'a.published' => Text::_('JSTATUS'),
-			'a.name' => Text::_('COM_JTAX_YEAR_NAME_LABEL'),
-			'a.id' => Text::_('JGRID_HEADING_ID')
-		);
+            'a.ordering' => Text::_('JGRID_HEADING_ORDERING'),
+            'a.published' => Text::_('JSTATUS'),
+            'a.name' => Text::_('COM_JTAX_YEAR_NAME_LABEL'),
+            'a.id' => Text::_('JGRID_HEADING_ID')
+        );
 	}
 }

@@ -3,8 +3,8 @@
 				JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-	@version		1.0.5
-	@build			2nd April, 2025
+	@version		1.0.7
+	@build			8th December, 2025
 	@created		4th March, 2025
 	@package		JTax
 	@subpackage		ImpotsModel.php
@@ -137,7 +137,7 @@ class ImpotsModel extends ListModel
 	 * @since   1.6
 	 * @throws  \Exception
 	 */
-	public function __construct($config = [], MVCFactoryInterface $factory = null)
+	public function __construct($config = [], ?MVCFactoryInterface $factory = null)
 	{
 		parent::__construct($config, $factory);
 
@@ -164,27 +164,27 @@ class ImpotsModel extends ListModel
 	 */
 	protected function getListQuery()
 	{
-		// Get a db connection.
-		$db = $this->getDatabase();
+        // Get a db connection.
+        $db = $this->getDatabase();
 
-		// Create a new query object.
-		$query = $db->getQuery(true);
+        // Create a new query object.
+        $query = $db->getQuery(true);
 
-		// Get from #__jtax_impot as a
-		$query->select('a.*');
-		$query->from($db->quoteName('#__jtax_impot', 'a'));
+        // Get from #__jtax_impot as a
+        $query->select('a.*');
+        $query->from($db->quoteName('#__jtax_impot', 'a'));
 
-		// Get from #__jtax_year as b
-		$query->select($db->quoteName(
-			array('b.name'),
-			array('year_name')));
-		$query->join('LEFT', ($db->quoteName('#__jtax_year', 'b')) . ' ON (' . $db->quoteName('a.year') . ' = ' . $db->quoteName('b.id') . ')');
-		// Get where a.published is 1
-		$query->where('a.published = 1');
-		$query->order('a.ordering ASC');
+        // Get from #__jtax_year as b
+        $query->select($db->quoteName(
+            array('b.name'),
+            array('year_name')));
+        $query->join('LEFT', ($db->quoteName('#__jtax_year', 'b')) . ' ON (' . $db->quoteName('a.year') . ' = ' . $db->quoteName('b.id') . ')');
+        // Get where a.published is 1
+        $query->where('a.published = 1');
+        $query->order('a.ordering ASC');
 
-		// return the query object
-		return $query;
+        // return the query object
+        return $query;
 	}
 
 	/**
@@ -196,30 +196,30 @@ class ImpotsModel extends ListModel
 	public function getItems()
 	{
 		$user = $this->user;
-		// check if this user has permission to access item
-		if (!$user->authorise('site.impots.access', 'com_jtax'))
-		{
-			$app = Factory::getApplication();
-			$app->enqueueMessage(Text::_('COM_JTAX_NOT_AUTHORISED_TO_VIEW_IMPOTS'), 'error');
-			// redirect away to the home page if no access allowed.
-			$app->redirect(Uri::root());
-			return false;
-		}
+        // check if this user has permission to access item
+        if (!$user->authorise('site.impots.access', 'com_jtax'))
+        {
+            $app = Factory::getApplication();
+            $app->enqueueMessage(Text::_('COM_JTAX_NOT_AUTHORISED_TO_VIEW_IMPOTS'), 'error');
+            // redirect away to the home page if no access allowed.
+            $app->redirect(Uri::root());
+            return false;
+        }
 		// load parent items
 		$items = parent::getItems();
 
 		// Get the global params
 		$globalParams = ComponentHelper::getParams('com_jtax', true);
 
-		// Insure all item fields are adapted where needed.
-		if (UtilitiesArrayHelper::check($items))
-		{
-			foreach ($items as $nr => &$item)
-			{
-				// Always create a slug for sef URL's
-				$item->slug = ($item->id ?? '0') . (isset($item->alias) ? ':' . $item->alias : '');
-			}
-		}
+        // Insure all item fields are adapted where needed.
+        if (UtilitiesArrayHelper::check($items))
+        {
+            foreach ($items as $nr => &$item)
+            {
+                // Always create a slug for sef URL's
+                $item->slug = ($item->id ?? '0') . (isset($item->alias) ? ':' . $item->alias : '');
+            }
+        }
 
 		// return items
 		return $items;

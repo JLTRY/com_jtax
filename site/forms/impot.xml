@@ -7,218 +7,218 @@
 		<inlinehelp button="show"/>
 	</config>
 	<fieldset name="details">
-		<!-- Default Fields. -->
-		<!-- Id Field. Type: Text (joomla) -->
-		<field
-			name="id"
-			type="text" class="readonly" label="JGLOBAL_FIELD_ID_LABEL"
-			description ="JGLOBAL_FIELD_ID_DESC" size="10" default="0"
-			readonly="true"
-		/>
-		<!-- Date Created Field. Type: Calendar (joomla) -->
-		<field
-			name="created"
-			type="calendar"
-			label="COM_JTAX_IMPOT_CREATED_DATE_LABEL"
-			description="COM_JTAX_IMPOT_CREATED_DATE_DESC"
-			size="22"
-			format="%Y-%m-%d %H:%M:%S"
-			filter="user_utc"
-		/>
-		<!-- User Created Field. Type: User (joomla) -->
-		<field
-			name="created_by"
-			type="user"
-			label="COM_JTAX_IMPOT_CREATED_BY_LABEL"
-			description="COM_JTAX_IMPOT_CREATED_BY_DESC"
-		/>
-		<!-- Published Field. Type: List (joomla) -->
-		<field name="published" type="list" label="JSTATUS"
-			description="JFIELD_PUBLISHED_DESC" class="chzn-color-state"
-			filter="intval" size="1" default="1" >
-			<option value="1">
-				JPUBLISHED</option>
-			<option value="0">
-				JUNPUBLISHED</option>
-			<option value="2">
-				JARCHIVED</option>
-			<option value="-2">
-				JTRASHED</option>
-		</field>
-		<!-- Date Modified Field. Type: Calendar (joomla) -->
-		<field name="modified" type="calendar" class="readonly"
-			label="COM_JTAX_IMPOT_MODIFIED_DATE_LABEL" description="COM_JTAX_IMPOT_MODIFIED_DATE_DESC"
-			size="22" readonly="true" format="%Y-%m-%d %H:%M:%S" filter="user_utc" />
-		<!-- User Modified Field. Type: User (joomla) -->
-		<field name="modified_by" type="user"
-			label="COM_JTAX_IMPOT_MODIFIED_BY_LABEL"
-			description="COM_JTAX_IMPOT_MODIFIED_BY_DESC"
-			class="readonly"
-			readonly="true"
-			filter="unset"
-		/>
-		<!-- Access Field. Type: Accesslevel (joomla) -->
-		<field name="access"
-			type="accesslevel"
-			label="JFIELD_ACCESS_LABEL"
-			description="JFIELD_ACCESS_DESC"
-			default="1"
-			required="false"
-		/>
-		<!-- Ordering Field. Type: Numbers (joomla) -->
-		<field
-			name="ordering"
-			type="number"
-			class="inputbox validate-ordering"
-			label="COM_JTAX_IMPOT_ORDERING_LABEL"
-			description=""
-			default="0"
-			size="6"
-			required="false"
-		/>
-		<!-- Version Field. Type: Text (joomla) -->
-		<field
-			name="version"
-			type="text"
-			class="readonly"
-			label="COM_JTAX_IMPOT_VERSION_LABEL"
-			description="COM_JTAX_IMPOT_VERSION_DESC"
-			size="6"
-			default="1"
-			readonly="true"
-			filter="unset"
-		/>
-		<!-- Was added due to Permissions JS needing a Title field -->
-		<!-- Let us know at gh-629 should this change -->
-		<!-- https://github.com/vdm-io/Joomla-Component-Builder/issues/629#issuecomment-750117235 -->
-		<field
-			name="title"
-			type="hidden"
-			default="jtax impot"
-		/>
-		<!-- Dynamic Fields. -->
-		<!-- Name Field. Type: Text. (joomla) -->
-		<field
-			type="text"
-			name="name"
-			label="COM_JTAX_IMPOT_NAME_LABEL"
-			size="40"
-			maxlength="150"
-			description="COM_JTAX_IMPOT_NAME_DESCRIPTION"
-			class="text_area"
-			filter="STRING"
-			message="COM_JTAX_IMPOT_NAME_MESSAGE"
-			hint="COM_JTAX_IMPOT_NAME_HINT"
-		/>
-		<!-- Year Field. Type: Sql. (joomla) -->
-		<field
-			type="sql"
-			name="year"
-			label="COM_JTAX_IMPOT_YEAR_LABEL"
-			query="SELECT `name`,`id`  FROM #__jtax_year"
-			default="1"
-			key_field="id"
-			value_field="name"
-		/>
-		<!-- Revenu Field. Type: Number. (joomla) -->
-		<field
-			type="number"
-			name="revenu"
-			label="Revenu net imposable"
-			default="0"
-			description="Revenu net imposable (avant déduction)"
-			class="text_area"
-			min="1"
-			max="500000"
-			step="1"
-		/>
-		<!-- Nbparts Field. Type: Number. (joomla) -->
-		<field
-			type="number"
-			name="nbparts"
-			label="COM_JTAX_IMPOT_NBPARTS_LABEL"
-			default="1"
-			description="COM_JTAX_IMPOT_NBPARTS_DESCRIPTION"
-			class="text_area"
-			required="true"
-			min="1"
-			max="10"
-			step="0.5"
-		/>
-		<!-- Deduction Field. Type: Radio. (joomla) -->
-		<field
-			type="radio"
-			name="deduction"
-			label="COM_JTAX_IMPOT_DEDUCTION_LABEL"
-			description="COM_JTAX_IMPOT_DEDUCTION_DESCRIPTION"
-			class="btn-group btn-group-yesno"
-			default="1"
-			readonly="false"
-			disabled="false">
-			<!-- Option Set. -->
-			<option value="1">
-				COM_JTAX_IMPOT_TEN</option>
-			<option value="0">
-				COM_JTAX_IMPOT_FRAIS_REELS</option>
-		</field>
-		<!-- Dons Field. Type: Number. (joomla) -->
-		<field
-			type="number"
-			name="dons"
-			label="dons aux associations"
-			default="0"
-			description="dons aux associations"
-			class="text_area"
-			min="1"
-			max="500000"
-			step="1"
-		/>
-		<!-- Pel Field. Type: Number. (joomla) -->
-		<field
-			type="number"
-			name="pel"
-			label="placements déductibles"
-			default="0"
-			description="placements déductibles"
-			class="text_area"
-			min="1"
-			max="500000"
-			step="1"
-		/>
-		<!-- Fraisreels Field. Type: Number. (joomla) -->
-		<field
-			type="number"
-			name="fraisreels"
-			label="Frais Réels"
-			default="0"
-			description="Frais Réels"
-			class="text_area"
-			min="1"
-			max="400000"
-			step="1"
-			showon="deduction:0"
-		/>
-	</fieldset>
+        <!-- Default Fields. -->
+        <!-- Id Field. Type: Text (joomla) -->
+        <field
+            name="id"
+            type="text" class="readonly" label="JGLOBAL_FIELD_ID_LABEL"
+            description ="JGLOBAL_FIELD_ID_DESC" size="10" default="0"
+            readonly="true"
+        />
+        <!-- Date Created Field. Type: Calendar (joomla) -->
+        <field
+            name="created"
+            type="calendar"
+            label="COM_JTAX_IMPOT_CREATED_DATE_LABEL"
+            description="COM_JTAX_IMPOT_CREATED_DATE_DESC"
+            size="22"
+            format="%Y-%m-%d %H:%M:%S"
+            filter="user_utc"
+        />
+        <!-- User Created Field. Type: User (joomla) -->
+        <field
+            name="created_by"
+            type="user"
+            label="COM_JTAX_IMPOT_CREATED_BY_LABEL"
+            description="COM_JTAX_IMPOT_CREATED_BY_DESC"
+        />
+        <!-- Published Field. Type: List (joomla) -->
+        <field name="published" type="list" label="JSTATUS"
+            description="JFIELD_PUBLISHED_DESC" class="chzn-color-state"
+            filter="intval" size="1" default="1" >
+            <option value="1">
+                JPUBLISHED</option>
+            <option value="0">
+                JUNPUBLISHED</option>
+            <option value="2">
+                JARCHIVED</option>
+            <option value="-2">
+                JTRASHED</option>
+        </field>
+        <!-- Date Modified Field. Type: Calendar (joomla) -->
+        <field name="modified" type="calendar" class="readonly"
+            label="COM_JTAX_IMPOT_MODIFIED_DATE_LABEL" description="COM_JTAX_IMPOT_MODIFIED_DATE_DESC"
+            size="22" readonly="true" format="%Y-%m-%d %H:%M:%S" filter="user_utc" />
+        <!-- User Modified Field. Type: User (joomla) -->
+        <field name="modified_by" type="user"
+            label="COM_JTAX_IMPOT_MODIFIED_BY_LABEL"
+            description="COM_JTAX_IMPOT_MODIFIED_BY_DESC"
+            class="readonly"
+            readonly="true"
+            filter="unset"
+        />
+        <!-- Access Field. Type: Accesslevel (joomla) -->
+        <field name="access"
+            type="accesslevel"
+            label="JFIELD_ACCESS_LABEL"
+            description="JFIELD_ACCESS_DESC"
+            default="1"
+            required="false"
+        />
+        <!-- Ordering Field. Type: Numbers (joomla) -->
+        <field
+            name="ordering"
+            type="number"
+            class="inputbox validate-ordering"
+            label="COM_JTAX_IMPOT_ORDERING_LABEL"
+            description=""
+            default="0"
+            size="6"
+            required="false"
+        />
+        <!-- Version Field. Type: Text (joomla) -->
+        <field
+            name="version"
+            type="text"
+            class="readonly"
+            label="COM_JTAX_IMPOT_VERSION_LABEL"
+            description="COM_JTAX_IMPOT_VERSION_DESC"
+            size="6"
+            default="1"
+            readonly="true"
+            filter="unset"
+        />
+        <!-- Was added due to Permissions JS needing a Title field -->
+        <!-- Let us know at gh-629 should this change -->
+        <!-- https://github.com/vdm-io/Joomla-Component-Builder/issues/629#issuecomment-750117235 -->
+        <field
+            name="title"
+            type="hidden"
+            default="jtax impot"
+        />
+        <!-- Dynamic Fields. -->
+        <!-- Name Field. Type: Text. (joomla) -->
+        <field
+            type="text"
+            name="name"
+            label="COM_JTAX_IMPOT_NAME_LABEL"
+            size="40"
+            maxlength="150"
+            description="COM_JTAX_IMPOT_NAME_DESCRIPTION"
+            class="text_area"
+            filter="STRING"
+            message="COM_JTAX_IMPOT_NAME_MESSAGE"
+            hint="COM_JTAX_IMPOT_NAME_HINT"
+        />
+        <!-- Year Field. Type: Sql. (joomla) -->
+        <field
+            type="sql"
+            name="year"
+            label="COM_JTAX_IMPOT_YEAR_LABEL"
+            query="SELECT `name`,`id`  FROM #__jtax_year"
+            default="1"
+            key_field="id"
+            value_field="name"
+        />
+        <!-- Revenu Field. Type: Number. (joomla) -->
+        <field
+            type="number"
+            name="revenu"
+            label="Revenu net imposable"
+            default="0"
+            description="Revenu net imposable (avant déduction)"
+            class="text_area"
+            min="1"
+            max="500000"
+            step="1"
+        />
+        <!-- Nbparts Field. Type: Number. (joomla) -->
+        <field
+            type="number"
+            name="nbparts"
+            label="COM_JTAX_IMPOT_NBPARTS_LABEL"
+            default="1"
+            description="COM_JTAX_IMPOT_NBPARTS_DESCRIPTION"
+            class="text_area"
+            required="true"
+            min="1"
+            max="10"
+            step="0.5"
+        />
+        <!-- Deduction Field. Type: Radio. (joomla) -->
+        <field
+            type="radio"
+            name="deduction"
+            label="COM_JTAX_IMPOT_DEDUCTION_LABEL"
+            description="COM_JTAX_IMPOT_DEDUCTION_DESCRIPTION"
+            class="btn-group btn-group-yesno"
+            default="1"
+            readonly="false"
+            disabled="false">
+            <!-- Option Set. -->
+            <option value="1">
+                COM_JTAX_IMPOT_TEN</option>
+            <option value="0">
+                COM_JTAX_IMPOT_FRAIS_REELS</option>
+        </field>
+        <!-- Dons Field. Type: Number. (joomla) -->
+        <field
+            type="number"
+            name="dons"
+            label="dons aux associations"
+            default="0"
+            description="dons aux associations"
+            class="text_area"
+            min="1"
+            max="500000"
+            step="1"
+        />
+        <!-- Pel Field. Type: Number. (joomla) -->
+        <field
+            type="number"
+            name="pel"
+            label="placements déductibles"
+            default="0"
+            description="placements déductibles"
+            class="text_area"
+            min="1"
+            max="500000"
+            step="1"
+        />
+        <!-- Fraisreels Field. Type: Number. (joomla) -->
+        <field
+            type="number"
+            name="fraisreels"
+            label="Frais Réels"
+            default="0"
+            description="Frais Réels"
+            class="text_area"
+            min="1"
+            max="400000"
+            step="1"
+            showon="deduction:0"
+        />
+    </fieldset>
 
 	<!-- Access Control Fields. -->
-	<fieldset name="accesscontrol">
-		<!-- Asset Id Field. Type: Hidden (joomla) -->
-		<field
-			name="asset_id"
-			type="hidden"
-			filter="unset"
-		/>
-		<!-- Rules Field. Type: Rules (joomla) -->
-		<field
-			name="rules"
-			type="rules"
-			label="Permissions in relation to this impot"
-			translate_label="false"
-			filter="rules"
-			validate="rules"
-			class="inputbox"
-			component="com_jtax"
-			section="impot"
-		/>
-	</fieldset>
+    <fieldset name="accesscontrol">
+        <!-- Asset Id Field. Type: Hidden (joomla) -->
+        <field
+            name="asset_id"
+            type="hidden"
+            filter="unset"
+        />
+        <!-- Rules Field. Type: Rules (joomla) -->
+        <field
+            name="rules"
+            type="rules"
+            label="Permissions in relation to this impot"
+            translate_label="false"
+            filter="rules"
+            validate="rules"
+            class="inputbox"
+            component="com_jtax"
+            section="impot"
+        />
+    </fieldset>
 </form>

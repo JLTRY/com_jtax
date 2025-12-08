@@ -3,8 +3,8 @@
 				JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-	@version		1.0.5
-	@build			2nd April, 2025
+	@version		1.0.7
+	@build			8th December, 2025
 	@created		4th March, 2025
 	@package		JTax
 	@subpackage		default.php
@@ -28,14 +28,14 @@ defined('_JEXEC') or die;
 
 ?>
 <div id="j-main-container">
-	<div class="main-card" style="padding: 20px;">
-		<div class="row">
-			<div class="col-md-9">
-				<?php echo $this->loadTemplate('main');?>
-			</div>
-			<div class="col-md-3">
-				<?php echo $this->loadTemplate('vdm');?>
-			</div>
-		</div>
-	</div>
+    <div class="main-card" style="padding: 20px;">
+        <div class="row">
+            <div class="col-md-9">
+                <?php echo $this->loadTemplate('main');?>
+            </div>
+            <div class="col-md-3">
+                <?php echo $this->loadTemplate('vdm');?>
+            </div>
+        </div>
+    </div>
 </div>

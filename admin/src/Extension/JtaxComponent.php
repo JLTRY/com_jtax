@@ -3,8 +3,8 @@
 				JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-	@version		1.0.5
-	@build			2nd April, 2025
+	@version		1.0.7
+	@build			8th December, 2025
 	@created		4th March, 2025
 	@package		JTax
 	@subpackage		JtaxComponent.php
@@ -78,7 +78,7 @@ class JtaxComponent extends MVCComponent implements
 	}
 
 	// will fix these soon
-	protected function getTableNameForSection(string $section = null){}
-	public function countItems(array $items, string $section){}
+	protected function getTableNameForSection(?string $section = null){}
+	public function countItems(array $items, ?string $section){}
 
 }

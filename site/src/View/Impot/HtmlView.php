@@ -3,8 +3,8 @@
 				JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-	@version		1.0.5
-	@build			2nd April, 2025
+	@version		1.0.7
+	@build			8th December, 2025
 	@created		4th March, 2025
 	@package		JTax
 	@subpackage		HtmlView.php
@@ -34,8 +34,11 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Document\Document;
 use JCB\Component\Jtax\Administrator\Helper\JtaxHelper;
+use JCB\Joomla\Jtax\Utilities\Permitted\Actions;
 use JCB\Joomla\Utilities\StringHelper;
-use Joomla\CMS\Toolbar\ToolbarFactoryInterface;
+use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\Input\Input;
+use Joomla\Registry\Registry;
 
 // No direct access to this file
 \defined('_JEXEC') or die;
@@ -47,6 +50,30 @@ use Joomla\CMS\Toolbar\ToolbarFactoryInterface;
  */
 class HtmlView extends BaseHtmlView
 {
+	/**
+	 * The app class
+	 *
+	 * @var    CMSApplicationInterface
+	 * @since  5.2.1
+	 */
+	public CMSApplicationInterface $app;
+
+	/**
+	 * The input class
+	 *
+	 * @var    Input
+	 * @since  5.2.1
+	 */
+	public Input $input;
+
+	/**
+	 * The params registry
+	 *
+	 * @var    Registry
+	 * @since  5.2.1
+	 */
+	public Registry $params;
+
 	/**
 	 * The item from the model
 	 *
@@ -106,18 +133,18 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The origin referral view name
 	 *
-	 * @var    string
+	 * @var    string|null
 	 * @since  3.10.11
 	 */
-	public string $ref;
+	public ?string $ref;
 
 	/**
 	 * The origin referral view item id
 	 *
-	 * @var    int
+	 * @var    int|null
 	 * @since  3.10.11
 	 */
-	public int $refid;
+	public ?int $refid;
 
 	/**
 	 * The referral url suffix values
@@ -128,49 +155,65 @@ class HtmlView extends BaseHtmlView
 	public string $referral;
 
 	/**
+	 * The modal state
+	 *
+	 * @var    bool
+	 * @since  5.2.1
+	 */
+	public bool $isModal;
+
+	/**
+	 * Constructor
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @since   6.0.0
+	 */
+	public function __construct(array $config)
+	{
+		if (empty($config['option']))
+		{
+			$config['option'] = 'com_jtax';
+		}
+
+		parent::__construct($config);
+
+		// get the application
+		$this->app ??= Factory::getApplication();
+		// get input
+		$this->input ??= method_exists($this->app, 'getInput') ? $this->app->getInput() : $this->app->input;
+		// get component params
+		$this->params ??= method_exists($this->app, 'getParams')
+			? $this->app->getParams()
+			: ComponentHelper::getParams('com_jtax');
+
+		$this->useCoreUI = true;
+		$this->isModal = false; // no modal support yet
+	}
+
+	/**
 	 * Impot view display method
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  void
+	 * @return void
 	 * @since  1.6
 	 */
 	public function display($tpl = null)
 	{
-		// set params
-		$this->params = ComponentHelper::getParams('com_jtax');
-		$this->useCoreUI = true;
-		// Assign the variables
-		$this->form ??= $this->get('Form');
-		$this->item = $this->get('Item');
-		$this->state = $this->get('State');
-		$this->styles = $this->get('Styles') ?? [];
-		$this->scripts = $this->get('Scripts') ?? [];
-		// get action permissions
-		$this->canDo = JtaxHelper::getActions('impot', $this->item);
-		// get input
-		$jinput = Factory::getApplication()->input;
-		$this->ref = $jinput->get('ref', 0, 'word');
-		$this->refid = $jinput->get('refid', 0, 'int');
-		$return = $jinput->get('return', null, 'base64');
-		// set the referral string
-		$this->referral = '';
-		if ($this->refid && $this->ref)
-		{
-			// return to the item that referred to this item
-			$this->referral = '&ref=' . (string) $this->ref . '&refid=' . (int) $this->refid;
-		}
-		elseif($this->ref)
-		{
-			// return to the list view that referred to this item
-			$this->referral = '&ref=' . (string) $this->ref;
-		}
-		// check return value
-		if (!is_null($return))
-		{
-			// add the return value
-			$this->referral .= '&return=' . (string) $return;
-		}
+		// Load module values
+		$model = $this->getModel();
+		$this->form ??= $model->getForm();
+		$this->item = $model->getItem();
+		$this->state = $model->getState();
+		$this->styles = $model->getStyles() ?? [];
+		$this->scripts = $model->getScripts() ?? [];
+
+		// get the permitted actions the current user can do.
+		$this->canDo = Actions::get('impot', $this->item);
+
+		// Set the return
+		$this->setReturn();
 
 		// Set the toolbar
 		$this->addToolBar();
@@ -189,98 +232,153 @@ class HtmlView extends BaseHtmlView
 	}
 
 	/**
+	 * Set the redirection details.
+	 *
+	 * @return  void
+	 * @since   5.1.4
+	 */
+	protected function setReturn(): void
+	{
+		// This [ref,refid] will be removed in JCB.v7, use only [return]
+		$this->ref = $this->input->getWord('ref', null);
+		$this->refid = $this->input->getInt('refid', null);
+		$this->referral = '';
+		if (!empty($this->refid) && !empty($this->ref))
+		{
+			// return to the item that referred to this item
+			$this->referral = '&ref=' . (string) $this->ref . '&refid=' . (int) $this->refid;
+		}
+		elseif (!empty($this->ref))
+		{
+			// return to the list view that referred to this item
+			$this->referral = '&ref=' . (string) $this->ref;
+		}
+
+		$return = $this->input->getBase64('return', null);
+		if (!empty($return))
+		{
+			$this->referral .= '&return=' . (string) $return;
+		}
+	}
+
+	/**
 	 * Add the page title and toolbar.
 	 *
 	 * @return  void
+	 * @throws  \Exception
 	 * @since   1.6
 	 */
 	protected function addToolbar(): void
 	{
-		Factory::getApplication()->input->set('hidemainmenu', true);
-		$user = $this->getCurrentUser();
-		$userId	= $user->id;
-		$isNew = $this->item->id == 0;
+        // Initialize the toolbar only if it hasn't been initialized yet.
+        $this->toolbar ??= $this->getDocument()->getToolbar();
 
-		ToolbarHelper::title( Text::_($isNew ? 'COM_JTAX_IMPOT_NEW' : 'COM_JTAX_IMPOT_EDIT'), 'pencil-2 article-add');
-		// Built the actions for new and existing records.
-		if (StringHelper::check($this->referral))
-		{
-			if ($this->canDo->get('core.create') && $isNew)
-			{
-				// We can create the record.
-				ToolbarHelper::save('impot.save', 'JTOOLBAR_SAVE');
-			}
-			elseif ($this->canDo->get('core.edit'))
-			{
-				// We can save the record.
-				ToolbarHelper::save('impot.save', 'JTOOLBAR_SAVE');
-			}
-			if ($isNew)
-			{
-				// Do not creat but cancel.
-				ToolbarHelper::cancel('impot.cancel', 'JTOOLBAR_CANCEL');
-			}
-			else
-			{
-				// We can close it.
-				ToolbarHelper::cancel('impot.cancel', 'JTOOLBAR_CLOSE');
-			}
-		}
-		else
-		{
-			if ($isNew)
-			{
-				// For new records, check the create permission.
-				if ($this->canDo->get('core.create'))
-				{
-					ToolbarHelper::apply('impot.apply', 'JTOOLBAR_APPLY');
-					ToolbarHelper::save('impot.save', 'JTOOLBAR_SAVE');
-					ToolbarHelper::custom('impot.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
-				};
-				ToolbarHelper::cancel('impot.cancel', 'JTOOLBAR_CANCEL');
-			}
-			else
-			{
-				if ($this->canDo->get('core.edit'))
-				{
-					// We can save the new record
-					ToolbarHelper::apply('impot.apply', 'JTOOLBAR_APPLY');
-					ToolbarHelper::save('impot.save', 'JTOOLBAR_SAVE');
-					// We can save this record, but check the create permission to see
-					// if we can return to make a new one.
-					if ($this->canDo->get('core.create'))
-					{
-						ToolbarHelper::custom('impot.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
-					}
-				}
-				$canVersion = ($this->canDo->get('core.version') && $this->canDo->get('impot.version'));
-				if ($this->state->params->get('save_history', 1) && $this->canDo->get('core.edit') && $canVersion)
-				{
-					ToolbarHelper::versions('com_jtax.impot', $this->item->id);
-				}
-				if ($this->canDo->get('core.create'))
-				{
-					ToolbarHelper::custom('impot.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
-				}
-				if ($this->canDo->get('impot.calculer'))
-				{
-					// add Calculer button.
-					ToolbarHelper::custom('impot.calculate', 'joomla custom-button-calculate', '', 'COM_JTAX_CALCULER', false);
-				}
-				ToolbarHelper::cancel('impot.cancel', 'JTOOLBAR_CLOSE');
-			}
-		}
-		ToolbarHelper::divider();
-		ToolbarHelper::inlinehelp();
-		// set help url for this view if found
-		$this->help_url = JtaxHelper::getHelpUrl('impot');
-		if (StringHelper::check($this->help_url))
-		{
-			ToolbarHelper::help('COM_JTAX_HELP_MANAGER', false, $this->help_url);
-		}
+		$this->input->set('hidemainmenu', true);
+        $user = $this->getCurrentUser();
+        $userId = $user->id;
+        $isNew = $this->item->id == 0;
 
-		// add the toolbar if it's not already loaded
-		$this->toolbar ??= Factory::getContainer()->get(ToolbarFactoryInterface::class)->createToolbar('toolbar');
+        ToolbarHelper::title( Text::_($isNew ? 'COM_JTAX_IMPOT_NEW' : 'COM_JTAX_IMPOT_EDIT'), 'pencil-2 article-add');
+        // Built the actions for new and existing records.
+        if (StringHelper::check($this->referral))
+        {
+            if ($this->canDo->get('core.create') && $isNew)
+            {
+                // We can create the record.
+                ToolbarHelper::save('impot.save', 'JTOOLBAR_SAVE');
+            }
+            elseif ($this->canDo->get('core.edit'))
+            {
+                // We can save the record.
+                ToolbarHelper::save('impot.save', 'JTOOLBAR_SAVE');
+            }
+            if ($isNew)
+            {
+                // Do not create but cancel.
+                ToolbarHelper::cancel('impot.cancel', 'JTOOLBAR_CANCEL');
+            }
+            else
+            {
+                // We can close it.
+                ToolbarHelper::cancel('impot.cancel', 'JTOOLBAR_CLOSE');
+            }
+        }
+        else
+        {
+            if ($isNew)
+            {
+                // For new records, check the create permission.
+                if ($this->canDo->get('core.create'))
+                {
+                    ToolbarHelper::apply('impot.apply', 'JTOOLBAR_APPLY');
+                    ToolbarHelper::save('impot.save', 'JTOOLBAR_SAVE');
+                    ToolbarHelper::custom('impot.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+                };
+                ToolbarHelper::cancel('impot.cancel', 'JTOOLBAR_CANCEL');
+            }
+            else
+            {
+                if ($this->canDo->get('core.edit'))
+                {
+                    // We can save the new record
+                    ToolbarHelper::apply('impot.apply', 'JTOOLBAR_APPLY');
+                    ToolbarHelper::save('impot.save', 'JTOOLBAR_SAVE');
+                    // We can save this record, but check the create permission to see
+                    // if we can return to make a new one.
+                    if ($this->canDo->get('core.create'))
+                    {
+                        ToolbarHelper::custom('impot.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+                    }
+                }
+                $canVersion = ($this->canDo->get('core.version') && $this->canDo->get('impot.version'));
+                if ($this->state->params->get('save_history', 1) && $this->canDo->get('core.edit') && $canVersion)
+                {
+                    ToolbarHelper::versions('com_jtax.impot', $this->item->id);
+                }
+                if ($this->canDo->get('core.create'))
+                {
+                    ToolbarHelper::custom('impot.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
+                }
+                if ($this->canDo->get('impot.calculer'))
+                {
+                    // add Calculer button.
+                    ToolbarHelper::custom('impot.calculate', 'joomla custom-button-calculate', '', 'COM_JTAX_CALCULER', false);
+                }
+                ToolbarHelper::cancel('impot.cancel', 'JTOOLBAR_CLOSE');
+            }
+        }
+        ToolbarHelper::divider();
+        ToolbarHelper::inlinehelp();
+        // set help url for this view if found
+        $this->help_url = JtaxHelper::getHelpUrl('impot');
+        if (StringHelper::check($this->help_url))
+        {
+            ToolbarHelper::help('COM_JTAX_HELP_MANAGER', false, $this->help_url);
+        }
+	}
+
+	/**
+	 * Prepare some document related stuff.
+	 *
+	 * @return  void
+	 * @since   1.6
+	 */
+	protected function _prepareDocument(): void
+	{
+        // Load jQuery
+        Html::_('jquery.framework');
+		$isNew = ($this->item->id < 1);
+		$this->setDocumentTitle(Text::_($isNew ? 'COM_JTAX_IMPOT_NEW' : 'COM_JTAX_IMPOT_EDIT'));
+		// add styles
+		foreach ($this->styles as $style)
+		{
+			Html::_('stylesheet', $style, ['version' => 'auto']);
+		}
+		// add scripts
+		foreach ($this->scripts as $script)
+		{
+			Html::_('script', $script, ['version' => 'auto']);
+		}
 	}
 
 	/**
@@ -301,29 +399,5 @@ class HtmlView extends BaseHtmlView
 		}
 
 		return StringHelper::html($var, $this->_charset ?? 'UTF-8', $shorten, $length);
-	}
-
-	/**
-	 * Prepare some document related stuff.
-	 *
-	 * @return  void
-	 * @since   1.6
-	 */
-	protected function _prepareDocument(): void
-	{
-		// Load jQuery
-		Html::_('jquery.framework');
-		$isNew = ($this->item->id < 1);
-		$this->getDocument()->setTitle(Text::_($isNew ? 'COM_JTAX_IMPOT_NEW' : 'COM_JTAX_IMPOT_EDIT'));
-		// add styles
-		foreach ($this->styles as $style)
-		{
-			Html::_('stylesheet', $style, ['version' => 'auto']);
-		}
-		// add scripts
-		foreach ($this->scripts as $script)
-		{
-			Html::_('script', $script, ['version' => 'auto']);
-		}
 	}
 }

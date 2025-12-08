@@ -3,8 +3,8 @@
 				JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-	@version		1.0.5
-	@build			2nd April, 2025
+	@version		1.0.7
+	@build			8th December, 2025
 	@created		4th March, 2025
 	@package		JTax
 	@subpackage		ImportModel.php
@@ -106,7 +106,8 @@ class ImportModel extends BaseDatabaseModel
 		$package = null;
 		$continue = false;
 		// get import type
-		$this->getType = $app->input->getString('gettype', NULL);
+		$input = method_exists($app, 'getInput') ? $app->getInput() : $app->input;
+		$this->getType = $input->getString('gettype', NULL);
 		// get import type
 		$this->dataType    = $session->get('dataType_VDM_IMPORTINTO', NULL);
 
@@ -212,7 +213,7 @@ class ImportModel extends BaseDatabaseModel
 	{
 		// Get the uploaded file information
 		$app = Factory::getApplication();
-		$input = $app->input;
+		$input = method_exists($app, 'getInput') ? $app->getInput() : $app->input;
 
 		// Do not change the filter type 'raw'. We need this to let files containing PHP code to upload. See JInputFiles::get.
 		$userfile = $input->files->get('import_package', null, 'raw');
@@ -272,7 +273,7 @@ class ImportModel extends BaseDatabaseModel
 	protected function _getPackageFromFolder()
 	{
 		$app = Factory::getApplication();
-		$input = $app->input;
+		$input = method_exists($app, 'getInput') ? $app->getInput() : $app->input;
 
 		// Get the path to the package to import
 		$p_dir = $input->getString('import_directory');
@@ -317,7 +318,7 @@ class ImportModel extends BaseDatabaseModel
 	protected function _getPackageFromUrl()
 	{
 		$app = Factory::getApplication();
-		$input = $app->input;
+		$input = method_exists($app, 'getInput') ? $app->getInput() : $app->input;
 
 		// Get the URL of the package to import
 		$url = $input->getString('import_url');
@@ -445,7 +446,7 @@ class ImportModel extends BaseDatabaseModel
 		{
 			// make sure the file is loaded
 			JtaxHelper::composerAutoload('phpspreadsheet');
-			$jinput = Factory::getApplication()->input;
+			$jinput = Factory::getApplication()->getInput();
 			foreach($target_headers as $header)
 			{
 				if (($column = $jinput->getString($header, false)) !== false ||

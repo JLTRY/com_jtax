@@ -3,8 +3,8 @@
 				JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-	@version		1.0.5
-	@build			2nd April, 2025
+	@version		1.0.7
+	@build			8th December, 2025
 	@created		4th March, 2025
 	@package		JTax
 	@subpackage		provider.php
@@ -22,7 +22,7 @@
 $power_autoloader = JPATH_ADMINISTRATOR . '/components/com_jtax/src/Helper/PowerloaderHelper.php';
 if (file_exists($power_autoloader))
 {
-	require_once $power_autoloader;
+    require_once $power_autoloader;
 }
 
 // (soon) use Joomla\CMS\Association\AssociationExtensionInterface;

@@ -3,8 +3,8 @@
 				JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-	@version		1.0.5
-	@build			2nd April, 2025
+	@version		1.0.7
+	@build			8th December, 2025
 	@created		4th March, 2025
 	@package		JTax
 	@subpackage		HtmlView.php
@@ -33,6 +33,9 @@ use JCB\Component\Jtax\Site\Helper\HeaderCheck;
 use JCB\Component\Jtax\Site\Helper\JtaxHelper;
 use JCB\Component\Jtax\Site\Helper\RouteHelper;
 use JCB\Joomla\Utilities\StringHelper;
+use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\Input\Input;
+use Joomla\Registry\Registry;
 use Joomla\CMS\User\User;
 
 // No direct access to this file
@@ -45,6 +48,38 @@ use Joomla\CMS\User\User;
  */
 class HtmlView extends BaseHtmlView
 {
+	/**
+	 * The app class
+	 *
+	 * @var    CMSApplicationInterface
+	 * @since  5.2.1
+	 */
+	public CMSApplicationInterface $app;
+
+	/**
+	 * The input class
+	 *
+	 * @var    Input
+	 * @since  5.2.1
+	 */
+	public Input $input;
+
+	/**
+	 * The params registry
+	 *
+	 * @var    Registry
+	 * @since  5.2.1
+	 */
+	public Registry $params;
+
+	/**
+	 * The user object.
+	 *
+	 * @var    User
+	 * @since  3.10.11
+	 */
+	public User $user;
+
 	/**
 	 * The items from the model
 	 *
@@ -86,14 +121,6 @@ class HtmlView extends BaseHtmlView
 	public object $canDo;
 
 	/**
-	 * The user object.
-	 *
-	 * @var    User
-	 * @since  3.10.11
-	 */
-	public User $user;
-
-	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -104,31 +131,59 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null): void
 	{
-		// get combined params of both component and menu
+		// get application
 		$this->app ??= Factory::getApplication();
-		$this->params = $this->app->getParams();
+		// get input
+		$this->input ??= method_exists($this->app, 'getInput') ? $this->app->getInput() : $this->app->input;
+		// set params
+		$this->params ??= method_exists($this->app, 'getParams')
+			? $this->app->getParams()
+			: ComponentHelper::getParams('com_jtax');
 		$this->menu = $this->app->getMenu()->getActive();
-		$this->styles = $this->get('Styles');
-		$this->scripts = $this->get('Scripts');
 		// get the user object
-		$this->user ??= $this->app->getIdentity();
-		// Initialise variables.
-		$this->items = $this->get('Items');
-		$this->pagination = $this->get('Pagination');
+		$this->user ??= $this->getCurrentUser();
 
-		// Set the toolbar
-		$this->addToolBar();
+		// Load module values
+		$model = $this->getModel();
+		$this->styles = $model->getStyles() ?? [];
+		$this->scripts = $model->getScripts() ?? [];
+        // Initialise variables.
+        $this->items = $model->getItems();
+        $this->pagination = $model->getPagination();
 
-		// Set the html view document stuff
-		$this->_prepareDocument();
+        // Set the toolbar
+        $this->addToolBar();
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new \Exception(implode(PHP_EOL, $errors), 500);
-		}
+        // Set the html view document stuff
+        $this->_prepareDocument();
+
+        // Check for errors.
+        if (count($errors = $model->getErrors()))
+        {
+            throw new \Exception(implode(PHP_EOL, $errors), 500);
+        }
 
 		parent::display($tpl);
+	}
+
+	/**
+	 * Add the page title and toolbar.
+	 *
+	 * @return  void
+	 * @throws  \Exception
+	 * @since   1.6
+	 */
+	protected function addToolbar(): void
+	{
+		
+        // now initiate toolbar if it's not already loaded
+        $this->toolbar ??= $this->getDocument()->getToolbar();
+        // set help url for this view if found
+        $this->help_url = JtaxHelper::getHelpUrl('impots');
+        if (StringHelper::check($this->help_url))
+        {
+            $this->toolbar->help('COM_JTAX_HELP_MANAGER', false, $this->help_url);
+        }
 	}
 
 	/**
@@ -140,29 +195,29 @@ class HtmlView extends BaseHtmlView
 	protected function _prepareDocument(): void
 	{
 
-		// Only load jQuery if needed. (default is true)
-		if ($this->params->get('add_jquery_framework', 1) == 1)
-		{
-			Html::_('jquery.framework');
-		}
-		// Load the header checker class.
-		// Initialize the header checker.
-		$HeaderCheck = new HeaderCheck();
-		// load the meta description
-		if ($this->params->get('menu-meta_description'))
-		{
-			$this->getDocument()->setDescription($this->params->get('menu-meta_description'));
-		}
-		// load the key words if set
-		if ($this->params->get('menu-meta_keywords'))
-		{
-			$this->getDocument()->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
-		}
-		// check the robot params
-		if ($this->params->get('robots'))
-		{
-			$this->getDocument()->setMetadata('robots', $this->params->get('robots'));
-		}
+        // Only load jQuery if needed. (default is true)
+        if ($this->params->get('add_jquery_framework', 1) == 1)
+        {
+            Html::_('jquery.framework');
+        }
+        // Load the header checker class.
+        // Initialize the header checker.
+        $HeaderCheck = new HeaderCheck();
+        // load the meta description
+        if ($this->params->get('menu-meta_description'))
+        {
+            $this->getDocument()->setDescription($this->params->get('menu-meta_description'));
+        }
+        // load the key words if set
+        if ($this->params->get('menu-meta_keywords'))
+        {
+            $this->getDocument()->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
+        }
+        // check the robot params
+        if ($this->params->get('robots'))
+        {
+            $this->getDocument()->setMetadata('robots', $this->params->get('robots'));
+        }
 		// add styles
 		foreach ($this->styles as $style)
 		{
@@ -173,26 +228,6 @@ class HtmlView extends BaseHtmlView
 		{
 			Html::_('script', $script, ['version' => 'auto']);
 		}
-	}
-
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return  void
-	 * @since   1.6
-	 */
-	protected function addToolbar(): void
-	{
-
-		// set help url for this view if found
-		$this->help_url = JtaxHelper::getHelpUrl('impots');
-		if (StringHelper::check($this->help_url))
-		{
-			ToolbarHelper::help('COM_JTAX_HELP_MANAGER', false, $this->help_url);
-		}
-
-		// now initiate the toolbar
-		$this->toolbar = Toolbar::getInstance();
 	}
 
 	/**

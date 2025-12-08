@@ -3,8 +3,8 @@
 				JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-	@version		1.0.5
-	@build			2nd April, 2025
+	@version		1.0.7
+	@build			8th December, 2025
 	@created		4th March, 2025
 	@package		JTax
 	@subpackage		edit.php
@@ -40,54 +40,54 @@ defined('_JEXEC') or die;
 
 <div class="main-card">
 
-	<?php echo Html::_('uitab.startTabSet', 'impotTab', ['active' => 'details', 'recall' => true]); ?>
+    <?php echo Html::_('uitab.startTabSet', 'impotTab', ['active' => 'details', 'recall' => true]); ?>
 
-	<?php echo Html::_('uitab.addTab', 'impotTab', 'details', Text::_('COM_JTAX_IMPOT_DETAILS', true)); ?>
-		<div class="row">
-			<div class="col-md-12">
-				<?php echo LayoutHelper::render('impot.details_left', $this); ?>
-			</div>
-		</div>
-	<?php echo Html::_('uitab.endTab'); ?>
+    <?php echo Html::_('uitab.addTab', 'impotTab', 'details', Text::_('COM_JTAX_IMPOT_DETAILS', true)); ?>
+        <div class="row">
+            <div class="col-md-12">
+                <?php echo LayoutHelper::render('impot.details_left', $this); ?>
+            </div>
+        </div>
+    <?php echo Html::_('uitab.endTab'); ?>
 
-	<?php $this->ignore_fieldsets = array('details','metadata','vdmmetadata','accesscontrol'); ?>
-	<?php $this->tab_name = 'impotTab'; ?>
-	<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
+    <?php $this->ignore_fieldsets = array('details','metadata','vdmmetadata','accesscontrol'); ?>
+    <?php $this->tab_name = 'impotTab'; ?>
+    <?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 
-	<?php if ($this->canDo->get('core.edit.created_by') || $this->canDo->get('core.edit.created') || $this->canDo->get('core.edit.state') || ($this->canDo->get('core.delete') && $this->canDo->get('core.edit.state'))) : ?>
-	<?php echo Html::_('uitab.addTab', 'impotTab', 'publishing', Text::_('COM_JTAX_IMPOT_PUBLISHING', true)); ?>
-		<div class="row">
-			<div class="col-md-6">
-				<?php echo LayoutHelper::render('impot.publishing', $this); ?>
-			</div>
-			<div class="col-md-6">
-				<?php echo LayoutHelper::render('impot.publlshing', $this); ?>
-			</div>
-		</div>
-	<?php echo Html::_('uitab.endTab'); ?>
-	<?php endif; ?>
+    <?php if ($this->canDo->get('core.edit.created_by') || $this->canDo->get('core.edit.created') || $this->canDo->get('core.edit.state') || ($this->canDo->get('core.delete') && $this->canDo->get('core.edit.state'))) : ?>
+    <?php echo Html::_('uitab.addTab', 'impotTab', 'publishing', Text::_('COM_JTAX_IMPOT_PUBLISHING', true)); ?>
+        <div class="row">
+            <div class="col-md-6">
+                <?php echo LayoutHelper::render('impot.publishing', $this); ?>
+            </div>
+            <div class="col-md-6">
+                <?php echo LayoutHelper::render('impot.publlshing', $this); ?>
+            </div>
+        </div>
+    <?php echo Html::_('uitab.endTab'); ?>
+    <?php endif; ?>
 
-	<?php if ($this->canDo->get('core.admin')) : ?>
-	<?php echo Html::_('uitab.addTab', 'impotTab', 'permissions', Text::_('COM_JTAX_IMPOT_PERMISSION', true)); ?>
-		<div class="row">
-			<div class="col-md-12">
-				<fieldset id="fieldset-rules" class="options-form">
-					<legend><?php echo Text::_('COM_JTAX_IMPOT_PERMISSION'); ?></legend>
-					<div>
-						<?php echo $this->form->getInput('rules'); ?>
-					</div>
-				</fieldset>
-			</div>
-		</div>
-	<?php echo Html::_('uitab.endTab'); ?>
-	<?php endif; ?>
+    <?php if ($this->canDo->get('core.admin')) : ?>
+    <?php echo Html::_('uitab.addTab', 'impotTab', 'permissions', Text::_('COM_JTAX_IMPOT_PERMISSION', true)); ?>
+        <div class="row">
+            <div class="col-md-12">
+                <fieldset id="fieldset-rules" class="options-form">
+                    <legend><?php echo Text::_('COM_JTAX_IMPOT_PERMISSION'); ?></legend>
+                    <div>
+                        <?php echo $this->form->getInput('rules'); ?>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    <?php echo Html::_('uitab.endTab'); ?>
+    <?php endif; ?>
 
-	<?php echo Html::_('uitab.endTabSet'); ?>
+    <?php echo Html::_('uitab.endTabSet'); ?>
 
-	<div>
-		<input type="hidden" name="task" value="impot.edit" />
-		<?php echo Html::_('form.token'); ?>
-	</div>
+    <div>
+        <input type="hidden" name="task" value="impot.edit" />
+        <?php echo Html::_('form.token'); ?>
+    </div>
 </div>
 </form>
 </div>

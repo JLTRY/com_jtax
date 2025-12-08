@@ -3,8 +3,8 @@
 				JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-	@version		1.0.5
-	@build			2nd April, 2025
+	@version		1.0.7
+	@build			8th December, 2025
 	@created		4th March, 2025
 	@package		JTax
 	@subpackage		default.php
@@ -35,26 +35,26 @@ if ($this->saveOrder)
 }
 ?>
 <form action="<?php echo Route::_('index.php?option=com_jtax&view=years'); ?>" method="post" name="adminForm" id="adminForm">
-	<div id="j-main-container">
+    <div id="j-main-container">
 <?php
-	// Add the trash helper layout
-	echo LayoutHelper::render('trashhelper', $this);
-	// Add the searchtools
-	echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+    // Add the trash helper layout
+    echo LayoutHelper::render('trashhelper', $this);
+    // Add the searchtools
+    echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 ?>
 <?php if (empty($this->items)): ?>
-	<div class="alert alert-no-items">
-		<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-	</div>
+    <div class="alert alert-no-items">
+        <?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+    </div>
 <?php else : ?>
-	<table class="table table-striped" id="yearList">
-		<thead><?php echo $this->loadTemplate('head');?></thead>
-		<tfoot><?php echo $this->loadTemplate('foot');?></tfoot>
-		<tbody><?php echo $this->loadTemplate('body');?></tbody>
-	</table>
-	<input type="hidden" name="boxchecked" value="0" />
-	</div>
+    <table class="table table-striped" id="yearList">
+        <thead><?php echo $this->loadTemplate('head');?></thead>
+        <tfoot><?php echo $this->loadTemplate('foot');?></tfoot>
+        <tbody><?php echo $this->loadTemplate('body');?></tbody>
+    </table>
+    <input type="hidden" name="boxchecked" value="0" />
+    </div>
 <?php endif; ?>
-	<input type="hidden" name="task" value="" />
-	<?php echo Html::_('form.token'); ?>
+    <input type="hidden" name="task" value="" />
+    <?php echo Html::_('form.token'); ?>
 </form>

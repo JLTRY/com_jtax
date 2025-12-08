@@ -3,8 +3,8 @@
 				JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-	@version		1.0.5
-	@build			2nd April, 2025
+	@version		1.0.7
+	@build			8th December, 2025
 	@created		4th March, 2025
 	@package		JTax
 	@subpackage		ImpotModel.php
@@ -38,7 +38,6 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\Input\Input;
 use JCB\Component\Jtax\Administrator\Helper\JtaxHelper;
 use Joomla\CMS\Helper\TagsHelper;
-use JCB\Joomla\Utilities\StringHelper as UtilitiesStringHelper;
 use JCB\Joomla\Utilities\ArrayHelper as UtilitiesArrayHelper;
 
 // No direct access to this file
@@ -59,19 +58,19 @@ class ImpotModel extends AdminModel
 	 * @var      array
 	 */
 	protected $tabLayoutFields = array(
-		'details' => array(
-			'left' => array(
-				'name',
-				'year',
-				'revenu',
-				'nbparts',
-				'deduction',
-				'fraisreels',
-				'pel',
-				'dons'
-			)
-		)
-	);
+        'details' => array(
+            'left' => array(
+                'name',
+                'year',
+                'revenu',
+                'nbparts',
+                'deduction',
+                'fraisreels',
+                'pel',
+                'dons'
+            )
+        )
+    );
 
 	/**
 	 * The styles array.
@@ -140,20 +139,20 @@ class ImpotModel extends AdminModel
 	{
 		if ($item = parent::getItem($pk))
 		{
-			if (!empty($item->params) && !is_array($item->params))
-			{
-				// Convert the params field to an array.
-				$registry = new Registry;
-				$registry->loadString($item->params);
-				$item->params = $registry->toArray();
-			}
-
-			if (!empty($item->metadata))
+			if (property_exists($item, 'metadata') && !is_array($item->metadata))
 			{
 				// Convert the metadata field to an array.
-				$registry = new Registry;
-				$registry->loadString($item->metadata);
-				$item->metadata = $registry->toArray();
+				$metadata       = new Registry($item->metadata);
+				$item->metadata = $metadata->toArray();
+			}
+
+			// check edit access permissions
+			if (!empty($item->id) && !$this->allowEdit((array) $item))
+			{
+ 				$app = Factory::getApplication();
+  				$app->enqueueMessage(Text::_('Not authorised!'), 'error');
+				$app->redirect('index.php?option=com_jtax&view=');
+				return false;
 			}
 		}
 
@@ -175,116 +174,118 @@ class ImpotModel extends AdminModel
 	{
 		// set load data option
 		$options['load_data'] = $loadData;
-		// check if xpath was set in options
-		$xpath = false;
-		if (isset($options['xpath']))
-		{
-			$xpath = $options['xpath'];
-			unset($options['xpath']);
-		}
-		// check if clear form was set in options
-		$clear = false;
-		if (isset($options['clear']))
-		{
-			$clear = $options['clear'];
-			unset($options['clear']);
-		}
+        // check if xpath was set in options
+        $xpath = false;
+        if (isset($options['xpath']))
+        {
+            $xpath = $options['xpath'];
+            unset($options['xpath']);
+        }
+        // check if clear form was set in options
+        $clear = false;
+        if (isset($options['clear']))
+        {
+            $clear = $options['clear'];
+            unset($options['clear']);
+        }
 
-		// Get the form.
-		$form = $this->loadForm('com_jtax.impot', 'impot', $options, $clear, $xpath);
+        // Get the form.
+        $form = $this->loadForm('com_jtax.impot', 'impot', $options, $clear, $xpath);
 
-		if (empty($form))
-		{
-			return false;
-		}
+        if (empty($form))
+        {
+            return false;
+        }
 
-		$jinput = Factory::getApplication()->input;
+        $app = Factory::getApplication();
 
-		// The front end calls this model and uses a_id to avoid id clashes so we need to check for that first.
-		if ($jinput->get('a_id'))
-		{
-			$id = $jinput->get('a_id', 0, 'INT');
-		}
-		// The back end uses id so we use that the rest of the time and set it to 0 by default.
-		else
-		{
-			$id = $jinput->get('id', 0, 'INT');
-		}
+        $jinput = method_exists($app, 'getInput') ? $app->getInput() : $app->input;
 
-		$user = Factory::getApplication()->getIdentity();
+        // The front end calls this model and uses a_id to avoid id clashes so we need to check for that first.
+        if ($jinput->get('a_id'))
+        {
+            $id = $jinput->get('a_id', 0, 'INT');
+        }
+        // The back end uses id so we use that the rest of the time and set it to 0 by default.
+        else
+        {
+            $id = $jinput->get('id', 0, 'INT');
+        }
 
-		// Check for existing item.
-		// Modify the form based on Edit State access controls.
-		if ($id != 0 && (!$user->authorise('core.edit.state', 'com_jtax.impot.' . (int) $id))
-			|| ($id == 0 && !$user->authorise('core.edit.state', 'com_jtax')))
-		{
-			// Disable fields for display.
-			$form->setFieldAttribute('ordering', 'disabled', 'true');
-			$form->setFieldAttribute('published', 'disabled', 'true');
-			// Disable fields while saving.
-			$form->setFieldAttribute('ordering', 'filter', 'unset');
-			$form->setFieldAttribute('published', 'filter', 'unset');
-		}
-		// If this is a new item insure the greated by is set.
-		if (0 == $id)
-		{
-			// Set the created_by to this user
-			$form->setValue('created_by', null, $user->id);
-		}
-		// Modify the form based on Edit Creaded By access controls.
-		if (!$user->authorise('core.edit.created_by', 'com_jtax'))
-		{
-			// Disable fields for display.
-			$form->setFieldAttribute('created_by', 'disabled', 'true');
-			// Disable fields for display.
-			$form->setFieldAttribute('created_by', 'readonly', 'true');
-			// Disable fields while saving.
-			$form->setFieldAttribute('created_by', 'filter', 'unset');
-		}
-		// Modify the form based on Edit Creaded Date access controls.
-		if (!$user->authorise('core.edit.created', 'com_jtax'))
-		{
-			// Disable fields for display.
-			$form->setFieldAttribute('created', 'disabled', 'true');
-			// Disable fields while saving.
-			$form->setFieldAttribute('created', 'filter', 'unset');
-		}
-		// Only load these values if no id is found
-		if (0 == $id)
-		{
-			// Set redirected view name
-			$redirectedView = $jinput->get('ref', null, 'STRING');
-			// Set field name (or fall back to view name)
-			$redirectedField = $jinput->get('field', $redirectedView, 'STRING');
-			// Set redirected view id
-			$redirectedId = $jinput->get('refid', 0, 'INT');
-			// Set field id (or fall back to redirected view id)
-			$redirectedValue = $jinput->get('field_id', $redirectedId, 'INT');
-			if (0 != $redirectedValue && $redirectedField)
-			{
-				// Now set the local-redirected field default value
-				$form->setValue($redirectedField, null, $redirectedValue);
-			}
-			$initDefaults = $jinput->get('init_defaults', null, 'STRING');
-			if (!empty($initDefaults))
-			{
-				// Now check if this json values are valid
-				$initDefaults = json_decode(urldecode($initDefaults), true);
-				if (is_array($initDefaults))
-				{
-					foreach ($initDefaults as $field => $value)
-					{
-						$form->setValue($field, null, $value);
-					}
-				}
-			}
-		}
+        $user = Factory::getApplication()->getIdentity();
+
+        // Check for existing item.
+        // Modify the form based on Edit State access controls.
+        if ($id != 0 && (!$user->authorise('core.edit.state', 'com_jtax.impot.' . (int) $id))
+            || ($id == 0 && !$user->authorise('core.edit.state', 'com_jtax')))
+        {
+            // Disable fields for display.
+            $form->setFieldAttribute('ordering', 'disabled', 'true');
+            $form->setFieldAttribute('published', 'disabled', 'true');
+            // Disable fields while saving.
+            $form->setFieldAttribute('ordering', 'filter', 'unset');
+            $form->setFieldAttribute('published', 'filter', 'unset');
+        }
+        // If this is a new item insure the greated by is set.
+        if (0 == $id)
+        {
+            // Set the created_by to this user
+            $form->setValue('created_by', null, $user->id);
+        }
+        // Modify the form based on Edit Creaded By access controls.
+        if (!$user->authorise('core.edit.created_by', 'com_jtax'))
+        {
+            // Disable fields for display.
+            $form->setFieldAttribute('created_by', 'disabled', 'true');
+            // Disable fields for display.
+            $form->setFieldAttribute('created_by', 'readonly', 'true');
+            // Disable fields while saving.
+            $form->setFieldAttribute('created_by', 'filter', 'unset');
+        }
+        // Modify the form based on Edit Creaded Date access controls.
+        if (!$user->authorise('core.edit.created', 'com_jtax'))
+        {
+            // Disable fields for display.
+            $form->setFieldAttribute('created', 'disabled', 'true');
+            // Disable fields while saving.
+            $form->setFieldAttribute('created', 'filter', 'unset');
+        }
+        // Only load these values if no id is found
+        if (0 == $id)
+        {
+            // Set redirected view name
+            $redirectedView = $jinput->get('ref', null, 'STRING');
+            // Set field name (or fall back to view name)
+            $redirectedField = $jinput->get('field', $redirectedView, 'STRING');
+            // Set redirected view id
+            $redirectedId = $jinput->get('refid', 0, 'INT');
+            // Set field id (or fall back to redirected view id)
+            $redirectedValue = $jinput->get('field_id', $redirectedId, 'INT');
+            if (0 != $redirectedValue && $redirectedField)
+            {
+                // Now set the local-redirected field default value
+                $form->setValue($redirectedField, null, $redirectedValue);
+            }
+            $initDefaults = $jinput->get('init_defaults', null, 'STRING');
+            if (!empty($initDefaults))
+            {
+                // Now check if this json values are valid
+                $initDefaults = json_decode(urldecode($initDefaults), true);
+                if (is_array($initDefaults))
+                {
+                    foreach ($initDefaults as $field => $value)
+                    {
+                        $form->setValue($field, null, $value);
+                    }
+                }
+            }
+        }
 
 /***[JCBGUI.admin_view.php_getform.288.$$$$]***/
 $language = Factory::getLanguage();
 $language->load('joomla', JPATH_ADMINISTRATOR);/***[/JCBGUI$$$$]***/
 
-		return $form;
+        return $form;
 	}
 
 	/**
@@ -337,18 +338,17 @@ $language->load('joomla', JPATH_ADMINISTRATOR);/***[/JCBGUI$$$$]***/
 	 * @param   object  $record  A record object.
 	 *
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
-	 *
 	 * @since   1.6
 	 */
 	protected function canDelete($record)
 	{
-		if (empty($record->id) || ($record->published != -2))
-		{
-			return false;
-		}
+        if (empty($record->id) || ($record->published != -2))
+        {
+            return false;
+        }
 
-		// The record has been set. Check the record permissions.
-		return $this->getCurrentUser()->authorise('core.delete', 'com_jtax.impot.' . (int) $record->id);
+        // The record has been set. Check the record permissions.
+        return $this->getCurrentUser()->authorise('core.delete', 'com_jtax.impot.' . (int) $record->id);
 	}
 
 	/**
@@ -357,41 +357,74 @@ $language->load('joomla', JPATH_ADMINISTRATOR);/***[/JCBGUI$$$$]***/
 	 * @param   object  $record  A record object.
 	 *
 	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
-	 *
 	 * @since   1.6
 	 */
 	protected function canEditState($record)
 	{
-		$user = $this->getCurrentUser();
-		$recordId = $record->id ?? 0;
+        $user = $this->getCurrentUser();
+        $recordId = $record->id ?? 0;
 
-		if ($recordId)
-		{
-			// The record has been set. Check the record permissions.
-			$permission = $user->authorise('core.edit.state', 'com_jtax.impot.' . (int) $recordId);
-			if (!$permission && !is_null($permission))
-			{
-				return false;
-			}
-		}
-		// In the absence of better information, revert to the component permissions.
-		return parent::canEditState($record);
+        if ($recordId)
+        {
+            // The record has been set. Check the record permissions.
+            $permission = $user->authorise('core.edit.state', 'com_jtax.impot.' . (int) $recordId);
+            if (!$permission && !is_null($permission))
+            {
+                return false;
+            }
+        }
+        // In the absence of better information, revert to the component permissions.
+        return parent::canEditState($record);
 	}
 
 	/**
-	 * Method override to check if you can edit an existing record.
+	 * Method to check if you can edit an existing record.
+	 *   We know this is a double access check (Controller already does an allowEdit check)
+	 *   But when the item is directly accessed the controller is skipped (2025_).
 	 *
 	 * @param   array    $data   An array of input data.
 	 * @param   string   $key    The name of the key for the primary key.
 	 *
-	 * @return    boolean
+	 * @return   boolean True if allowed to edit the record. Defaults to the permission set in the component.
 	 * @since    2.5
 	 */
-	protected function allowEdit($data = [], $key = 'id')
+	protected function allowEdit(array $data = [], string $key = 'id'): bool
 	{
-		// Check specific edit permission then general edit permission.
+        // get user object.
+        $user = $this->getCurrentUser();
+        // get record id.
+        $recordId = (int) isset($data[$key]) ? $data[$key] : 0;
 
-		return Factory::getApplication()->getIdentity()->authorise('core.edit', 'com_jtax.impot.'. ((int) isset($data[$key]) ? $data[$key] : 0)) or parent::allowEdit($data, $key);
+
+        if ($recordId)
+        {
+            // The record has been set. Check the record permissions.
+            $permission = $user->authorise('core.edit', 'com_jtax.impot.' . (int) $recordId);
+            if (!$permission)
+            {
+                if ($user->authorise('core.edit.own', 'com_jtax.impot.' . $recordId))
+                {
+                    // Now test the owner is the user.
+                    $ownerId = (int) isset($data['created_by']) ? $data['created_by'] : 0;
+                    if (empty($ownerId))
+                    {
+                        return false;
+                    }
+
+                    // If the owner matches 'me' then allow.
+                    if ($ownerId == $user->id)
+                    {
+                        if ($user->authorise('core.edit.own', 'com_jtax'))
+                        {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }
+        }
+        // Since there is no permission given, core edit must be checked.
+        return $user->authorise('core.edit', $this->option);
 	}
 
 	/**
@@ -475,17 +508,17 @@ $language->load('joomla', JPATH_ADMINISTRATOR);/***[/JCBGUI$$$$]***/
 		return $data;
 	}
 
-	/**
-	 * Method to get the unique fields of this table.
-	 *
-	 * @return  mixed  An array of field names, boolean false if none is set.
-	 *
-	 * @since   3.0
-	 */
-	protected function getUniqueFields()
-	{
-		return false;
-	}
+    /**
+     * Method to get the unique fields of this table.
+     *
+     * @return  mixed  An array of field names, boolean false if none is set.
+     *
+     * @since   3.0
+     */
+    protected function getUniqueFields()
+    {
+        return false;
+    }
 
 	/**
 	 * Method to delete one or more records.
@@ -527,352 +560,6 @@ $language->load('joomla', JPATH_ADMINISTRATOR);/***[/JCBGUI$$$$]***/
 	}
 
 	/**
-	 * Method to perform batch operations on an item or a set of items.
-	 *
-	 * @param   array  $commands  An array of commands to perform.
-	 * @param   array  $pks       An array of item ids.
-	 * @param   array  $contexts  An array of item contexts.
-	 *
-	 * @return  boolean  Returns true on success, false on failure.
-	 *
-	 * @since   12.2
-	 */
-	public function batch($commands, $pks, $contexts)
-	{
-		// Sanitize ids.
-		$pks = array_unique($pks);
-		ArrayHelper::toInteger($pks);
-
-		// Remove any values of zero.
-		if (array_search(0, $pks, true))
-		{
-			unset($pks[array_search(0, $pks, true)]);
-		}
-
-		if (empty($pks))
-		{
-			$this->setError(Text::_('JGLOBAL_NO_ITEM_SELECTED'));
-			return false;
-		}
-
-		$done = false;
-
-		// Set some needed variables.
-		$this->user ??= $this->getCurrentUser();
-		$this->table = $this->getTable();
-		$this->tableClassName = get_class($this->table);
-		$this->contentType = new UCMType;
-		$this->type = $this->contentType->getTypeByTable($this->tableClassName);
-		$this->canDo = JtaxHelper::getActions('impot');
-		$this->batchSet = true;
-
-		if (!$this->canDo->get('core.batch'))
-		{
-			$this->setError(Text::_('JLIB_APPLICATION_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
-			return false;
-		}
-
-		if ($this->type == false)
-		{
-			$type = new UCMType;
-			$this->type = $type->getTypeByAlias($this->typeAlias);
-		}
-
-		$this->tagsObserver = $this->table->getObserverOfClass('JTableObserverTags');
-
-		if (!empty($commands['move_copy']))
-		{
-			$cmd = ArrayHelper::getValue($commands, 'move_copy', 'c');
-
-			if ($cmd == 'c')
-			{
-				$result = $this->batchCopy($commands, $pks, $contexts);
-
-				if (is_array($result))
-				{
-					foreach ($result as $old => $new)
-					{
-						$contexts[$new] = $contexts[$old];
-					}
-					$pks = array_values($result);
-				}
-				else
-				{
-					return false;
-				}
-			}
-			elseif ($cmd == 'm' && !$this->batchMove($commands, $pks, $contexts))
-			{
-				return false;
-			}
-
-			$done = true;
-		}
-
-		if (!$done)
-		{
-			$this->setError(Text::_('JLIB_APPLICATION_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
-			return false;
-		}
-
-		// Clear the cache
-		$this->cleanCache();
-
-		return true;
-	}
-
-	/**
-	 * Batch copy items to a new category or current.
-	 *
-	 * @param   integer  $values    The new values.
-	 * @param   array    $pks       An array of row IDs.
-	 * @param   array    $contexts  An array of item contexts.
-	 *
-	 * @return  mixed  An array of new IDs on success, boolean false on failure.
-	 *
-	 * @since 12.2
-	 */
-	protected function batchCopy($values, $pks, $contexts)
-	{
-		if (empty($this->batchSet))
-		{
-			// Set some needed variables.
-			$this->user 		= Factory::getApplication()->getIdentity();
-			$this->table 		= $this->getTable();
-			$this->tableClassName	= get_class($this->table);
-			$this->canDo		= JtaxHelper::getActions('impot');
-		}
-
-		if (!$this->canDo->get('core.create') && !$this->canDo->get('impot.batch'))
-		{
-			return false;
-		}
-
-		// get list of unique fields
-		$uniqueFields = $this->getUniqueFields();
-		// remove move_copy from array
-		unset($values['move_copy']);
-
-		// make sure published is set
-		if (!isset($values['published']))
-		{
-			$values['published'] = 0;
-		}
-		elseif (isset($values['published']) && !$this->canDo->get('core.edit.state'))
-		{
-				$values['published'] = 0;
-		}
-
-		$newIds = [];
-		// Parent exists so let's proceed
-		while (!empty($pks))
-		{
-			// Pop the first ID off the stack
-			$pk = array_shift($pks);
-
-			$this->table->reset();
-
-			// only allow copy if user may edit this item.
-			if (!$this->user->authorise('core.edit', $contexts[$pk]))
-			{
-				// Not fatal error
-				$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
-				continue;
-			}
-
-			// Check that the row actually exists
-			if (!$this->table->load($pk))
-			{
-				if ($error = $this->table->getError())
-				{
-					// Fatal error
-					$this->setError($error);
-					return false;
-				}
-				else
-				{
-					// Not fatal error
-					$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
-					continue;
-				}
-			}
-
-			// Only for strings
-			if (UtilitiesStringHelper::check($this->table->year) && !is_numeric($this->table->year))
-			{
-				$this->table->year = $this->generateUnique('year',$this->table->year);
-			}
-
-			// insert all set values
-			if (UtilitiesArrayHelper::check($values))
-			{
-				foreach ($values as $key => $value)
-				{
-					if (strlen($value) > 0 && isset($this->table->$key))
-					{
-						$this->table->$key = $value;
-					}
-				}
-			}
-
-			// update all unique fields
-			if (UtilitiesArrayHelper::check($uniqueFields))
-			{
-				foreach ($uniqueFields as $uniqueField)
-				{
-					$this->table->$uniqueField = $this->generateUnique($uniqueField,$this->table->$uniqueField);
-				}
-			}
-
-			// Reset the ID because we are making a copy
-			$this->table->id = 0;
-
-			// TODO: Deal with ordering?
-			// $this->table->ordering = 1;
-
-			// Check the row.
-			if (!$this->table->check())
-			{
-				$this->setError($this->table->getError());
-
-				return false;
-			}
-
-			if (!empty($this->type))
-			{
-				$this->createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
-			}
-
-			// Store the row.
-			if (!$this->table->store())
-			{
-				$this->setError($this->table->getError());
-
-				return false;
-			}
-
-			// Get the new item ID
-			$newId = $this->table->get('id');
-
-			// Add the new ID to the array
-			$newIds[$pk] = $newId;
-		}
-
-		// Clean the cache
-		$this->cleanCache();
-
-		return $newIds;
-	}
-
-	/**
-	 * Batch move items to a new category
-	 *
-	 * @param   integer  $value     The new category ID.
-	 * @param   array    $pks       An array of row IDs.
-	 * @param   array    $contexts  An array of item contexts.
-	 *
-	 * @return  boolean  True if successful, false otherwise and internal error is set.
-	 *
-	 * @since 12.2
-	 */
-	protected function batchMove($values, $pks, $contexts)
-	{
-		if (empty($this->batchSet))
-		{
-			// Set some needed variables.
-			$this->user		= Factory::getApplication()->getIdentity();
-			$this->table		= $this->getTable();
-			$this->tableClassName	= get_class($this->table);
-			$this->canDo		= JtaxHelper::getActions('impot');
-		}
-
-		if (!$this->canDo->get('core.edit') && !$this->canDo->get('impot.batch'))
-		{
-			$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
-			return false;
-		}
-
-		// make sure published only updates if user has the permission.
-		if (isset($values['published']) && !$this->canDo->get('core.edit.state'))
-		{
-			unset($values['published']);
-		}
-		// remove move_copy from array
-		unset($values['move_copy']);
-
-		// Parent exists so we proceed
-		foreach ($pks as $pk)
-		{
-			if (!$this->user->authorise('core.edit', $contexts[$pk]))
-			{
-				$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
-				return false;
-			}
-
-			// Check that the row actually exists
-			if (!$this->table->load($pk))
-			{
-				if ($error = $this->table->getError())
-				{
-					// Fatal error
-					$this->setError($error);
-					return false;
-				}
-				else
-				{
-					// Not fatal error
-					$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
-					continue;
-				}
-			}
-
-			// insert all set values.
-			if (UtilitiesArrayHelper::check($values))
-			{
-				foreach ($values as $key => $value)
-				{
-					// Do special action for access.
-					if ('access' === $key && strlen($value) > 0)
-					{
-						$this->table->$key = $value;
-					}
-					elseif (strlen($value) > 0 && isset($this->table->$key))
-					{
-						$this->table->$key = $value;
-					}
-				}
-			}
-
-
-			// Check the row.
-			if (!$this->table->check())
-			{
-				$this->setError($this->table->getError());
-
-				return false;
-			}
-
-			if (!empty($this->type))
-			{
-				$this->createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
-			}
-
-			// Store the row.
-			if (!$this->table->store())
-			{
-				$this->setError($this->table->getError());
-
-				return false;
-			}
-		}
-
-		// Clean the cache
-		$this->cleanCache();
-
-		return true;
-	}
-
-	/**
 	 * Method to save the form data.
 	 *
 	 * @param   array  $data  The form data.
@@ -883,8 +570,9 @@ $language->load('joomla', JPATH_ADMINISTRATOR);/***[/JCBGUI$$$$]***/
 	 */
 	public function save($data)
 	{
-		$input    = Factory::getApplication()->input;
-		$filter   = InputFilter::getInstance();
+		$app = Factory::getApplication();
+		$input = method_exists($app, 'getInput') ? $app->getInput() : $app->input;
+		$filter = InputFilter::getInstance();
 
 		// set the metadata to the Item Data
 		if (isset($data['metadata']) && isset($data['metadata']['author']))
@@ -904,19 +592,19 @@ $language->load('joomla', JPATH_ADMINISTRATOR);/***[/JCBGUI$$$$]***/
 			$data['params'] = (string) $params;
 		}
 
-		// Alter the unique field for save as copy
-		if ($input->get('task') === 'save2copy')
-		{
-			// Automatic handling of other unique fields
-			$uniqueFields = $this->getUniqueFields();
-			if (UtilitiesArrayHelper::check($uniqueFields))
-			{
-				foreach ($uniqueFields as $uniqueField)
-				{
-					$data[$uniqueField] = $this->generateUnique($uniqueField,$data[$uniqueField]);
-				}
-			}
-		}
+        // Alter the unique field for save as copy
+        if ($input->get('task') === 'save2copy')
+        {
+            // Automatic handling of other unique fields
+            $uniqueFields = $this->getUniqueFields();
+            if (UtilitiesArrayHelper::check($uniqueFields))
+            {
+                foreach ($uniqueFields as $uniqueField)
+                {
+                    $data[$uniqueField] = $this->generateUnique($uniqueField,$data[$uniqueField]);
+                }
+            }
+        }
 
 		if (parent::save($data))
 		{
@@ -948,25 +636,25 @@ $language->load('joomla', JPATH_ADMINISTRATOR);/***[/JCBGUI$$$$]***/
 		return $value;
 	}
 
-	/**
-	 * Method to change the title
-	 *
-	 * @param   string   $title   The title.
-	 *
-	 * @return	array  Contains the modified title and alias.
-	 *
-	 */
-	protected function _generateNewTitle($title)
-	{
+    /**
+     * Method to change the title
+     *
+     * @param   string   $title   The title.
+     *
+     * @return	array  Contains the modified title and alias.
+     *
+     */
+    protected function _generateNewTitle($title)
+    {
 
-		// Alter the title
-		$table = $this->getTable();
+        // Alter the title
+        $table = $this->getTable();
 
-		while ($table->load(['title' => $title]))
-		{
-			$title = StringHelper::increment($title);
-		}
+        while ($table->load(['title' => $title]))
+        {
+            $title = StringHelper::increment($title);
+        }
 
-		return $title;
-	}
+        return $title;
+    }
 }
