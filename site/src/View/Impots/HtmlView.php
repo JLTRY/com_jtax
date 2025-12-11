@@ -1,16 +1,16 @@
 <?php
 /*----------------------------------------------------------------------------------|  www.vdm.io  |----/
-				JL Tryoen 
+                JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-	@version		1.0.7
-	@build			8th December, 2025
-	@created		4th March, 2025
-	@package		JTax
-	@subpackage		HtmlView.php
-	@author			Jean-Luc Tryoen <http://www.jltryoen.fr>	
-	@copyright		Copyright (C) 2015. All Rights Reserved
-	@license		GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html
+    @version		1.0.7
+    @build			8th December, 2025
+    @created		4th March, 2025
+    @package		JTax
+    @subpackage		HtmlView.php
+    @author			Jean-Luc Tryoen <http://www.jltryoen.fr>	
+    @copyright		Copyright (C) 2015. All Rights Reserved
+    @license		GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html
   ____  _____  _____  __  __  __      __       ___  _____  __  __  ____  _____  _  _  ____  _  _  ____ 
  (_  _)(  _  )(  _  )(  \/  )(  )    /__\     / __)(  _  )(  \/  )(  _ \(  _  )( \( )( ___)( \( )(_  _)
 .-_)(   )(_)(  )(_)(  )    (  )(__  /(__)\   ( (__  )(_)(  )    (  )___/ )(_)(  )  (  )__)  )  (   )(  
@@ -48,105 +48,105 @@ use Joomla\CMS\User\User;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * The app class
-	 *
-	 * @var    CMSApplicationInterface
-	 * @since  5.2.1
-	 */
-	public CMSApplicationInterface $app;
+    /**
+     * The app class
+     *
+     * @var    CMSApplicationInterface
+     * @since  5.2.1
+     */
+    public CMSApplicationInterface $app;
 
-	/**
-	 * The input class
-	 *
-	 * @var    Input
-	 * @since  5.2.1
-	 */
-	public Input $input;
+    /**
+     * The input class
+     *
+     * @var    Input
+     * @since  5.2.1
+     */
+    public Input $input;
 
-	/**
-	 * The params registry
-	 *
-	 * @var    Registry
-	 * @since  5.2.1
-	 */
-	public Registry $params;
+    /**
+     * The params registry
+     *
+     * @var    Registry
+     * @since  5.2.1
+     */
+    public Registry $params;
 
-	/**
-	 * The user object.
-	 *
-	 * @var    User
-	 * @since  3.10.11
-	 */
-	public User $user;
+    /**
+     * The user object.
+     *
+     * @var    User
+     * @since  3.10.11
+     */
+    public User $user;
 
-	/**
-	 * The items from the model
-	 *
-	 * @var    mixed
-	 * @since  3.10.11
-	 */
-	public mixed $items;
+    /**
+     * The items from the model
+     *
+     * @var    mixed
+     * @since  3.10.11
+     */
+    public mixed $items;
 
-	/**
-	 * The toolbar object
-	 *
-	 * @var    Toolbar
-	 * @since  3.10.11
-	 */
-	public Toolbar $toolbar;
+    /**
+     * The toolbar object
+     *
+     * @var    Toolbar
+     * @since  3.10.11
+     */
+    public Toolbar $toolbar;
 
-	/**
-	 * The styles url array
-	 *
-	 * @var    array
-	 * @since  5.0.0
-	 */
-	protected array $styles;
+    /**
+     * The styles url array
+     *
+     * @var    array
+     * @since  5.0.0
+     */
+    protected array $styles;
 
-	/**
-	 * The scripts url array
-	 *
-	 * @var    array
-	 * @since  5.0.0
-	 */
-	protected array $scripts;
+    /**
+     * The scripts url array
+     *
+     * @var    array
+     * @since  5.0.0
+     */
+    protected array $scripts;
 
-	/**
-	 * The actions object
-	 *
-	 * @var    object
-	 * @since  3.10.11
-	 */
-	public object $canDo;
+    /**
+     * The actions object
+     *
+     * @var    object
+     * @since  3.10.11
+     */
+    public object $canDo;
 
-	/**
-	 * Display the view
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  void
-	 * @throws \Exception
-	 * @since  1.6
-	 */
-	public function display($tpl = null): void
-	{
-		// get application
-		$this->app ??= Factory::getApplication();
-		// get input
-		$this->input ??= method_exists($this->app, 'getInput') ? $this->app->getInput() : $this->app->input;
-		// set params
-		$this->params ??= method_exists($this->app, 'getParams')
-			? $this->app->getParams()
-			: ComponentHelper::getParams('com_jtax');
-		$this->menu = $this->app->getMenu()->getActive();
-		// get the user object
-		$this->user ??= $this->getCurrentUser();
+    /**
+     * Display the view
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  void
+     * @throws \Exception
+     * @since  1.6
+     */
+    public function display($tpl = null): void
+    {
+        // get application
+        $this->app ??= Factory::getApplication();
+        // get input
+        $this->input ??= method_exists($this->app, 'getInput') ? $this->app->getInput() : $this->app->input;
+        // set params
+        $this->params ??= method_exists($this->app, 'getParams')
+            ? $this->app->getParams()
+            : ComponentHelper::getParams('com_jtax');
+        $this->menu = $this->app->getMenu()->getActive();
+        // get the user object
+        $this->user ??= $this->getCurrentUser();
 
-		// Load module values
-		$model = $this->getModel();
-		$this->styles = $model->getStyles() ?? [];
-		$this->scripts = $model->getScripts() ?? [];
+        // Load module values
+        $model = $this->getModel();
+        $this->styles = $model->getStyles() ?? [];
+        $this->scripts = $model->getScripts() ?? [];
         // Initialise variables.
         $this->items = $model->getItems();
         $this->pagination = $model->getPagination();
@@ -163,19 +163,19 @@ class HtmlView extends BaseHtmlView
             throw new \Exception(implode(PHP_EOL, $errors), 500);
         }
 
-		parent::display($tpl);
-	}
+        parent::display($tpl);
+    }
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return  void
-	 * @throws  \Exception
-	 * @since   1.6
-	 */
-	protected function addToolbar(): void
-	{
-		
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return  void
+     * @throws  \Exception
+     * @since   1.6
+     */
+    protected function addToolbar(): void
+    {
+        
         // now initiate toolbar if it's not already loaded
         $this->toolbar ??= $this->getDocument()->getToolbar();
         // set help url for this view if found
@@ -184,16 +184,16 @@ class HtmlView extends BaseHtmlView
         {
             $this->toolbar->help('COM_JTAX_HELP_MANAGER', false, $this->help_url);
         }
-	}
+    }
 
-	/**
-	 * Prepare some document related stuff.
-	 *
-	 * @return  void
-	 * @since   1.6
-	 */
-	protected function _prepareDocument(): void
-	{
+    /**
+     * Prepare some document related stuff.
+     *
+     * @return  void
+     * @since   1.6
+     */
+    protected function _prepareDocument(): void
+    {
 
         // Only load jQuery if needed. (default is true)
         if ($this->params->get('add_jquery_framework', 1) == 1)
@@ -218,35 +218,35 @@ class HtmlView extends BaseHtmlView
         {
             $this->getDocument()->setMetadata('robots', $this->params->get('robots'));
         }
-		// add styles
-		foreach ($this->styles as $style)
-		{
-			Html::_('stylesheet', $style, ['version' => 'auto']);
-		}
-		// add scripts
-		foreach ($this->scripts as $script)
-		{
-			Html::_('script', $script, ['version' => 'auto']);
-		}
-	}
+        // add styles
+        foreach ($this->styles as $style)
+        {
+            Html::_('stylesheet', $style, ['version' => 'auto']);
+        }
+        // add scripts
+        foreach ($this->scripts as $script)
+        {
+            Html::_('script', $script, ['version' => 'auto']);
+        }
+    }
 
-	/**
-	 * Escapes a value for output in a view script.
-	 *
-	 * @param   mixed  $var     The output to escape.
-	 * @param   bool   $shorten The switch to shorten.
-	 * @param   int    $length  The shorting length.
-	 *
-	 * @return  mixed  The escaped value.
-	 * @since   1.6
-	 */
-	public function escape($var, bool $shorten = false, int $length = 40)
-	{
-		if (!is_string($var))
-		{
-			return $var;
-		}
+    /**
+     * Escapes a value for output in a view script.
+     *
+     * @param   mixed  $var     The output to escape.
+     * @param   bool   $shorten The switch to shorten.
+     * @param   int    $length  The shorting length.
+     *
+     * @return  mixed  The escaped value.
+     * @since   1.6
+     */
+    public function escape($var, bool $shorten = false, int $length = 40)
+    {
+        if (!is_string($var))
+        {
+            return $var;
+        }
 
-		return StringHelper::html($var, $this->_charset ?? 'UTF-8', $shorten, $length);
-	}
+        return StringHelper::html($var, $this->_charset ?? 'UTF-8', $shorten, $length);
+    }
 }

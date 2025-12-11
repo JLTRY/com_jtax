@@ -1,16 +1,16 @@
 <?php
 /*----------------------------------------------------------------------------------|  www.vdm.io  |----/
-				JL Tryoen 
+                JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-	@version		1.0.7
-	@build			8th December, 2025
-	@created		4th March, 2025
-	@package		JTax
-	@subpackage		YearsModel.php
-	@author			Jean-Luc Tryoen <http://www.jltryoen.fr>	
-	@copyright		Copyright (C) 2015. All Rights Reserved
-	@license		GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html
+    @version		1.0.7
+    @build			8th December, 2025
+    @created		4th March, 2025
+    @package		JTax
+    @subpackage		YearsModel.php
+    @author			Jean-Luc Tryoen <http://www.jltryoen.fr>	
+    @copyright		Copyright (C) 2015. All Rights Reserved
+    @license		GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html
   ____  _____  _____  __  __  __      __       ___  _____  __  __  ____  _____  _  _  ____  _  _  ____ 
  (_  _)(  _  )(  _  )(  \/  )(  )    /__\     / __)(  _  )(  \/  )(  _ \(  _  )( \( )( ___)( \( )(_  _)
 .-_)(   )(_)(  )(_)(  )    (  )(__  /(__)\   ( (__  )(_)(  )    (  )___/ )(_)(  )  (  )__)  )  (   )(  
@@ -46,85 +46,85 @@ use JCB\Joomla\Utilities\StringHelper;
  */
 class YearsModel extends ListModel
 {
-	/**
-	 * The application object.
-	 *
-	 * @var   CMSApplicationInterface  The application instance.
-	 * @since 3.2.0
-	 */
-	protected CMSApplicationInterface $app;
+    /**
+     * The application object.
+     *
+     * @var   CMSApplicationInterface  The application instance.
+     * @since 3.2.0
+     */
+    protected CMSApplicationInterface $app;
 
-	/**
-	 * The styles array.
-	 *
-	 * @var    array
-	 * @since  4.3
-	 */
-	protected array $styles = [
-		'administrator/components/com_jtax/assets/css/admin.css',
-		'administrator/components/com_jtax/assets/css/years.css'
- 	];
+    /**
+     * The styles array.
+     *
+     * @var    array
+     * @since  4.3
+     */
+    protected array $styles = [
+        'administrator/components/com_jtax/assets/css/admin.css',
+        'administrator/components/com_jtax/assets/css/years.css'
+    ];
 
-	/**
-	 * The scripts array.
-	 *
-	 * @var    array
-	 * @since  4.3
-	 */
-	protected array $scripts = [
-		'administrator/components/com_jtax/assets/js/admin.js'
- 	];
+    /**
+     * The scripts array.
+     *
+     * @var    array
+     * @since  4.3
+     */
+    protected array $scripts = [
+        'administrator/components/com_jtax/assets/js/admin.js'
+    ];
 
-	/**
-	 * Constructor
-	 *
-	 * @param   array                 $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
-	 * @param   ?MVCFactoryInterface  $factory  The factory.
-	 *
-	 * @since   1.6
-	 * @throws  \Exception
-	 */
-	public function __construct($config = [], ?MVCFactoryInterface $factory = null)
-	{
-		if (empty($config['filter_fields']))
-		{
-			$config['filter_fields'] = array(
-				'a.id','id',
+    /**
+     * Constructor
+     *
+     * @param   array                 $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     *
+     * @since   1.6
+     * @throws  \Exception
+     */
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
+    {
+        if (empty($config['filter_fields']))
+        {
+            $config['filter_fields'] = array(
+                'a.id','id',
                 'a.published','published',
                 'a.access','access',
                 'a.ordering','ordering',
                 'a.created_by','created_by',
                 'a.modified_by','modified_by',
                 'a.name','name'
-			);
-		}
+            );
+        }
 
-		parent::__construct($config, $factory);
+        parent::__construct($config, $factory);
 
-		$this->app ??= Factory::getApplication();
-	}
+        $this->app ??= Factory::getApplication();
+    }
 
-	/**
-	 * Method to auto-populate the model state.
-	 *
-	 * Note. Calling getState in this method will result in recursion.
-	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
-	 *
-	 * @return  void
-	 * @since   1.7.0
-	 */
-	protected function populateState($ordering = null, $direction = null)
-	{
-		$app = $this->app;
-		$input = $this->app->getInput();
+    /**
+     * Method to auto-populate the model state.
+     *
+     * Note. Calling getState in this method will result in recursion.
+     *
+     * @param   string  $ordering   An optional ordering field.
+     * @param   string  $direction  An optional direction (asc|desc).
+     *
+     * @return  void
+     * @since   1.7.0
+     */
+    protected function populateState($ordering = null, $direction = null)
+    {
+        $app = $this->app;
+        $input = $this->app->getInput();
 
-		// Adjust the context to support modal layouts.
-		if ($layout = $input->get('layout'))
-		{
-			$this->context .= '.' . $layout;
-		}
+        // Adjust the context to support modal layouts.
+        if ($layout = $input->get('layout'))
+        {
+            $this->context .= '.' . $layout;
+        }
 
         // Check if the form was submitted
         $formSubmited = $input->post->get('form_submited');
@@ -158,37 +158,37 @@ class YearsModel extends ListModel
             $this->setState('filter.name', $name);
         }
 
-		// List state information.
-		parent::populateState($ordering, $direction);
-	}
+        // List state information.
+        parent::populateState($ordering, $direction);
+    }
 
-	/**
-	 * Method to get an array of data items.
-	 *
-	 * @return  mixed  An array of data items on success, false on failure.
-	 * @since   1.6
-	 */
-	public function getItems()
-	{
+    /**
+     * Method to get an array of data items.
+     *
+     * @return  mixed  An array of data items on success, false on failure.
+     * @since   1.6
+     */
+    public function getItems()
+    {
         // Check in items
         $this->checkInNow();
 
-		// load parent items
-		$items = parent::getItems();
+        // load parent items
+        $items = parent::getItems();
 
-		// return items
-		return $items;
-	}
+        // return items
+        return $items;
+    }
 
-	/**
-	 * Method to build an SQL query to load the list data.
-	 *
-	 * @return  string    An SQL query
-	 * @since   1.6
-	 */
-	protected function getListQuery()
-	{
-		// Get the user object.
+    /**
+     * Method to build an SQL query to load the list data.
+     *
+     * @return  string    An SQL query
+     * @since   1.6
+     */
+    protected function getListQuery()
+    {
+        // Get the user object.
         $user = $this->getCurrentUser();
         // Create a new query object.
         $db = $this->getDatabase();
@@ -260,7 +260,7 @@ class YearsModel extends ListModel
         }
 
         return $query;
-	}
+    }
 
     /**
      * Method to get list export data.
@@ -349,42 +349,42 @@ class YearsModel extends ListModel
         return false;
     }
 
-	/**
-	* Method to get header.
-	*
-	* @return mixed  An array of data items on success, false on failure.
-	*/
-	public function getExImPortHeaders()
-	{
-		// Get a db connection.
-		$db = Factory::getDbo();
-		// get the columns
-		$columns = $db->getTableColumns("#__jtax_year");
-		if (UtilitiesArrayHelper::check($columns))
-		{
-			// remove the headers you don't import/export.
-			unset($columns['asset_id']);
-			unset($columns['checked_out']);
-			unset($columns['checked_out_time']);
-			$headers = new \stdClass();
-			foreach ($columns as $column => $type)
-			{
-				$headers->{$column} = $column;
-			}
-			return $headers;
-		}
-		return false;
-	}
+    /**
+    * Method to get header.
+    *
+    * @return mixed  An array of data items on success, false on failure.
+    */
+    public function getExImPortHeaders()
+    {
+        // Get a db connection.
+        $db = Factory::getDbo();
+        // get the columns
+        $columns = $db->getTableColumns("#__jtax_year");
+        if (UtilitiesArrayHelper::check($columns))
+        {
+            // remove the headers you don't import/export.
+            unset($columns['asset_id']);
+            unset($columns['checked_out']);
+            unset($columns['checked_out_time']);
+            $headers = new \stdClass();
+            foreach ($columns as $column => $type)
+            {
+                $headers->{$column} = $column;
+            }
+            return $headers;
+        }
+        return false;
+    }
 
-	/**
-	 * Method to get a store id based on model configuration state.
-	 *
-	 * @return  string  A store id.
-	 * @since   1.6
-	 */
-	protected function getStoreId($id = '')
-	{
-		// Compile the store id.
+    /**
+     * Method to get a store id based on model configuration state.
+     *
+     * @return  string  A store id.
+     * @since   1.6
+     */
+    protected function getStoreId($id = '')
+    {
+        // Compile the store id.
         $id .= ':' . $this->getState('filter.id');
         $id .= ':' . $this->getState('filter.search');
         $id .= ':' . $this->getState('filter.published');
@@ -405,52 +405,52 @@ class YearsModel extends ListModel
         $id .= ':' . $this->getState('filter.modified_by');
         $id .= ':' . $this->getState('filter.name');
 
-		return parent::getStoreId($id);
-	}
+        return parent::getStoreId($id);
+    }
 
-	/**
-	 * Method to get the styles that have to be included on the view
-	 *
-	 * @return  array    styles files
-	 * @since   4.3
-	 */
-	public function getStyles(): array
-	{
-		return $this->styles;
-	}
+    /**
+     * Method to get the styles that have to be included on the view
+     *
+     * @return  array    styles files
+     * @since   4.3
+     */
+    public function getStyles(): array
+    {
+        return $this->styles;
+    }
 
-	/**
-	 * Method to set the styles that have to be included on the view
-	 *
-	 * @return  void
-	 * @since   4.3
-	 */
-	public function setStyles(string $path): void
-	{
-		$this->styles[] = $path;
-	}
+    /**
+     * Method to set the styles that have to be included on the view
+     *
+     * @return  void
+     * @since   4.3
+     */
+    public function setStyles(string $path): void
+    {
+        $this->styles[] = $path;
+    }
 
-	/**
-	 * Method to get the script that have to be included on the view
-	 *
-	 * @return  array    script files
-	 * @since   4.3
-	 */
-	public function getScripts(): array
-	{
-		return $this->scripts;
-	}
+    /**
+     * Method to get the script that have to be included on the view
+     *
+     * @return  array    script files
+     * @since   4.3
+     */
+    public function getScripts(): array
+    {
+        return $this->scripts;
+    }
 
-	/**
-	 * Method to set the script that have to be included on the view
-	 *
-	 * @return  void
-	 * @since   4.3
-	 */
-	public function setScript(string $path): void
-	{
-		$this->scripts[] = $path;
-	}
+    /**
+     * Method to set the script that have to be included on the view
+     *
+     * @return  void
+     * @since   4.3
+     */
+    public function setScript(string $path): void
+    {
+        $this->scripts[] = $path;
+    }
 
     /**
      * Build an SQL query to check in all items left checked out longer then a set time.

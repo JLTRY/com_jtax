@@ -3,8 +3,8 @@
 				JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-	@version		1.0.5
-	@build			6th December, 2025
+	@version		1.0.7
+	@build			10th December, 2025
 	@created		4th March, 2025
 	@package		JTax
 	@subpackage		JtaxInstallerScript.php
@@ -323,7 +323,7 @@ class Com_JtaxInstallerScript implements InstallerScriptInterface
 
 
             // Fix the assets table rules column size.
-            $this->setDatabaseAssetsRulesFix(5120, "TEXT");
+            $this->setDatabaseAssetsRulesFix(5280, "TEXT");
             // Install the global extension params.
             $this->setExtensionsParams(
                 '{"autorName":"Jean-Luc Tryoen","autorEmail":"jltryoen@orange.fr","check_in":"-1 day","save_history":"1","history_limit":"10"}'
@@ -414,7 +414,7 @@ class Com_JtaxInstallerScript implements InstallerScriptInterface
             echo '<div style="background-color: #fff;" class="alert alert-info"><a target="_blank" href="http://www.jltryoen.fr" title="JTax">
                 <img src="components/com_jtax/assets/images/vdm-component.jpg"/>
                 </a>
-                <h3>Upgrade to Version 1.0.5 Was Successful! Let us know if anything is not working as expected.</h3></div>';
+                <h3>Upgrade to Version 1.0.7 Was Successful! Let us know if anything is not working as expected.</h3></div>';
 
             // Add/Update component in the action logs extensions table.
             $this->setActionLogsExtensions();

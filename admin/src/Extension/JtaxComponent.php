@@ -1,16 +1,16 @@
 <?php
 /*----------------------------------------------------------------------------------|  www.vdm.io  |----/
-				JL Tryoen 
+                JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-	@version		1.0.7
-	@build			8th December, 2025
-	@created		4th March, 2025
-	@package		JTax
-	@subpackage		JtaxComponent.php
-	@author			Jean-Luc Tryoen <http://www.jltryoen.fr>	
-	@copyright		Copyright (C) 2015. All Rights Reserved
-	@license		GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html
+    @version		1.0.7
+    @build			8th December, 2025
+    @created		4th March, 2025
+    @package		JTax
+    @subpackage		JtaxComponent.php
+    @author			Jean-Luc Tryoen <http://www.jltryoen.fr>	
+    @copyright		Copyright (C) 2015. All Rights Reserved
+    @license		GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html
   ____  _____  _____  __  __  __      __       ___  _____  __  __  ____  _____  _  _  ____  _  _  ____ 
  (_  _)(  _  )(  _  )(  \/  )(  )    /__\     / __)(  _  )(  \/  )(  _ \(  _  )( \( )( ___)( \( )(_  _)
 .-_)(   )(_)(  )(_)(  )    (  )(__  /(__)\   ( (__  )(_)(  )    (  )___/ )(_)(  )  (  )__)  )  (   )(  
@@ -47,38 +47,38 @@ use Psr\Container\ContainerInterface;
  * @since  4.0
  */
 class JtaxComponent extends MVCComponent implements
-	BootableExtensionInterface,
-	CategoryServiceInterface,
-	RouterServiceInterface
+    BootableExtensionInterface,
+    CategoryServiceInterface,
+    RouterServiceInterface
 {
-	use AssociationServiceTrait;
-	use HTMLRegistryAwareTrait;
-	use RouterServiceTrait;
-	use CategoryServiceTrait, TagServiceTrait {
-		CategoryServiceTrait::getTableNameForSection insteadof TagServiceTrait;
-		CategoryServiceTrait::getStateColumnForSection insteadof TagServiceTrait;
-	}
+    use AssociationServiceTrait;
+    use HTMLRegistryAwareTrait;
+    use RouterServiceTrait;
+    use CategoryServiceTrait, TagServiceTrait {
+        CategoryServiceTrait::getTableNameForSection insteadof TagServiceTrait;
+        CategoryServiceTrait::getStateColumnForSection insteadof TagServiceTrait;
+    }
 
-	/**
-	 * Booting the extension. This is the function to set up the environment of the extension like
-	 * registering new class loaders, etc.
-	 *
-	 * If required, some initial set up can be done from services of the container, eg.
-	 * registering HTML services.
-	 *
-	 * @param   ContainerInterface  $container  The container
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function boot(ContainerInterface $container)
-	{
-		// (soon) $this->getRegistry()->register('jtaxadministrator', new AdministratorService());
-	}
+    /**
+     * Booting the extension. This is the function to set up the environment of the extension like
+     * registering new class loaders, etc.
+     *
+     * If required, some initial set up can be done from services of the container, eg.
+     * registering HTML services.
+     *
+     * @param   ContainerInterface  $container  The container
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function boot(ContainerInterface $container)
+    {
+        // (soon) $this->getRegistry()->register('jtaxadministrator', new AdministratorService());
+    }
 
-	// will fix these soon
-	protected function getTableNameForSection(?string $section = null){}
-	public function countItems(array $items, ?string $section){}
+    // will fix these soon
+    protected function getTableNameForSection(?string $section = null){}
+    public function countItems(array $items, ?string $section){}
 
 }

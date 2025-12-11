@@ -1,16 +1,16 @@
 <?php
 /*----------------------------------------------------------------------------------|  www.vdm.io  |----/
-				JL Tryoen 
+                JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-	@version		1.0.7
-	@build			8th December, 2025
-	@created		4th March, 2025
-	@package		JTax
-	@subpackage		default_vdm.php
-	@author			Jean-Luc Tryoen <http://www.jltryoen.fr>	
-	@copyright		Copyright (C) 2015. All Rights Reserved
-	@license		GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html
+    @version		1.0.7
+    @build			8th December, 2025
+    @created		4th March, 2025
+    @package		JTax
+    @subpackage		default_vdm.php
+    @author			Jean-Luc Tryoen <http://www.jltryoen.fr>	
+    @copyright		Copyright (C) 2015. All Rights Reserved
+    @license		GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html
   ____  _____  _____  __  __  __      __       ___  _____  __  __  ____  _____  _  _  ____  _  _  ____ 
  (_  _)(  _  )(  _  )(  \/  )(  )    /__\     / __)(  _  )(  \/  )(  _ \(  _  )( \( )( ___)( \( )(_  _)
 .-_)(   )(_)(  )(_)(  )    (  )(__  /(__)\   ( (__  )(_)(  )    (  )___/ )(_)(  )  (  )__)  )  (   )(  
@@ -27,24 +27,24 @@ defined('_JEXEC') or die;
 ?>
 <img alt="<?php echo Text::_('COM_JTAX'); ?>" width="100%"  src="components/com_jtax/assets/images/vdm-component.jpg">
 <ul class="list-striped">
-	<li><b><?php echo Text::_('COM_JTAX_VERSION'); ?>:</b> <?php echo $this->manifest->version; ?>&nbsp;&nbsp;<span class="update-notice" id="component-update-notice"></span></li>
-	<li><b><?php echo Text::_('COM_JTAX_DATE'); ?>:</b> <?php echo $this->manifest->creationDate; ?></li>
-	<li><b><?php echo Text::_('COM_JTAX_AUTHOR'); ?>:</b> <a href="mailto:<?php echo $this->manifest->authorEmail; ?>"><?php echo $this->manifest->author; ?></a></li>
-	<li><b><?php echo Text::_('COM_JTAX_WEBSITE'); ?>:</b> <a href="<?php echo $this->manifest->authorUrl; ?>" target="_blank"><?php echo $this->manifest->authorUrl; ?></a></li>
-	<li><b><?php echo Text::_('COM_JTAX_LICENSE'); ?>:</b> <?php echo $this->manifest->license; ?></li>
-	<li><b><?php echo $this->manifest->copyright; ?></b></li>
+    <li><b><?php echo Text::_('COM_JTAX_VERSION'); ?>:</b> <?php echo $this->manifest->version; ?>&nbsp;&nbsp;<span class="update-notice" id="component-update-notice"></span></li>
+    <li><b><?php echo Text::_('COM_JTAX_DATE'); ?>:</b> <?php echo $this->manifest->creationDate; ?></li>
+    <li><b><?php echo Text::_('COM_JTAX_AUTHOR'); ?>:</b> <a href="mailto:<?php echo $this->manifest->authorEmail; ?>"><?php echo $this->manifest->author; ?></a></li>
+    <li><b><?php echo Text::_('COM_JTAX_WEBSITE'); ?>:</b> <a href="<?php echo $this->manifest->authorUrl; ?>" target="_blank"><?php echo $this->manifest->authorUrl; ?></a></li>
+    <li><b><?php echo Text::_('COM_JTAX_LICENSE'); ?>:</b> <?php echo $this->manifest->license; ?></li>
+    <li><b><?php echo $this->manifest->copyright; ?></b></li>
 </ul>
 <div class="clearfix"></div>
 <?php if(ArrayHelper::check($this->contributors)): ?>
-	<?php if(count($this->contributors) > 1): ?>
-		<h3><?php echo Text::_('COM_JTAX_CONTRIBUTORS'); ?></h3>
-	<?php else: ?>
-		<h3><?php echo Text::_('COM_JTAX_CONTRIBUTOR'); ?></h3>
-	<?php endif; ?>
-	<ul class="list-striped">
-		<?php foreach($this->contributors as $contributor): ?>
-		<li><b><?php echo $contributor['title']; ?>:</b> <?php echo $contributor['name']; ?></li>
-		<?php endforeach; ?>
-	</ul>
-	<div class="clearfix"></div>
+    <?php if(count($this->contributors) > 1): ?>
+        <h3><?php echo Text::_('COM_JTAX_CONTRIBUTORS'); ?></h3>
+    <?php else: ?>
+        <h3><?php echo Text::_('COM_JTAX_CONTRIBUTOR'); ?></h3>
+    <?php endif; ?>
+    <ul class="list-striped">
+        <?php foreach($this->contributors as $contributor): ?>
+        <li><b><?php echo $contributor['title']; ?>:</b> <?php echo $contributor['name']; ?></li>
+        <?php endforeach; ?>
+    </ul>
+    <div class="clearfix"></div>
 <?php endif; ?>

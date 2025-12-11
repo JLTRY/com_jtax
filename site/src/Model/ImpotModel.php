@@ -1,16 +1,16 @@
 <?php
 /*----------------------------------------------------------------------------------|  www.vdm.io  |----/
-				JL Tryoen 
+                JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-	@version		1.0.7
-	@build			8th December, 2025
-	@created		4th March, 2025
-	@package		JTax
-	@subpackage		ImpotModel.php
-	@author			Jean-Luc Tryoen <http://www.jltryoen.fr>	
-	@copyright		Copyright (C) 2015. All Rights Reserved
-	@license		GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html
+    @version		1.0.7
+    @build			8th December, 2025
+    @created		4th March, 2025
+    @package		JTax
+    @subpackage		ImpotModel.php
+    @author			Jean-Luc Tryoen <http://www.jltryoen.fr>	
+    @copyright		Copyright (C) 2015. All Rights Reserved
+    @license		GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html
   ____  _____  _____  __  __  __      __       ___  _____  __  __  ____  _____  _  _  ____  _  _  ____ 
  (_  _)(  _  )(  _  )(  \/  )(  )    /__\     / __)(  _  )(  \/  )(  _ \(  _  )( \( )( ___)( \( )(_  _)
 .-_)(   )(_)(  )(_)(  )    (  )(__  /(__)\   ( (__  )(_)(  )    (  )___/ )(_)(  )  (  )__)  )  (   )(  
@@ -50,14 +50,14 @@ use JCB\Joomla\Utilities\ArrayHelper as UtilitiesArrayHelper;
  */
 class ImpotModel extends AdminModel
 {
-	use VersionableModelTrait;
+    use VersionableModelTrait;
 
-	/**
-	 * The tab layout fields array.
-	 *
-	 * @var      array
-	 */
-	protected $tabLayoutFields = array(
+    /**
+     * The tab layout fields array.
+     *
+     * @var      array
+     */
+    protected $tabLayoutFields = array(
         'details' => array(
             'left' => array(
                 'name',
@@ -72,108 +72,108 @@ class ImpotModel extends AdminModel
         )
     );
 
-	/**
-	 * The styles array.
-	 *
-	 * @var    array
-	 * @since  4.3
-	 */
-	protected array $styles = [
-		'components/com_jtax/assets/css/site.css',
-		'components/com_jtax/assets/css/impot.css'
- 	];
+    /**
+     * The styles array.
+     *
+     * @var    array
+     * @since  4.3
+     */
+    protected array $styles = [
+        'components/com_jtax/assets/css/site.css',
+        'components/com_jtax/assets/css/impot.css'
+    ];
 
-	/**
-	 * The scripts array.
-	 *
-	 * @var    array
-	 * @since  4.3
-	 */
-	protected array $scripts = [
-		'components/com_jtax/assets/js/site.js',
-		'media/com_jtax/js/impot.js'
- 	];
+    /**
+     * The scripts array.
+     *
+     * @var    array
+     * @since  4.3
+     */
+    protected array $scripts = [
+        'components/com_jtax/assets/js/site.js',
+        'media/com_jtax/js/impot.js'
+    ];
 
-	/**
-	 * @var        string    The prefix to use with controller messages.
-	 * @since   1.6
-	 */
-	protected $text_prefix = 'COM_JTAX';
+    /**
+     * @var        string    The prefix to use with controller messages.
+     * @since   1.6
+     */
+    protected $text_prefix = 'COM_JTAX';
 
-	/**
-	 * The type alias for this content type.
-	 *
-	 * @var      string
-	 * @since    3.2
-	 */
-	public $typeAlias = 'com_jtax.impot';
+    /**
+     * The type alias for this content type.
+     *
+     * @var      string
+     * @since    3.2
+     */
+    public $typeAlias = 'com_jtax.impot';
 
-	/**
-	 * Returns a Table object, always creating it
-	 *
-	 * @param   type    $type    The table type to instantiate
-	 * @param   string  $prefix  A prefix for the table class name. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
-	 *
-	 * @return  Table  A database object
-	 *
-	 * @since   3.0
-	 * @throws  \Exception
-	 */
-	public function getTable($type = 'impot', $prefix = 'Administrator', $config = [])
-	{
-		// get instance of the table
-		return parent::getTable($type, $prefix, $config);
-	}
+    /**
+     * Returns a Table object, always creating it
+     *
+     * @param   type    $type    The table type to instantiate
+     * @param   string  $prefix  A prefix for the table class name. Optional.
+     * @param   array   $config  Configuration array for model. Optional.
+     *
+     * @return  Table  A database object
+     *
+     * @since   3.0
+     * @throws  \Exception
+     */
+    public function getTable($type = 'impot', $prefix = 'Administrator', $config = [])
+    {
+        // get instance of the table
+        return parent::getTable($type, $prefix, $config);
+    }
 
-	/**
-	 * Method to get a single record.
-	 *
-	 * @param   integer  $pk  The id of the primary key.
-	 *
-	 * @return  mixed  Object on success, false on failure.
-	 *
-	 * @since   1.6
-	 */
-	public function getItem($pk = null)
-	{
-		if ($item = parent::getItem($pk))
-		{
-			if (property_exists($item, 'metadata') && !is_array($item->metadata))
-			{
-				// Convert the metadata field to an array.
-				$metadata       = new Registry($item->metadata);
-				$item->metadata = $metadata->toArray();
-			}
+    /**
+     * Method to get a single record.
+     *
+     * @param   integer  $pk  The id of the primary key.
+     *
+     * @return  mixed  Object on success, false on failure.
+     *
+     * @since   1.6
+     */
+    public function getItem($pk = null)
+    {
+        if ($item = parent::getItem($pk))
+        {
+            if (property_exists($item, 'metadata') && !is_array($item->metadata))
+            {
+                // Convert the metadata field to an array.
+                $metadata       = new Registry($item->metadata);
+                $item->metadata = $metadata->toArray();
+            }
 
-			// check edit access permissions
-			if (!empty($item->id) && !$this->allowEdit((array) $item))
-			{
- 				$app = Factory::getApplication();
-  				$app->enqueueMessage(Text::_('Not authorised!'), 'error');
-				$app->redirect('index.php?option=com_jtax&view=');
-				return false;
-			}
-		}
+            // check edit access permissions
+            if (!empty($item->id) && !$this->allowEdit((array) $item))
+            {
+                $app = Factory::getApplication();
+                $app->enqueueMessage(Text::_('Not authorised!'), 'error');
+                $app->redirect('index.php?option=com_jtax&view=impots');
+                return false;
+            }
+        }
 
-		return $item;
-	}
+        return $item;
+    }
 
-	/**
-	 * Method to get the record form.
-	 *
-	 * @param   array    $data      Data for the form.
-	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
-	 * @param   array    $options   Optional array of options for the form creation.
-	 *
-	 * @return  mixed  A JForm object on success, false on failure
-	 *
-	 * @since   1.6
-	 */
-	public function getForm($data = [], $loadData = true, $options = array('control' => 'jform'))
-	{
-		// set load data option
-		$options['load_data'] = $loadData;
+    /**
+     * Method to get the record form.
+     *
+     * @param   array    $data      Data for the form.
+     * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+     * @param   array    $options   Optional array of options for the form creation.
+     *
+     * @return  mixed  A JForm object on success, false on failure
+     *
+     * @since   1.6
+     */
+    public function getForm($data = [], $loadData = true, $options = array('control' => 'jform'))
+    {
+        // set load data option
+        $options['load_data'] = $loadData;
         // check if xpath was set in options
         $xpath = false;
         if (isset($options['xpath']))
@@ -286,62 +286,62 @@ $language = Factory::getLanguage();
 $language->load('joomla', JPATH_ADMINISTRATOR);/***[/JCBGUI$$$$]***/
 
         return $form;
-	}
+    }
 
-	/**
-	 * Method to get the styles that have to be included on the view
-	 *
-	 * @return  array    styles files
-	 * @since   4.3
-	 */
-	public function getStyles(): array
-	{
-		return $this->styles;
-	}
+    /**
+     * Method to get the styles that have to be included on the view
+     *
+     * @return  array    styles files
+     * @since   4.3
+     */
+    public function getStyles(): array
+    {
+        return $this->styles;
+    }
 
-	/**
-	 * Method to set the styles that have to be included on the view
-	 *
-	 * @return  void
-	 * @since   4.3
-	 */
-	public function setStyles(string $path): void
-	{
-		$this->styles[] = $path;
-	}
+    /**
+     * Method to set the styles that have to be included on the view
+     *
+     * @return  void
+     * @since   4.3
+     */
+    public function setStyles(string $path): void
+    {
+        $this->styles[] = $path;
+    }
 
-	/**
-	 * Method to get the script that have to be included on the view
-	 *
-	 * @return  array    script files
-	 * @since   4.3
-	 */
-	public function getScripts(): array
-	{
-		return $this->scripts;
-	}
+    /**
+     * Method to get the script that have to be included on the view
+     *
+     * @return  array    script files
+     * @since   4.3
+     */
+    public function getScripts(): array
+    {
+        return $this->scripts;
+    }
 
-	/**
-	 * Method to set the script that have to be included on the view
-	 *
-	 * @return  void
-	 * @since   4.3
-	 */
-	public function setScript(string $path): void
-	{
-		$this->scripts[] = $path;
-	}
+    /**
+     * Method to set the script that have to be included on the view
+     *
+     * @return  void
+     * @since   4.3
+     */
+    public function setScript(string $path): void
+    {
+        $this->scripts[] = $path;
+    }
 
-	/**
-	 * Method to test whether a record can be deleted.
-	 *
-	 * @param   object  $record  A record object.
-	 *
-	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
-	 * @since   1.6
-	 */
-	protected function canDelete($record)
-	{
+    /**
+     * Method to test whether a record can be deleted.
+     *
+     * @param   object  $record  A record object.
+     *
+     * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
+     * @since   1.6
+     */
+    protected function canDelete($record)
+    {
         if (empty($record->id) || ($record->published != -2))
         {
             return false;
@@ -349,18 +349,18 @@ $language->load('joomla', JPATH_ADMINISTRATOR);/***[/JCBGUI$$$$]***/
 
         // The record has been set. Check the record permissions.
         return $this->getCurrentUser()->authorise('core.delete', 'com_jtax.impot.' . (int) $record->id);
-	}
+    }
 
-	/**
-	 * Method to test whether a record can have its state edited.
-	 *
-	 * @param   object  $record  A record object.
-	 *
-	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
-	 * @since   1.6
-	 */
-	protected function canEditState($record)
-	{
+    /**
+     * Method to test whether a record can have its state edited.
+     *
+     * @param   object  $record  A record object.
+     *
+     * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
+     * @since   1.6
+     */
+    protected function canEditState($record)
+    {
         $user = $this->getCurrentUser();
         $recordId = $record->id ?? 0;
 
@@ -375,21 +375,21 @@ $language->load('joomla', JPATH_ADMINISTRATOR);/***[/JCBGUI$$$$]***/
         }
         // In the absence of better information, revert to the component permissions.
         return parent::canEditState($record);
-	}
+    }
 
-	/**
-	 * Method to check if you can edit an existing record.
-	 *   We know this is a double access check (Controller already does an allowEdit check)
-	 *   But when the item is directly accessed the controller is skipped (2025_).
-	 *
-	 * @param   array    $data   An array of input data.
-	 * @param   string   $key    The name of the key for the primary key.
-	 *
-	 * @return   boolean True if allowed to edit the record. Defaults to the permission set in the component.
-	 * @since    2.5
-	 */
-	protected function allowEdit(array $data = [], string $key = 'id'): bool
-	{
+    /**
+     * Method to check if you can edit an existing record.
+     *   We know this is a double access check (Controller already does an allowEdit check)
+     *   But when the item is directly accessed the controller is skipped (2025_).
+     *
+     * @param   array    $data   An array of input data.
+     * @param   string   $key    The name of the key for the primary key.
+     *
+     * @return   boolean True if allowed to edit the record. Defaults to the permission set in the component.
+     * @since    2.5
+     */
+    protected function allowEdit(array $data = [], string $key = 'id'): bool
+    {
         // get user object.
         $user = $this->getCurrentUser();
         // get record id.
@@ -425,88 +425,88 @@ $language->load('joomla', JPATH_ADMINISTRATOR);/***[/JCBGUI$$$$]***/
         }
         // Since there is no permission given, core edit must be checked.
         return $user->authorise('core.edit', $this->option);
-	}
+    }
 
-	/**
-	 * Prepare and sanitise the table data prior to saving.
-	 *
-	 * @param   Table  $table  A Table object.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	protected function prepareTable($table)
-	{
-		$date = Factory::getDate();
-		$user = $this->getCurrentUser();
+    /**
+     * Prepare and sanitise the table data prior to saving.
+     *
+     * @param   Table  $table  A Table object.
+     *
+     * @return  void
+     *
+     * @since   1.6
+     */
+    protected function prepareTable($table)
+    {
+        $date = Factory::getDate();
+        $user = $this->getCurrentUser();
 
-		if (isset($table->name))
-		{
-			$table->name = htmlspecialchars_decode($table->name, ENT_QUOTES);
-		}
+        if (isset($table->name))
+        {
+            $table->name = htmlspecialchars_decode($table->name, ENT_QUOTES);
+        }
 
-		if (isset($table->alias) && empty($table->alias))
-		{
-			$table->generateAlias();
-		}
+        if (isset($table->alias) && empty($table->alias))
+        {
+            $table->generateAlias();
+        }
 
-		if (empty($table->id))
-		{
-			$table->created = $date->toSql();
-			// set the user
-			if ($table->created_by == 0 || empty($table->created_by))
-			{
-				$table->created_by = $user->id;
-			}
-			// Set ordering to the last item if not set
-			if (empty($table->ordering))
-			{
-				$db = $this->getDatabase();
-				$query = $db->getQuery(true)
-					->select('MAX(ordering)')
-					->from($db->quoteName('#__jtax_impot'));
-				$db->setQuery($query);
-				$max = $db->loadResult();
+        if (empty($table->id))
+        {
+            $table->created = $date->toSql();
+            // set the user
+            if ($table->created_by == 0 || empty($table->created_by))
+            {
+                $table->created_by = $user->id;
+            }
+            // Set ordering to the last item if not set
+            if (empty($table->ordering))
+            {
+                $db = $this->getDatabase();
+                $query = $db->getQuery(true)
+                    ->select('MAX(ordering)')
+                    ->from($db->quoteName('#__jtax_impot'));
+                $db->setQuery($query);
+                $max = $db->loadResult();
 
-				$table->ordering = $max + 1;
-			}
-		}
-		else
-		{
-			$table->modified = $date->toSql();
-			$table->modified_by = $user->id;
-		}
+                $table->ordering = $max + 1;
+            }
+        }
+        else
+        {
+            $table->modified = $date->toSql();
+            $table->modified_by = $user->id;
+        }
 
-		if (!empty($table->id))
-		{
-			// Increment the items version number.
-			$table->version++;
-		}
-	}
+        if (!empty($table->id))
+        {
+            // Increment the items version number.
+            $table->version++;
+        }
+    }
 
-	/**
-	 * Method to get the data that should be injected in the form.
-	 *
-	 * @return  mixed  The data for the form.
-	 *
-	 * @since   1.6
-	 */
-	protected function loadFormData()
-	{
-		// Check the session for previously entered form data.
-		$data = Factory::getApplication()->getUserState('com_jtax.edit.impot.data', []);
+    /**
+     * Method to get the data that should be injected in the form.
+     *
+     * @return  mixed  The data for the form.
+     *
+     * @since   1.6
+     */
+    protected function loadFormData()
+    {
+        // Check the session for previously entered form data.
+        $data = Factory::getApplication()->getUserState('com_jtax.edit.impot.data', []);
 
-		if (empty($data))
-		{
-			$data = $this->getItem();
-		}
+        if (empty($data))
+        {
+            $data = $this->getItem();
+        }
 
-		// run the perprocess of the data
-		$this->preprocessData('com_jtax.impot', $data);
+        // run the perprocess of the data
+        $this->preprocessData('com_jtax.impot', $data);
 
-		return $data;
-	}
+        return $data;
+    }
 
     /**
      * Method to get the unique fields of this table.
@@ -520,77 +520,77 @@ $language->load('joomla', JPATH_ADMINISTRATOR);/***[/JCBGUI$$$$]***/
         return false;
     }
 
-	/**
-	 * Method to delete one or more records.
-	 *
-	 * @param   array  &$pks  An array of record primary keys.
-	 *
-	 * @return  boolean  True if successful, false if an error occurs.
-	 *
-	 * @since   12.2
-	 */
-	public function delete(&$pks)
-	{
-		if (!parent::delete($pks))
-		{
-			return false;
-		}
+    /**
+     * Method to delete one or more records.
+     *
+     * @param   array  &$pks  An array of record primary keys.
+     *
+     * @return  boolean  True if successful, false if an error occurs.
+     *
+     * @since   12.2
+     */
+    public function delete(&$pks)
+    {
+        if (!parent::delete($pks))
+        {
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * Method to change the published state of one or more records.
-	 *
-	 * @param   array    &$pks   A list of the primary keys to change.
-	 * @param   integer  $value  The value of the published state.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   12.2
-	 */
-	public function publish(&$pks, $value = 1)
-	{
-		if (!parent::publish($pks, $value))
-		{
-			return false;
-		}
+    /**
+     * Method to change the published state of one or more records.
+     *
+     * @param   array    &$pks   A list of the primary keys to change.
+     * @param   integer  $value  The value of the published state.
+     *
+     * @return  boolean  True on success.
+     *
+     * @since   12.2
+     */
+    public function publish(&$pks, $value = 1)
+    {
+        if (!parent::publish($pks, $value))
+        {
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * Method to save the form data.
-	 *
-	 * @param   array  $data  The form data.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   1.6
-	 */
-	public function save($data)
-	{
-		$app = Factory::getApplication();
-		$input = method_exists($app, 'getInput') ? $app->getInput() : $app->input;
-		$filter = InputFilter::getInstance();
+    /**
+     * Method to save the form data.
+     *
+     * @param   array  $data  The form data.
+     *
+     * @return  boolean  True on success.
+     *
+     * @since   1.6
+     */
+    public function save($data)
+    {
+        $app = Factory::getApplication();
+        $input = method_exists($app, 'getInput') ? $app->getInput() : $app->input;
+        $filter = InputFilter::getInstance();
 
-		// set the metadata to the Item Data
-		if (isset($data['metadata']) && isset($data['metadata']['author']))
-		{
-			$data['metadata']['author'] = $filter->clean($data['metadata']['author'], 'TRIM');
+        // set the metadata to the Item Data
+        if (isset($data['metadata']) && isset($data['metadata']['author']))
+        {
+            $data['metadata']['author'] = $filter->clean($data['metadata']['author'], 'TRIM');
 
-			$metadata = new Registry;
-			$metadata->loadArray($data['metadata']);
-			$data['metadata'] = (string) $metadata;
-		}
+            $metadata = new Registry;
+            $metadata->loadArray($data['metadata']);
+            $data['metadata'] = (string) $metadata;
+        }
 
-		// Set the Params Items to data
-		if (isset($data['params']) && is_array($data['params']))
-		{
-			$params = new Registry;
-			$params->loadArray($data['params']);
-			$data['params'] = (string) $params;
-		}
+        // Set the Params Items to data
+        if (isset($data['params']) && is_array($data['params']))
+        {
+            $params = new Registry;
+            $params->loadArray($data['params']);
+            $data['params'] = (string) $params;
+        }
 
         // Alter the unique field for save as copy
         if ($input->get('task') === 'save2copy')
@@ -606,35 +606,35 @@ $language->load('joomla', JPATH_ADMINISTRATOR);/***[/JCBGUI$$$$]***/
             }
         }
 
-		if (parent::save($data))
-		{
-			return true;
-		}
-		return false;
-	}
+        if (parent::save($data))
+        {
+            return true;
+        }
+        return false;
+    }
 
-	/**
-	 * Method to generate a unique value.
-	 *
-	 * @param   string  $field name.
-	 * @param   string  $value data.
-	 *
-	 * @return  string  New value.
-	 *
-	 * @since   3.0
-	 */
-	protected function generateUnique($field, $value)
-	{
-		// set field value unique
-		$table = $this->getTable();
+    /**
+     * Method to generate a unique value.
+     *
+     * @param   string  $field name.
+     * @param   string  $value data.
+     *
+     * @return  string  New value.
+     *
+     * @since   3.0
+     */
+    protected function generateUnique($field, $value)
+    {
+        // set field value unique
+        $table = $this->getTable();
 
-		while ($table->load(array($field => $value)))
-		{
-			$value = StringHelper::increment($value);
-		}
+        while ($table->load(array($field => $value)))
+        {
+            $value = StringHelper::increment($value);
+        }
 
-		return $value;
-	}
+        return $value;
+    }
 
     /**
      * Method to change the title

@@ -28,13 +28,13 @@ final class Table extends BaseTable implements TableInterface
 {
 
 /***[JCBGUI.power.main_class_code.11.$$$$]***/
-	/**
-	 * All areas/views/tables with their field details
-	 *
-	 * @var     array
-	 * @since 3.2.0
-	 **/
-	protected array $tables = [
+    /**
+     * All areas/views/tables with their field details
+     *
+     * @var     array
+     * @since 3.2.0
+     **/
+    protected array $tables = [
         'impot' => [
             'name' => [
                 'name' => 'name',

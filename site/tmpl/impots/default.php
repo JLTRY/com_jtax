@@ -1,16 +1,16 @@
 <?php
 /*----------------------------------------------------------------------------------|  www.vdm.io  |----/
-				JL Tryoen 
+                JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-	@version		1.0.7
-	@build			8th December, 2025
-	@created		4th March, 2025
-	@package		JTax
-	@subpackage		default.php
-	@author			Jean-Luc Tryoen <http://www.jltryoen.fr>	
-	@copyright		Copyright (C) 2015. All Rights Reserved
-	@license		GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html
+    @version		1.0.7
+    @build			8th December, 2025
+    @created		4th March, 2025
+    @package		JTax
+    @subpackage		default.php
+    @author			Jean-Luc Tryoen <http://www.jltryoen.fr>	
+    @copyright		Copyright (C) 2015. All Rights Reserved
+    @license		GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html
   ____  _____  _____  __  __  __      __       ___  _____  __  __  ____  _____  _  _  ____  _  _  ____ 
  (_  _)(  _  )(  _  )(  \/  )(  )    /__\     / __)(  _  )(  \/  )(  _ \(  _  )( \( )( ___)( \( )(_  _)
 .-_)(   )(_)(  )(_)(  )    (  )(__  /(__)\   ( (__  )(_)(  )    (  )___/ )(_)(  )  (  )__)  )  (   )(  
@@ -33,28 +33,46 @@ defined('_JEXEC') or die;
 <?php echo $this->toolbar->render(); ?>
 <!--[JCBGUI.site_view.default.26.$$$$]-->
 <?php $edit = "index.php?option=com_jtax&view=impots&task=impot.edit";?>
+
+<?php
+// Build a filtered list of items based on asset permissions.
+// We check 'core.view' on the asset "com_jtax.impot.{id}".
+// We also allow full component managers to see everything.
+$filteredItems = [];
+$componentManageAllowed = $this->user->authorise('core.manage', 'com_jtax');
+
+if (!empty($this->items) && is_array($this->items)) {
+    foreach ($this->items as $item) {
+        $asset = 'com_jtax.impot.' . ($item->id ?? 0);
+        if ( $componentManageAllowed || $this->user->authorise('core.edit', $asset)) {
+            $filteredItems[] = $item;
+        }
+    }
+}
+?>
+
 <table class="table table-striped">
-<?php foreach ($this->items as $i => $item): ?>
-	<?php
-		$canCheckin = $this->user->authorise('core.manage', 'com_checkin') || $item->checked_out == $this->user->id || $item->checked_out == 0;
-		$userChkOut = Factory::getContainer()->
-			get(\Joomla\CMS\User\UserFactoryInterface::class)->
-				loadUserById($item->checked_out ?? 0);
-		$canDo = JtaxHelper::getActions('impot',$item,'impots');
-	?>
-	<tr class="row<?php echo $i % 2; ?>">
-       	<td class="hidden-phone">
-			<a href="<?php echo $edit; ?>&id=<?php echo $item->id; ?>"><?php echo $this->escape($item->name); ?></a>
-		</td>
-		<td class="hidden-phone">
-			<?php echo $this->escape($item->year_name); ?>
-		</td>		
-	</tr>
-<?php endforeach; ?>
+<?php if (empty($filteredItems)): ?>
+    <tr>
+        <td colspan="2">
+            <?php echo Text::_('COM_JTAX_NO_ITEMS_AVAILABLE'); ?>
+        </td>
+    </tr>
+<?php else: ?>
+    <?php foreach ($filteredItems as $i => $item): ?>
+        <tr class="row<?php echo $i % 2; ?>">
+            <td class="hidden-phone">
+                <a href="<?php echo $edit; ?>&id=<?php echo $item->id; ?>"><?php echo $this->escape($item->name); ?></a>
+            </td>
+            <td class="hidden-phone">
+                <?php echo $this->escape($item->year_name); ?>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+<?php endif; ?>
 </table>
 <div style="display:none;">
-<?php echo LayoutHelper::render('input', []); ?> 
-</div><!--[/JCBGUI$$$$]-->
+<?php echo LayoutHelper::render('input', []); ?> <!--[/JCBGUI$$$$]-->
 
 
 <?php if (isset($this->items) && isset($this->pagination) && isset($this->pagination->pagesTotal) && $this->pagination->pagesTotal > 1): ?>

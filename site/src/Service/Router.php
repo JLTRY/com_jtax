@@ -1,16 +1,16 @@
 <?php
 /*----------------------------------------------------------------------------------|  www.vdm.io  |----/
-				JL Tryoen 
+                JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-	@version		1.0.7
-	@build			8th December, 2025
-	@created		4th March, 2025
-	@package		JTax
-	@subpackage		Router.php
-	@author			Jean-Luc Tryoen <http://www.jltryoen.fr>	
-	@copyright		Copyright (C) 2015. All Rights Reserved
-	@license		GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html
+    @version		1.0.7
+    @build			8th December, 2025
+    @created		4th March, 2025
+    @package		JTax
+    @subpackage		Router.php
+    @author			Jean-Luc Tryoen <http://www.jltryoen.fr>	
+    @copyright		Copyright (C) 2015. All Rights Reserved
+    @license		GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html
   ____  _____  _____  __  __  __      __       ___  _____  __  __  ____  _____  _  _  ____  _  _  ____ 
  (_  _)(  _  )(  _  )(  \/  )(  )    /__\     / __)(  _  )(  \/  )(  _ \(  _  )( \( )( ___)( \( )(_  _)
 .-_)(   )(_)(  )(_)(  )    (  )(__  /(__)\   ( (__  )(_)(  )    (  )___/ )(_)(  )  (  )__)  )  (   )(  
@@ -45,66 +45,66 @@ use JCB\Component\Jtax\Administrator\Helper\JtaxHelper;
  */
 class Router extends RouterView
 {
-	/**
-	 * Flag to remove IDs
-	 *
-	 * @var    boolean
-	 * @since  4.0.0
-	 */
-	protected $noIDs = false;
+    /**
+     * Flag to remove IDs
+     *
+     * @var    boolean
+     * @since  4.0.0
+     */
+    protected $noIDs = false;
 
-	/**
-	 * The category factory
-	 *
-	 * @var    CategoryFactoryInterface
-	 * @since  4.0.0
-	 */
-	private $categoryFactory;
+    /**
+     * The category factory
+     *
+     * @var    CategoryFactoryInterface
+     * @since  4.0.0
+     */
+    private $categoryFactory;
 
-	/**
-	 * The category cache
-	 *
-	 * @var    array
-	 * @since  4.0.0
-	 */
-	private $categoryCache = [];
+    /**
+     * The category cache
+     *
+     * @var    array
+     * @since  4.0.0
+     */
+    private $categoryCache = [];
 
-	/**
-	 * The db
-	 *
-	 * @var    DatabaseInterface
-	 * @since  4.0.0
-	 */
-	private $db;
+    /**
+     * The db
+     *
+     * @var    DatabaseInterface
+     * @since  4.0.0
+     */
+    private $db;
 
-	/**
-	 * The component params
-	 *
-	 * @var    Registry
-	 * @since  4.0.0
-	 */
-	private $params;
+    /**
+     * The component params
+     *
+     * @var    Registry
+     * @since  4.0.0
+     */
+    private $params;
 
-	/**
-	 * Jtax Component router constructor
-	 *
-	 * @param   SiteApplication           $app               The application object
-	 * @param   AbstractMenu              $menu              The menu object to work with
-	 * @param   CategoryFactoryInterface  $categoryFactory   The category object
-	 * @param   DatabaseInterface         $db                The database object
-	 *
-	 * @since   4.0.0
-	 */
-	public function __construct(
-		SiteApplication $app,
-		AbstractMenu $menu,
-		CategoryFactoryInterface $categoryFactory,
-		DatabaseInterface $db)
-	{
-		$this->categoryFactory = $categoryFactory;
-		$this->db              = $db;
-		$this->params          = ComponentHelper::getParams('com_jtax');
-		$this->noIDs           = (bool) $this->params->get('sef_ids', false);
+    /**
+     * Jtax Component router constructor
+     *
+     * @param   SiteApplication           $app               The application object
+     * @param   AbstractMenu              $menu              The menu object to work with
+     * @param   CategoryFactoryInterface  $categoryFactory   The category object
+     * @param   DatabaseInterface         $db                The database object
+     *
+     * @since   4.0.0
+     */
+    public function __construct(
+        SiteApplication $app,
+        AbstractMenu $menu,
+        CategoryFactoryInterface $categoryFactory,
+        DatabaseInterface $db)
+    {
+        $this->categoryFactory = $categoryFactory;
+        $this->db              = $db;
+        $this->params          = ComponentHelper::getParams('com_jtax');
+        $this->noIDs           = (bool) $this->params->get('sef_ids', false);
 
         // Add the (impots:view) router configuration
         $impots = new RouterViewConfiguration('impots');
@@ -114,10 +114,10 @@ class Router extends RouterView
         $impot = new RouterViewConfiguration('impot');
         $this->registerView($impot);
 
-		parent::__construct($app, $menu);
+        parent::__construct($app, $menu);
 
-		$this->attachRule(new MenuRules($this));
-		$this->attachRule(new StandardRules($this));
-		$this->attachRule(new NomenuRules($this));
-	}
+        $this->attachRule(new MenuRules($this));
+        $this->attachRule(new StandardRules($this));
+        $this->attachRule(new NomenuRules($this));
+    }
 }

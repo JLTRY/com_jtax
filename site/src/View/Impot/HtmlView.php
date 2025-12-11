@@ -1,16 +1,16 @@
 <?php
 /*----------------------------------------------------------------------------------|  www.vdm.io  |----/
-				JL Tryoen 
+                JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-	@version		1.0.7
-	@build			8th December, 2025
-	@created		4th March, 2025
-	@package		JTax
-	@subpackage		HtmlView.php
-	@author			Jean-Luc Tryoen <http://www.jltryoen.fr>	
-	@copyright		Copyright (C) 2015. All Rights Reserved
-	@license		GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html
+    @version		1.0.7
+    @build			8th December, 2025
+    @created		4th March, 2025
+    @package		JTax
+    @subpackage		HtmlView.php
+    @author			Jean-Luc Tryoen <http://www.jltryoen.fr>	
+    @copyright		Copyright (C) 2015. All Rights Reserved
+    @license		GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html
   ____  _____  _____  __  __  __      __       ___  _____  __  __  ____  _____  _  _  ____  _  _  ____ 
  (_  _)(  _  )(  _  )(  \/  )(  )    /__\     / __)(  _  )(  \/  )(  _ \(  _  )( \( )( ___)( \( )(_  _)
 .-_)(   )(_)(  )(_)(  )    (  )(__  /(__)\   ( (__  )(_)(  )    (  )___/ )(_)(  )  (  )__)  )  (   )(  
@@ -50,230 +50,230 @@ use Joomla\Registry\Registry;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * The app class
-	 *
-	 * @var    CMSApplicationInterface
-	 * @since  5.2.1
-	 */
-	public CMSApplicationInterface $app;
+    /**
+     * The app class
+     *
+     * @var    CMSApplicationInterface
+     * @since  5.2.1
+     */
+    public CMSApplicationInterface $app;
 
-	/**
-	 * The input class
-	 *
-	 * @var    Input
-	 * @since  5.2.1
-	 */
-	public Input $input;
+    /**
+     * The input class
+     *
+     * @var    Input
+     * @since  5.2.1
+     */
+    public Input $input;
 
-	/**
-	 * The params registry
-	 *
-	 * @var    Registry
-	 * @since  5.2.1
-	 */
-	public Registry $params;
+    /**
+     * The params registry
+     *
+     * @var    Registry
+     * @since  5.2.1
+     */
+    public Registry $params;
 
-	/**
-	 * The item from the model
-	 *
-	 * @var    mixed
-	 * @since  3.10.11
-	 */
-	public mixed $item;
+    /**
+     * The item from the model
+     *
+     * @var    mixed
+     * @since  3.10.11
+     */
+    public mixed $item;
 
-	/**
-	 * The state object
-	 *
-	 * @var    mixed
-	 * @since  3.10.11
-	 */
-	public mixed $state;
+    /**
+     * The state object
+     *
+     * @var    mixed
+     * @since  3.10.11
+     */
+    public mixed $state;
 
-	/**
-	 * The form from the model
-	 *
-	 * @var    mixed
-	 * @since  3.10.11
-	 */
-	public mixed $form;
+    /**
+     * The form from the model
+     *
+     * @var    mixed
+     * @since  3.10.11
+     */
+    public mixed $form;
 
-	/**
-	 * The toolbar object
-	 *
-	 * @var    Toolbar
-	 * @since  3.10.11
-	 */
-	public Toolbar $toolbar;
+    /**
+     * The toolbar object
+     *
+     * @var    Toolbar
+     * @since  3.10.11
+     */
+    public Toolbar $toolbar;
 
-	/**
-	 * The styles url array
-	 *
-	 * @var    array
-	 * @since  5.0.0
-	 */
-	protected array $styles;
+    /**
+     * The styles url array
+     *
+     * @var    array
+     * @since  5.0.0
+     */
+    protected array $styles;
 
-	/**
-	 * The scripts url array
-	 *
-	 * @var    array
-	 * @since  5.0.0
-	 */
-	protected array $scripts;
+    /**
+     * The scripts url array
+     *
+     * @var    array
+     * @since  5.0.0
+     */
+    protected array $scripts;
 
-	/**
-	 * The actions object
-	 *
-	 * @var    object
-	 * @since  3.10.11
-	 */
-	public object $canDo;
+    /**
+     * The actions object
+     *
+     * @var    object
+     * @since  3.10.11
+     */
+    public object $canDo;
 
-	/**
-	 * The origin referral view name
-	 *
-	 * @var    string|null
-	 * @since  3.10.11
-	 */
-	public ?string $ref;
+    /**
+     * The origin referral view name
+     *
+     * @var    string|null
+     * @since  3.10.11
+     */
+    public ?string $ref;
 
-	/**
-	 * The origin referral view item id
-	 *
-	 * @var    int|null
-	 * @since  3.10.11
-	 */
-	public ?int $refid;
+    /**
+     * The origin referral view item id
+     *
+     * @var    int|null
+     * @since  3.10.11
+     */
+    public ?int $refid;
 
-	/**
-	 * The referral url suffix values
-	 *
-	 * @var    string
-	 * @since  3.10.11
-	 */
-	public string $referral;
+    /**
+     * The referral url suffix values
+     *
+     * @var    string
+     * @since  3.10.11
+     */
+    public string $referral;
 
-	/**
-	 * The modal state
-	 *
-	 * @var    bool
-	 * @since  5.2.1
-	 */
-	public bool $isModal;
+    /**
+     * The modal state
+     *
+     * @var    bool
+     * @since  5.2.1
+     */
+    public bool $isModal;
 
-	/**
-	 * Constructor
-	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
-	 *
-	 * @since   6.0.0
-	 */
-	public function __construct(array $config)
-	{
-		if (empty($config['option']))
-		{
-			$config['option'] = 'com_jtax';
-		}
+    /**
+     * Constructor
+     *
+     * @param   array  $config  An optional associative array of configuration settings.
+     *
+     * @since   6.0.0
+     */
+    public function __construct(array $config)
+    {
+        if (empty($config['option']))
+        {
+            $config['option'] = 'com_jtax';
+        }
 
-		parent::__construct($config);
+        parent::__construct($config);
 
-		// get the application
-		$this->app ??= Factory::getApplication();
-		// get input
-		$this->input ??= method_exists($this->app, 'getInput') ? $this->app->getInput() : $this->app->input;
-		// get component params
-		$this->params ??= method_exists($this->app, 'getParams')
-			? $this->app->getParams()
-			: ComponentHelper::getParams('com_jtax');
+        // get the application
+        $this->app ??= Factory::getApplication();
+        // get input
+        $this->input ??= method_exists($this->app, 'getInput') ? $this->app->getInput() : $this->app->input;
+        // get component params
+        $this->params ??= method_exists($this->app, 'getParams')
+            ? $this->app->getParams()
+            : ComponentHelper::getParams('com_jtax');
 
-		$this->useCoreUI = true;
-		$this->isModal = false; // no modal support yet
-	}
+        $this->useCoreUI = true;
+        $this->isModal = false; // no modal support yet
+    }
 
-	/**
-	 * Impot view display method
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return void
-	 * @since  1.6
-	 */
-	public function display($tpl = null)
-	{
-		// Load module values
-		$model = $this->getModel();
-		$this->form ??= $model->getForm();
-		$this->item = $model->getItem();
-		$this->state = $model->getState();
-		$this->styles = $model->getStyles() ?? [];
-		$this->scripts = $model->getScripts() ?? [];
+    /**
+     * Impot view display method
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return void
+     * @since  1.6
+     */
+    public function display($tpl = null)
+    {
+        // Load module values
+        $model = $this->getModel();
+        $this->form ??= $model->getForm();
+        $this->item = $model->getItem();
+        $this->state = $model->getState();
+        $this->styles = $model->getStyles() ?? [];
+        $this->scripts = $model->getScripts() ?? [];
 
-		// get the permitted actions the current user can do.
-		$this->canDo = Actions::get('impot', $this->item);
+        // get the permitted actions the current user can do.
+        $this->canDo = Actions::get('impot', $this->item);
 
-		// Set the return
-		$this->setReturn();
+        // Set the return
+        $this->setReturn();
 
-		// Set the toolbar
-		$this->addToolBar();
+        // Set the toolbar
+        $this->addToolBar();
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new \Exception(implode("\n", $errors), 500);
-		}
+        // Check for errors.
+        if (count($errors = $this->get('Errors')))
+        {
+            throw new \Exception(implode("\n", $errors), 500);
+        }
 
-		// Set the html view document stuff
-		$this->_prepareDocument();
+        // Set the html view document stuff
+        $this->_prepareDocument();
 
-		// Display the template
-		parent::display($tpl);
-	}
+        // Display the template
+        parent::display($tpl);
+    }
 
-	/**
-	 * Set the redirection details.
-	 *
-	 * @return  void
-	 * @since   5.1.4
-	 */
-	protected function setReturn(): void
-	{
-		// This [ref,refid] will be removed in JCB.v7, use only [return]
-		$this->ref = $this->input->getWord('ref', null);
-		$this->refid = $this->input->getInt('refid', null);
-		$this->referral = '';
-		if (!empty($this->refid) && !empty($this->ref))
-		{
-			// return to the item that referred to this item
-			$this->referral = '&ref=' . (string) $this->ref . '&refid=' . (int) $this->refid;
-		}
-		elseif (!empty($this->ref))
-		{
-			// return to the list view that referred to this item
-			$this->referral = '&ref=' . (string) $this->ref;
-		}
+    /**
+     * Set the redirection details.
+     *
+     * @return  void
+     * @since   5.1.4
+     */
+    protected function setReturn(): void
+    {
+        // This [ref,refid] will be removed in JCB.v7, use only [return]
+        $this->ref = $this->input->getWord('ref', null);
+        $this->refid = $this->input->getInt('refid', null);
+        $this->referral = '';
+        if (!empty($this->refid) && !empty($this->ref))
+        {
+            // return to the item that referred to this item
+            $this->referral = '&ref=' . (string) $this->ref . '&refid=' . (int) $this->refid;
+        }
+        elseif (!empty($this->ref))
+        {
+            // return to the list view that referred to this item
+            $this->referral = '&ref=' . (string) $this->ref;
+        }
 
-		$return = $this->input->getBase64('return', null);
-		if (!empty($return))
-		{
-			$this->referral .= '&return=' . (string) $return;
-		}
-	}
+        $return = $this->input->getBase64('return', null);
+        if (!empty($return))
+        {
+            $this->referral .= '&return=' . (string) $return;
+        }
+    }
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return  void
-	 * @throws  \Exception
-	 * @since   1.6
-	 */
-	protected function addToolbar(): void
-	{
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return  void
+     * @throws  \Exception
+     * @since   1.6
+     */
+    protected function addToolbar(): void
+    {
         // Initialize the toolbar only if it hasn't been initialized yet.
         $this->toolbar ??= $this->getDocument()->getToolbar();
 
-		$this->input->set('hidemainmenu', true);
+        $this->input->set('hidemainmenu', true);
         $user = $this->getCurrentUser();
         $userId = $user->id;
         $isNew = $this->item->id == 0;
@@ -355,49 +355,49 @@ class HtmlView extends BaseHtmlView
         {
             ToolbarHelper::help('COM_JTAX_HELP_MANAGER', false, $this->help_url);
         }
-	}
+    }
 
-	/**
-	 * Prepare some document related stuff.
-	 *
-	 * @return  void
-	 * @since   1.6
-	 */
-	protected function _prepareDocument(): void
-	{
+    /**
+     * Prepare some document related stuff.
+     *
+     * @return  void
+     * @since   1.6
+     */
+    protected function _prepareDocument(): void
+    {
         // Load jQuery
         Html::_('jquery.framework');
-		$isNew = ($this->item->id < 1);
-		$this->setDocumentTitle(Text::_($isNew ? 'COM_JTAX_IMPOT_NEW' : 'COM_JTAX_IMPOT_EDIT'));
-		// add styles
-		foreach ($this->styles as $style)
-		{
-			Html::_('stylesheet', $style, ['version' => 'auto']);
-		}
-		// add scripts
-		foreach ($this->scripts as $script)
-		{
-			Html::_('script', $script, ['version' => 'auto']);
-		}
-	}
+        $isNew = ($this->item->id < 1);
+        $this->setDocumentTitle(Text::_($isNew ? 'COM_JTAX_IMPOT_NEW' : 'COM_JTAX_IMPOT_EDIT'));
+        // add styles
+        foreach ($this->styles as $style)
+        {
+            Html::_('stylesheet', $style, ['version' => 'auto']);
+        }
+        // add scripts
+        foreach ($this->scripts as $script)
+        {
+            Html::_('script', $script, ['version' => 'auto']);
+        }
+    }
 
-	/**
-	 * Escapes a value for output in a view script.
-	 *
-	 * @param   mixed  $var     The output to escape.
-	 * @param   bool   $shorten The switch to shorten.
-	 * @param   int    $length  The shorting length.
-	 *
-	 * @return  mixed  The escaped value.
-	 * @since   1.6
-	 */
-	public function escape($var, bool $shorten = true, int $length = 30)
-	{
-		if (!is_string($var))
-		{
-			return $var;
-		}
+    /**
+     * Escapes a value for output in a view script.
+     *
+     * @param   mixed  $var     The output to escape.
+     * @param   bool   $shorten The switch to shorten.
+     * @param   int    $length  The shorting length.
+     *
+     * @return  mixed  The escaped value.
+     * @since   1.6
+     */
+    public function escape($var, bool $shorten = true, int $length = 30)
+    {
+        if (!is_string($var))
+        {
+            return $var;
+        }
 
-		return StringHelper::html($var, $this->_charset ?? 'UTF-8', $shorten, $length);
-	}
+        return StringHelper::html($var, $this->_charset ?? 'UTF-8', $shorten, $length);
+    }
 }
