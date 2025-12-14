@@ -17,15 +17,11 @@
 \____) (_____)(_____)(_/\/\_)(____)(__)(__)   \___)(_____)(_/\/\_)(__)  (_____)(_)\_)(____)(_)\_) (__) 
 
 /------------------------------------------------------------------------------------------------------*/
-namespace JCB\Component\Jtax\Site\View\Impot;
+namespace JCB\Component\Jtax\Site\View\Publicimpot;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Toolbar\Toolbar;
-use Joomla\CMS\Form\FormHelper;
-use Joomla\CMS\Session\Session;
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\User\User;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\HTML\HTMLHelper as Html;
 use Joomla\CMS\Layout\FileLayout;
@@ -33,18 +29,21 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Document\Document;
-use JCB\Component\Jtax\Administrator\Helper\JtaxHelper;
+use JCB\Component\Jtax\Site\Helper\HeaderCheck;
+use JCB\Component\Jtax\Site\Helper\JtaxHelper;
+use JCB\Component\Jtax\Site\Helper\RouteHelper;
 use JCB\Joomla\Jtax\Utilities\Permitted\Actions;
 use JCB\Joomla\Utilities\StringHelper;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
+use Joomla\CMS\User\User;
 
 // No direct access to this file
 \defined('_JEXEC') or die;
 
 /**
- * Impot Html View class
+ * Jtax Html View class for the Publicimpot
  *
  * @since  1.6
  */
@@ -75,28 +74,12 @@ class HtmlView extends BaseHtmlView
     public Registry $params;
 
     /**
-     * The item from the model
+     * The user object.
      *
-     * @var    mixed
+     * @var    User
      * @since  3.10.11
      */
-    public mixed $item;
-
-    /**
-     * The state object
-     *
-     * @var    mixed
-     * @since  3.10.11
-     */
-    public mixed $state;
-
-    /**
-     * The form from the model
-     *
-     * @var    mixed
-     * @since  3.10.11
-     */
-    public mixed $form;
+    public User $user;
 
     /**
      * The toolbar object
@@ -110,7 +93,7 @@ class HtmlView extends BaseHtmlView
      * The styles url array
      *
      * @var    array
-     * @since  5.0.0
+     * @since  3.10.11
      */
     protected array $styles;
 
@@ -118,7 +101,7 @@ class HtmlView extends BaseHtmlView
      * The scripts url array
      *
      * @var    array
-     * @since  5.0.0
+     * @since  3.10.11
      */
     protected array $scripts;
 
@@ -131,134 +114,68 @@ class HtmlView extends BaseHtmlView
     public object $canDo;
 
     /**
-     * The origin referral view name
-     *
-     * @var    string|null
-     * @since  3.10.11
-     */
-    public ?string $ref;
-
-    /**
-     * The origin referral view item id
-     *
-     * @var    int|null
-     * @since  3.10.11
-     */
-    public ?int $refid;
-
-    /**
-     * The referral url suffix values
-     *
-     * @var    string
-     * @since  3.10.11
-     */
-    public string $referral;
-
-    /**
-     * The modal state
-     *
-     * @var    bool
-     * @since  5.2.1
-     */
-    public bool $isModal;
-
-    /**
-     * Constructor
-     *
-     * @param   array  $config  An optional associative array of configuration settings.
-     *
-     * @since   6.0.0
-     */
-    public function __construct(array $config)
-    {
-        if (empty($config['option']))
-        {
-            $config['option'] = 'com_jtax';
-        }
-
-        parent::__construct($config);
-
-        // get the application
-        $this->app ??= Factory::getApplication();
-        // get input
-        $this->input ??= method_exists($this->app, 'getInput') ? $this->app->getInput() : $this->app->input;
-        // get component params
-        $this->params ??= method_exists($this->app, 'getParams')
-            ? $this->app->getParams()
-            : ComponentHelper::getParams('com_jtax');
-
-        $this->useCoreUI = true;
-        $this->isModal = false; // no modal support yet
-    }
-
-    /**
-     * Impot view display method
+     * Display the view
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
      *
-     * @return void
+     * @return  void
+     * @throws \Exception
      * @since  1.6
      */
-    public function display($tpl = null)
+    public function display($tpl = null): void
     {
-        // Load module values
-        $model = $this->getModel();
-        $this->form ??= $model->getForm();
-        $this->item = $model->getItem();
-        $this->state = $model->getState();
-        $this->styles = $model->getStyles() ?? [];
-        $this->scripts = $model->getScripts() ?? [];
+        // get application
+        $this->app ??= Factory::getApplication();
+        // get input
+        $this->input ??= method_exists($this->app, 'getInput') ? $this->app->getInput() : $this->app->input;
+        // set params
+        $this->params ??= method_exists($this->app, 'getParams')
+            ? $this->app->getParams()
+            : ComponentHelper::getParams('com_jtax');
+        $this->menu = $this->app->getMenu()->getActive();
+        // get the user object
+        $this->user ??= $this->getCurrentUser();
 
         // get the permitted actions the current user can do.
-        $this->canDo = Actions::get('impot', $this->item);
+        $this->canDo = Actions::get('publicimpot');
 
-        // Set the return
-        $this->setReturn();
+        // Load module values
+        $model = $this->getModel();
+        $this->styles = $model->getStyles() ?? [];
+        $this->scripts = $model->getScripts() ?? [];
+        // Initialise variables.
+        $this->item = $model->getItem();
+        
+        /***[JCBGUI.site_view.php_jview_display.30.$$$$]***/
+        // Load the form manually by name
+        \Joomla\CMS\Form\Form::addFormPath(JPATH_COMPONENT . '/forms');
+        $form = \Joomla\CMS\Form\Form::getInstance('impot', 'impot', array('control' => 'jform'));
+        $this->form = $form;
+        $app = Factory::getApplication();
+        $jinput = $app->getInput();
+        $this->editor = $jinput->getString('editor', null);
+        $this->id =  $jinput->getString('id', -1);
+        if ($this->id !== -1) {
+            $model = new \JCB\Component\Jtax\Site\Model\ImpotModel;
+            $this->setModel($model);
+            $this->item = $model->getItem((int)$this->id);
+               $this->form->bind($this->item);
+        }/***[/JCBGUI$$$$]***/
+        
 
         // Set the toolbar
         $this->addToolBar();
 
-        // Check for errors.
-        if (count($errors = $this->get('Errors')))
-        {
-            throw new \Exception(implode("\n", $errors), 500);
-        }
-
         // Set the html view document stuff
         $this->_prepareDocument();
 
-        // Display the template
+        // Check for errors.
+        if (count($errors = $model->getErrors()))
+        {
+            throw new \Exception(implode(PHP_EOL, $errors), 500);
+        }
+
         parent::display($tpl);
-    }
-
-    /**
-     * Set the redirection details.
-     *
-     * @return  void
-     * @since   5.1.4
-     */
-    protected function setReturn(): void
-    {
-        // This [ref,refid] will be removed in JCB.v7, use only [return]
-        $this->ref = $this->input->getWord('ref', null);
-        $this->refid = $this->input->getInt('refid', null);
-        $this->referral = '';
-        if (!empty($this->refid) && !empty($this->ref))
-        {
-            // return to the item that referred to this item
-            $this->referral = '&ref=' . (string) $this->ref . '&refid=' . (int) $this->refid;
-        }
-        elseif (!empty($this->ref))
-        {
-            // return to the list view that referred to this item
-            $this->referral = '&ref=' . (string) $this->ref;
-        }
-
-        $return = $this->input->getBase64('return', null);
-        if (!empty($return))
-        {
-            $this->referral .= '&return=' . (string) $return;
-        }
     }
 
     /**
@@ -270,17 +187,10 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar(): void
     {
-        // Initialize the toolbar only if it hasn't been initialized yet.
+        
+        // now initiate toolbar if it's not already loaded
         $this->toolbar ??= $this->getDocument()->getToolbar();
-
-        $this->input->set('hidemainmenu', true);
-        $user = $this->getCurrentUser();
-        $userId = $user->id;
-        $isNew = $this->item->id == 0;
-
-        ToolbarHelper::title( Text::_($isNew ? 'COM_JTAX_IMPOT_NEW' : 'COM_JTAX_IMPOT_EDIT'), 'pencil-2 article-add');
-/***[JCBGUI.admin_view.view_toolbar.288.$$$$]***/
-'COM_JTAX_CALCULER';
+/***[JCBGUI.site_view.view_toolbar.30.$$$$]***/
 ToolbarHelper::custom('impot.calculate', 'joomla custom-button-calculate', '', Text::_('COM_JTAX_CALCULER'), false);/***[/JCBGUI$$$$]***/
 
     }
@@ -293,10 +203,18 @@ ToolbarHelper::custom('impot.calculate', 'joomla custom-button-calculate', '', T
      */
     protected function _prepareDocument(): void
     {
-        // Load jQuery
-        Html::_('jquery.framework');
-        $isNew = ($this->item->id < 1);
-        $this->setDocumentTitle(Text::_($isNew ? 'COM_JTAX_IMPOT_NEW' : 'COM_JTAX_IMPOT_EDIT'));
+
+        // Only load jQuery if needed. (default is true)
+        if ($this->params->get('add_jquery_framework', 1) == 1)
+        {
+            Html::_('jquery.framework');
+        }
+        // Load the header checker class.
+        // Initialize the header checker.
+        $HeaderCheck = new HeaderCheck();
+
+        // Add View JavaScript File
+        Html::_('script', 'components/com_jtax/assets/js/publicimpot.js', ['version' => 'auto']);
         // add styles
         foreach ($this->styles as $style)
         {
@@ -319,7 +237,7 @@ ToolbarHelper::custom('impot.calculate', 'joomla custom-button-calculate', '', T
      * @return  mixed  The escaped value.
      * @since   1.6
      */
-    public function escape($var, bool $shorten = true, int $length = 30)
+    public function escape($var, bool $shorten = false, int $length = 40)
     {
         if (!is_string($var))
         {

@@ -15,7 +15,6 @@
 		<action name="core.edit.own" title="JACTION_EDITOWN" description="JACTION_EDITOWN_COMPONENT_DESC" />
 		<action name="core.edit.created_by" title="COM_JTAX_EDIT_CREATED_BY" description="COM_JTAX_EDIT_CREATED_BY_DESC" />
 		<action name="core.edit.created" title="COM_JTAX_EDIT_CREATED_DATE" description="COM_JTAX_EDIT_CREATED_DATE_DESC" />
-		<action name="impot.calculer" title="COM_JTAX_IMPOT_CALCULER_BUTTON_ACCESS" description="COM_JTAX_IMPOT_CALCULER_BUTTON_ACCESS_DESC" />
 		<action name="impot.access" title="COM_JTAX_IMPOTS_ACCESS" description="COM_JTAX_IMPOTS_ACCESS_DESC" />
 		<action name="site.impots.access" title="COM_JTAX_IMPOTS_ACCESS_SITE" description="COM_JTAX_IMPOTS_ACCESS_SITE_DESC" />
 		<action name="impot.batch" title="COM_JTAX_IMPOTS_BATCH_USE" description="COM_JTAX_IMPOTS_BATCH_USE_DESC" />

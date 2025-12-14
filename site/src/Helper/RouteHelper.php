@@ -66,6 +66,31 @@ abstract class RouteHelper
     }
 
     /**
+     * Get the URL route for publicimpot
+     *
+     * @param   integer  $id     The id of the publicimpot
+     *
+     * @return  string  The link to the publicimpot
+     *
+     * @since   1.5
+     */
+    public static function getPublicimpotRoute($id = 0): string
+    {
+        if ($id > 0)
+        {
+            // Create the link
+            $link = 'index.php?option=com_jtax&view=publicimpot&id='. $id;
+        }
+        else
+        {
+            // Create the link but don't add the id.
+            $link = 'index.php?option=com_jtax&view=publicimpot';
+        }
+
+        return $link;
+    }
+
+    /**
      * Retrieve a legacy-configured menu item override.
      *
      * This method is preserved for backward compatibility with older

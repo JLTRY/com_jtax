@@ -6,7 +6,7 @@
 	@build			8th December, 2025
 	@created		4th March, 2025
 	@package		JTax
-	@subpackage		impot.js
+	@subpackage		publicimpot.js
 	@author			Jean-Luc Tryoen <http://www.jltryoen.fr>	
 	@copyright		Copyright (C) 2015. All Rights Reserved
 	@license		GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html
@@ -17,10 +17,9 @@
 
 /------------------------------------------------------------------------------------------------------*/
 
+/* JS Document */
 
-
-
-/***[JCBGUI.admin_view.javascript_view_file.288.$$$$]***/
+/***[JCBGUI.site_view.javascript_file.30.$$$$]***/
 function onselectname($, id) {
 	$.ajax({
 		url:   'index.php?option=com_jtax&view=publicimpot&layout=json&id=' + id,
@@ -41,31 +40,45 @@ function onselectname($, id) {
 		}
 	});
 }
+
 $(document).ready(function() {
-       if (!$('body').hasClass('site')) {
-		$('#jform_title-lbl').closest('.control-group').hide();
-        }
-	if ($('body').hasClass('site')) {
-		$("#toolbar-save-new").hide();
-		$("#toolbar-cancel").hide();
-		$("#toolbar-apply").hide();
-		$("#toolbar-save-copy").hide();
-		$("#toolbar-inlinehelp").hide();
-	}
+        $('#jform_name').parent().hide();
+        $('#jform_name-lbl').parent().hide();
 	$('#adminForm').append($('<div class="row"><textarea id="impot" value="" rows="5" cols="20"></textarea>'));
-	
-  $('#adminForm').submit(function(event) {
-		var domForm = document.getElementById('adminForm');
-		if (!document.formvalidator.isValid(domForm)) {
-			return false; // Ne pas soumettre si la validation échoue
+	var selectname = $('#jform_title');
+	onselectname($,  selectname.find(":selected").val());
+	selectname.on('change', function() {
+		onselectname($, $(this).find(":selected").val());
+	});
+	var selectedValue = $('#jform_deduction').find(":checked").val();
+	if (selectedValue == 0) {
+		$('.control-wrapper-fraisreels').show();
+	} else {
+		$('.control-wrapper-fraisreels').hide();
+	}
+	$('#jform_deduction').on('change', function() {
+		var selectedValue = $(this).find(":checked").val();
+		if (selectedValue == 0) {
+			$('.control-wrapper-fraisreels').show();
+		} else {
+			$('.control-wrapper-fraisreels').hide();
 		}
+	});
+      $('#calculate').click(function() {
+		var adminform  = $("adminform");
+		var method = adminform.attr('method');
+		var url = adminform.attr('action');
+		var data =adminform.serialize();
+		data['task'] = 'impot.calculate';
+		Joomla.submitbutton("impot.calculate", 'adminForm');
+	});
+	$('#adminForm').submit(function(event) {
+		var domForm = document.getElementById('adminForm');
 		var method = $(this).attr('method');
-		var url = $(this).attr('action');
+		var url = "/index.php?option=com_jtax&task=impot.calculate";
 		var data = $(this).serialize();
-		if (this.task.value == "impot.calculate") {
-			 event.preventDefault(); // Empêche la soumission par défaut
-			$.ajax({
-				type: method,
+	        event.preventDefault(); // Empêche la soumission par défaut
+		$.ajax({	type: method,
 				url: url,
 				data: data,
 				dataType: "text",
@@ -76,42 +89,6 @@ $(document).ready(function() {
 					alert(xhr.status);
 					alert(thrownError);
 				}
-			}); 
-		} else {
-		}
-	 });
-	if ($('body').hasClass('site')) {
-		$('#jform_name').parent().hide();
-		$('#jform_name-lbl').parent().hide();
-		$('#jform_name-lbl').parent().hide();
-		$('[role=tablist]').hide();
-		var selectname = $('#jform_title');
-		onselectname($,  selectname.find(":selected").val());
-		selectname.on('change', function() {
-			onselectname($, $(this).find(":selected").val());
-		});
-		var selectedValue = $('#jform_deduction').find(":checked").val();
-		if (selectedValue == 0) {
-			$('.control-wrapper-fraisreels').show();
-		} else {
-			$('.control-wrapper-fraisreels').hide();
-		}
-		$('#jform_deduction').on('change', function() {
-			var selectedValue = $(this).find(":checked").val();
-			if (selectedValue == 0) {
-				$('.control-wrapper-fraisreels').show();
-			} else {
-				$('.control-wrapper-fraisreels').hide();
-			}
-		});
-		$('#calculate').click(function() {
-			 var adminform  = $("adminform");
-			var method = adminform.attr('method');
-			var url = adminform.attr('action');
-			var data =adminform.serialize();
-			data['task'] = 'impot.calculate';
-			Joomla.submitbutton("impot.calculate", 'adminForm');
+		}); 
 	});
-   }
 });/***[/JCBGUI$$$$]***/
-

@@ -84,21 +84,6 @@ $tmpl    = $tmpl ? '&tmpl=' . $tmpl : '';
     <?php echo Html::_('uitab.endTab'); ?>
     <?php endif; ?>
 
-    <?php if ($this->canDo->get('core.admin')) : ?>
-    <?php echo Html::_('uitab.addTab', 'impotTab', 'permissions', Text::_('COM_JTAX_IMPOT_PERMISSION', true)); ?>
-        <div class="row">
-            <div class="col-md-12">
-                <fieldset id="fieldset-rules" class="options-form">
-                    <legend><?php echo Text::_('COM_JTAX_IMPOT_PERMISSION'); ?></legend>
-                    <div>
-                        <?php echo $this->form->getInput('rules'); ?>
-                    </div>
-                </fieldset>
-            </div>
-        </div>
-    <?php echo Html::_('uitab.endTab'); ?>
-    <?php endif; ?>
-
     <?php echo Html::_('uitab.endTabSet'); ?>
 
     <div>

@@ -21,13 +21,36 @@
 
 
 /***[JCBGUI.admin_view.javascript_view_file.288.$$$$]***/
+function onselectname($, id) {
+	$.ajax({
+		url:   'index.php?option=com_jtax&view=publicimpot&layout=json&id=' + id,
+		type: "POST",
+		dataType: "json",
+		success: function(data) {
+			$('#jform_year').val(data['year']);
+                        $('#jform_name').val(data['name']);
+		},
+		error: function(xhr, status, text) {
+			var response = $.parseJSON(xhr.responseText);
+			console.log('Failure!');
+			if (response) {
+				console.log(response['data']['error']);
+			} else {
+				// This would mean an invalid response from the server - maybe the site went down or whatever...
+			}
+		}
+	});
+}
 $(document).ready(function() {
+       if (!$('body').hasClass('site')) {
+		$('#jform_title-lbl').closest('.control-group').hide();
+        }
 	if ($('body').hasClass('site')) {
 		$("#toolbar-save-new").hide();
+		$("#toolbar-cancel").hide();
 		$("#toolbar-apply").hide();
 		$("#toolbar-save-copy").hide();
 		$("#toolbar-inlinehelp").hide();
-		 $('#toolbar').append($('<input type="button" id="calculate" task="impot.calculate" value="Calculer"/>'));
 	}
 	$('#adminForm').append($('<div class="row"><textarea id="impot" value="" rows="5" cols="20"></textarea>'));
 	
@@ -58,6 +81,15 @@ $(document).ready(function() {
 		}
 	 });
 	if ($('body').hasClass('site')) {
+		$('#jform_name').parent().hide();
+		$('#jform_name-lbl').parent().hide();
+		$('#jform_name-lbl').parent().hide();
+		$('[role=tablist]').hide();
+		var selectname = $('#jform_title');
+		onselectname($,  selectname.find(":selected").val());
+		selectname.on('change', function() {
+			onselectname($, $(this).find(":selected").val());
+		});
 		var selectedValue = $('#jform_deduction').find(":checked").val();
 		if (selectedValue == 0) {
 			$('.control-wrapper-fraisreels').show();
@@ -77,16 +109,8 @@ $(document).ready(function() {
 			var method = adminform.attr('method');
 			var url = adminform.attr('action');
 			var data =adminform.serialize();
-		data['task'] = 'impot.calculate';
-			  Joomla.submitbutton("impot.calculate", 'adminForm');
-/*	  $.ajax({
-			type: "POST",
-			url: url,
-			data: data,
-			success: function(data) {
-				$('#impot').val(data.replace("<br>", "\n"));
-			}
-		});*/
+			data['task'] = 'impot.calculate';
+			Joomla.submitbutton("impot.calculate", 'adminForm');
 	});
    }
 });/***[/JCBGUI$$$$]***/

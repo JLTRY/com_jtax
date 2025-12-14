@@ -323,7 +323,7 @@ class Com_JtaxInstallerScript implements InstallerScriptInterface
 
 
             // Fix the assets table rules column size.
-            $this->setDatabaseAssetsRulesFix(5280, "TEXT");
+            $this->setDatabaseAssetsRulesFix(5120, "TEXT");
             // Install the global extension assets permission.
             $this->setAssetsRules(
                 '{"site.impots.access":{"1":1}}'

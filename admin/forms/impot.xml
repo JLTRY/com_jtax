@@ -88,14 +88,6 @@
 			readonly="true"
 			filter="unset"
 		/>
-		<!-- Was added due to Permissions JS needing a Title field -->
-		<!-- Let us know at gh-629 should this change -->
-		<!-- https://github.com/vdm-io/Joomla-Component-Builder/issues/629#issuecomment-750117235 -->
-		<field
-			name="title"
-			type="hidden"
-			default="jtax impot"
-		/>
 		<!-- Dynamic Fields. -->
 		<!-- Name Field. Type: Text. (joomla) -->
 		<field
@@ -169,7 +161,7 @@
 			default="0"
 			description="dons aux associations"
 			class="text_area"
-			min="1"
+			min="0"
 			max="500000"
 			step="1"
 		/>
@@ -181,7 +173,7 @@
 			default="0"
 			description="placements déductibles"
 			class="text_area"
-			min="1"
+			min="0"
 			max="500000"
 			step="1"
 		/>
@@ -193,10 +185,20 @@
 			default="0"
 			description="Frais Réels"
 			class="text_area"
-			min="1"
+			min="0"
 			max="400000"
 			step="1"
 			showon="deduction:0"
+		/>
+		<!-- Title Field. Type: Sql. (joomla) -->
+		<field
+			type="sql"
+			name="title"
+			label="COM_JTAX_IMPOT_TITLE_LABEL"
+			query="SELECT id,name AS title FROM #__jtax_impot WHERE access = 1"
+			default=""
+			key_field="id"
+			value_field="title"
 		/>
 	</fieldset>
 

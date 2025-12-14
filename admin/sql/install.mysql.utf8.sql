@@ -78,10 +78,10 @@ VALUES ('2022', '0.11', '0.3', '0.41', '0.5', '10777', '27478', '78570', '168994
 
 
 INSERT INTO `#__jtax_impot` ( `deduction`,`fraisreels`,`name` ,`nbparts`,
-  `revenu`, `dons`, `pel`, `year`, `created_by`, `modified_by`)
-VALUES ('1', '0', 'Revenus 2022 smic', '1', '15948', '0', '0', '1', @user, @user ),
-('1', '0', 'Revenus 2023 smic', '1', '16236', '0', '0', '2', @user, @user ),
-('1', '0', 'Revenus 2024 smic', '1', '16839', '0', '0', '3', @user, @user ),
-('1', '0', 'Revenus 2025 smic', '1', '17115', '0', '0', '4', @user, @user );
+  `revenu`, `dons`, `pel`, `year`, `created_by`, `modified_by`, `access`)
+VALUES ('1', '0', 'Revenus 2022 smic', '1', '15948', '0', '0', '1', @user, @user, '1' ),
+('1', '0', 'Revenus 2023 smic', '1', '16236', '0', '0', '2', @user, @user, '1' ),
+('1', '0', 'Revenus 2024 smic', '1', '16839', '0', '0', '3', @user, @user, '1' ),
+('1', '0', 'Revenus 2025 smic', '1', '17115', '0', '0', '4', @user, @user, '1' );
 
 

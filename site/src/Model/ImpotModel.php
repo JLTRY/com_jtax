@@ -61,6 +61,7 @@ class ImpotModel extends AdminModel
         'details' => array(
             'left' => array(
                 'name',
+                'title',
                 'year',
                 'revenu',
                 'nbparts',

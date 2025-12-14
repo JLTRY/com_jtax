@@ -110,6 +110,10 @@ class Router extends RouterView
         $impots = new RouterViewConfiguration('impots');
         $this->registerView($impots);
 
+        // Add the (publicimpot:view) router configuration
+        $publicimpot = new RouterViewConfiguration('publicimpot');
+        $this->registerView($publicimpot);
+
         // Add the (impot:view) router configuration
         $impot = new RouterViewConfiguration('impot');
         $this->registerView($impot);
