@@ -134,8 +134,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     <label for="<?php echo $name; ?>" class="control-label" ><?php echo $title; ?></label>
                     <div class="controls">
                     <select  name="<?php echo $name; ?>"  id="vdm_<?php echo $name; ?>" required class="required input_box" >
-                        <option value=""><?php echo Text::_('COM_JTAX_IMPORT_PLEASE_SELECT_COLUMN'); ?></option>
                         <option value="IGNORE"><?php echo Text::_('COM_JTAX_IMPORT_IGNORE_COLUMN'); ?></option>
+                        <option value=""><?php echo Text::_('COM_JTAX_IMPORT_PLEASE_SELECT_COLUMN'); ?></option>
                         <?php foreach($this->headers as $value => $option): ?>
                             <?php $selected = (strtolower($option) ==  strtolower ($title) || strtolower($option) == strtolower($name))? 'selected="selected"':''; ?>
                             <option value="<?php echo StringHelper::html($value); ?>" class="required" <?php echo $selected ?>><?php echo StringHelper::html($option); ?></option>
