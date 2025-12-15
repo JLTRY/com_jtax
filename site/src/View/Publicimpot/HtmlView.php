@@ -3,8 +3,8 @@
                 JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-    @version		1.0.7
-    @build			8th December, 2025
+    @version		1.0.8
+    @build			15th December, 2025
     @created		4th March, 2025
     @package		JTax
     @subpackage		HtmlView.php
@@ -156,7 +156,7 @@ class HtmlView extends BaseHtmlView
         $this->editor = $jinput->getString('editor', null);
         $this->id =  $jinput->getString('id', -1);
         if ($this->id !== -1) {
-            $model = new \JCB\Component\Jtax\Site\Model\ImpotModel;
+            $model = new \JCB\Component\Jtax\Site\Model\PublicimpotModel;
             $this->setModel($model);
             $this->item = $model->getItem((int)$this->id);
                $this->form->bind($this->item);

@@ -3,8 +3,8 @@
                 JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-    @version		1.0.7
-    @build			8th December, 2025
+    @version		1.0.8
+    @build			15th December, 2025
     @created		4th March, 2025
     @package		JTax
     @subpackage		JtaxInstallerScript.php
@@ -297,7 +297,7 @@ class Com_JtaxInstallerScript implements InstallerScriptInterface
                 // rules
                 '',
                 // fieldMappings
-                '{"common": {"core_content_item_id": "id","core_title": "year","core_state": "published","core_alias": "null","core_created_time": "created","core_modified_time": "modified","core_body": "null","core_hits": "hits","core_publish_up": "null","core_publish_down": "null","core_access": "access","core_params": "params","core_featured": "null","core_metadata": "null","core_language": "null","core_images": "null","core_urls": "null","core_version": "version","core_ordering": "ordering","core_metakey": "null","core_metadesc": "null","core_catid": "null","core_xreference": "null","asset_id": "asset_id"},"special": {"name":"name","year":"year","revenu":"revenu","nbparts":"nbparts","deduction":"deduction","dons":"dons","pel":"pel","fraisreels":"fraisreels"}}',
+                '{"common": {"core_content_item_id": "id","core_title": "year","core_state": "published","core_alias": "null","core_created_time": "created","core_modified_time": "modified","core_body": "null","core_hits": "hits","core_publish_up": "null","core_publish_down": "null","core_access": "access","core_params": "params","core_featured": "null","core_metadata": "null","core_language": "null","core_images": "null","core_urls": "null","core_version": "version","core_ordering": "ordering","core_metakey": "null","core_metadesc": "null","core_catid": "null","core_xreference": "null","asset_id": "asset_id"},"special": {"name":"name","year":"year","revenu":"revenu","nbparts":"nbparts","deduction":"deduction","impot":"impot","dons":"dons","pel":"pel","fraisreels":"fraisreels"}}',
                 // router
                 '',
                 // contentHistoryOptions
@@ -390,7 +390,7 @@ class Com_JtaxInstallerScript implements InstallerScriptInterface
                 // rules
                 '',
                 // fieldMappings
-                '{"common": {"core_content_item_id": "id","core_title": "year","core_state": "published","core_alias": "null","core_created_time": "created","core_modified_time": "modified","core_body": "null","core_hits": "hits","core_publish_up": "null","core_publish_down": "null","core_access": "access","core_params": "params","core_featured": "null","core_metadata": "null","core_language": "null","core_images": "null","core_urls": "null","core_version": "version","core_ordering": "ordering","core_metakey": "null","core_metadesc": "null","core_catid": "null","core_xreference": "null","asset_id": "asset_id"},"special": {"name":"name","year":"year","revenu":"revenu","nbparts":"nbparts","deduction":"deduction","dons":"dons","pel":"pel","fraisreels":"fraisreels"}}',
+                '{"common": {"core_content_item_id": "id","core_title": "year","core_state": "published","core_alias": "null","core_created_time": "created","core_modified_time": "modified","core_body": "null","core_hits": "hits","core_publish_up": "null","core_publish_down": "null","core_access": "access","core_params": "params","core_featured": "null","core_metadata": "null","core_language": "null","core_images": "null","core_urls": "null","core_version": "version","core_ordering": "ordering","core_metakey": "null","core_metadesc": "null","core_catid": "null","core_xreference": "null","asset_id": "asset_id"},"special": {"name":"name","year":"year","revenu":"revenu","nbparts":"nbparts","deduction":"deduction","impot":"impot","dons":"dons","pel":"pel","fraisreels":"fraisreels"}}',
                 // router
                 '',
                 // contentHistoryOptions
@@ -419,7 +419,7 @@ class Com_JtaxInstallerScript implements InstallerScriptInterface
             echo '<div style="background-color: #fff;" class="alert alert-info"><a target="_blank" href="http://www.jltryoen.fr" title="JTax">
                 <img src="components/com_jtax/assets/images/vdm-component.jpg"/>
                 </a>
-                <h3>Upgrade to Version 1.0.7 Was Successful! Let us know if anything is not working as expected.</h3></div>';
+                <h3>Upgrade to Version 1.0.8 Was Successful! Let us know if anything is not working as expected.</h3></div>';
 
             // Add/Update component in the action logs extensions table.
             $this->setActionLogsExtensions();

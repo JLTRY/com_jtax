@@ -2,8 +2,8 @@
 				JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-	@version		1.0.7
-	@build			8th December, 2025
+	@version		1.0.8
+	@build			15th December, 2025
 	@created		4th March, 2025
 	@package		JTax
 	@subpackage		impot.js
@@ -52,9 +52,8 @@ $(document).ready(function() {
 		$("#toolbar-save-copy").hide();
 		$("#toolbar-inlinehelp").hide();
 	}
-	$('#adminForm').append($('<div class="row"><textarea id="impot" value="" rows="5" cols="20"></textarea>'));
-	
-  $('#adminForm').submit(function(event) {
+	$('#toolbar').append($('<button class="button-joomla custom-button-calculate btn btn-primary" id="calculate" type="button"><span class="icon-joomla custom-button-calculate" aria-hidden="true"></span>Calculer</button>'));
+	$('#adminForm').submit(function(event) {
 		var domForm = document.getElementById('adminForm');
 		if (!document.formvalidator.isValid(domForm)) {
 			return false; // Ne pas soumettre si la validation échoue
@@ -70,7 +69,7 @@ $(document).ready(function() {
 				data: data,
 				dataType: "text",
 				success: function(data) {
-					$('#impot').val(data.replace("<br>", "\n"));
+					$('#jform_impot').val(data.replace("<br>", "\n"));
 				},
 				error: function (xhr, ajaxOptions, thrownError) {
 					alert(xhr.status);

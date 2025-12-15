@@ -3,8 +3,8 @@
                 JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-    @version		1.0.7
-    @build			8th December, 2025
+    @version		1.0.8
+    @build			15th December, 2025
     @created		4th March, 2025
     @package		JTax
     @subpackage		PublicimpotModel.php
@@ -228,7 +228,7 @@ class PublicimpotModel extends ItemModel
                 // Get from #__jtax_year as b
                 $query->select($db->quoteName(
             array('b.name'),
-            array('year')));
+            array('yearname')));
                 $query->join('LEFT', ($db->quoteName('#__jtax_year', 'b')) . ' ON (' . $db->quoteName('a.year') . ' = ' . $db->quoteName('b.id') . ')');
                 $query->where('a.id = ' . (int) $pk);
                 // Get where a.published is 1

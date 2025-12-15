@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <access component="com_jtax">
 	<section name="component">
-		<action name="core.admin" title="JACTION_ADMIN" description="JACTION_ADMIN_COMPONENT_DESC" />
-		<action name="core.options" title="JACTION_OPTIONS" description="JACTION_OPTIONS_COMPONENT_DESC" />
-		<action name="core.manage" title="JACTION_MANAGE" description="JACTION_MANAGE_COMPONENT_DESC" />
-		<action name="core.export" title="COM_JTAX_EXPORT_DATA" description="COM_JTAX_EXPORT_DATA_DESC" />
-		<action name="core.import" title="COM_JTAX_IMPORT_DATA" description="COM_JTAX_IMPORT_DATA_DESC" />
-		<action name="core.batch" title="COM_JTAX_USE_BATCH" description="COM_JTAX_USE_BATCH_DESC" />
-		<action name="core.version" title="COM_JTAX_EDIT_VERSIONS" description="COM_JTAX_EDIT_VERSIONS_DESC" />
-		<action name="core.create" title="JACTION_CREATE" description="JACTION_CREATE_COMPONENT_DESC" />
-		<action name="core.delete" title="JACTION_DELETE" description="JACTION_DELETE_COMPONENT_DESC" />
-		<action name="core.edit" title="JACTION_EDIT" description="JACTION_EDIT_COMPONENT_DESC" />
-		<action name="core.edit.state" title="JACTION_EDITSTATE" description="JACTION_ACCESS_EDITSTATE_DESC" />
-		<action name="core.edit.own" title="JACTION_EDITOWN" description="JACTION_EDITOWN_COMPONENT_DESC" />
-		<action name="core.edit.created_by" title="COM_JTAX_EDIT_CREATED_BY" description="COM_JTAX_EDIT_CREATED_BY_DESC" />
-		<action name="core.edit.created" title="COM_JTAX_EDIT_CREATED_DATE" description="COM_JTAX_EDIT_CREATED_DATE_DESC" />
-		<action name="impot.access" title="COM_JTAX_IMPOTS_ACCESS" description="COM_JTAX_IMPOTS_ACCESS_DESC" />
-		<action name="site.impots.access" title="COM_JTAX_IMPOTS_ACCESS_SITE" description="COM_JTAX_IMPOTS_ACCESS_SITE_DESC" />
-		<action name="impot.batch" title="COM_JTAX_IMPOTS_BATCH_USE" description="COM_JTAX_IMPOTS_BATCH_USE_DESC" />
-		<action name="impot.dashboard_add" title="COM_JTAX_IMPOTS_DASHBOARD_ADD" description="COM_JTAX_IMPOTS_DASHBOARD_ADD_DESC" />
-		<action name="impot.dashboard_list" title="COM_JTAX_IMPOTS_DASHBOARD_LIST" description="COM_JTAX_IMPOTS_DASHBOARD_LIST_DESC" />
-		<action name="impot.version" title="COM_JTAX_IMPOTS_EDIT_VERSION" description="COM_JTAX_IMPOTS_EDIT_VERSION_DESC" />
-		<action name="impot.export" title="COM_JTAX_IMPOTS_EXPORT" description="COM_JTAX_IMPOTS_EXPORT_DESC" />
-		<action name="impot.import" title="COM_JTAX_IMPOTS_IMPORT" description="COM_JTAX_IMPOTS_IMPORT_DESC" />
-		<action name="year.exportdata" title="COM_JTAX_YEAR_EXPORTDATA_BUTTON_ACCESS" description="COM_JTAX_YEAR_EXPORTDATA_BUTTON_ACCESS_DESC" />
-		<action name="year.importdata" title="COM_JTAX_YEAR_IMPORTDATA_BUTTON_ACCESS" description="COM_JTAX_YEAR_IMPORTDATA_BUTTON_ACCESS_DESC" />
-		<action name="year.access" title="COM_JTAX_YEARS_ACCESS" description="COM_JTAX_YEARS_ACCESS_DESC" />
-		<action name="year.batch" title="COM_JTAX_YEARS_BATCH_USE" description="COM_JTAX_YEARS_BATCH_USE_DESC" />
-		<action name="year.dashboard_add" title="COM_JTAX_YEARS_DASHBOARD_ADD" description="COM_JTAX_YEARS_DASHBOARD_ADD_DESC" />
-		<action name="year.dashboard_list" title="COM_JTAX_YEARS_DASHBOARD_LIST" description="COM_JTAX_YEARS_DASHBOARD_LIST_DESC" />
-		<action name="year.version" title="COM_JTAX_YEARS_EDIT_VERSION" description="COM_JTAX_YEARS_EDIT_VERSION_DESC" />
-		<action name="year.export" title="COM_JTAX_YEARS_EXPORT" description="COM_JTAX_YEARS_EXPORT_DESC" />
-		<action name="year.import" title="COM_JTAX_YEARS_IMPORT" description="COM_JTAX_YEARS_IMPORT_DESC" />
-		<action name="year.submenu" title="COM_JTAX_YEARS_SUBMENU" description="COM_JTAX_YEARS_SUBMENU_DESC" />
-	</section>
-	<section name="impot">
-		<action name="impot.version" title="COM_JTAX_IMPOTS_EDIT_VERSION" description="COM_JTAX_IMPOTS_EDIT_VERSION_DESC" />
-	</section>
-	<section name="year">
-		<action name="year.version" title="COM_JTAX_YEARS_EDIT_VERSION" description="COM_JTAX_YEARS_EDIT_VERSION_DESC" />
-	</section>
+        <action name="core.admin" title="JACTION_ADMIN" description="JACTION_ADMIN_COMPONENT_DESC" />
+        <action name="core.options" title="JACTION_OPTIONS" description="JACTION_OPTIONS_COMPONENT_DESC" />
+        <action name="core.manage" title="JACTION_MANAGE" description="JACTION_MANAGE_COMPONENT_DESC" />
+        <action name="core.export" title="COM_JTAX_EXPORT_DATA" description="COM_JTAX_EXPORT_DATA_DESC" />
+        <action name="core.import" title="COM_JTAX_IMPORT_DATA" description="COM_JTAX_IMPORT_DATA_DESC" />
+        <action name="core.batch" title="COM_JTAX_USE_BATCH" description="COM_JTAX_USE_BATCH_DESC" />
+        <action name="core.version" title="COM_JTAX_EDIT_VERSIONS" description="COM_JTAX_EDIT_VERSIONS_DESC" />
+        <action name="core.create" title="JACTION_CREATE" description="JACTION_CREATE_COMPONENT_DESC" />
+        <action name="core.delete" title="JACTION_DELETE" description="JACTION_DELETE_COMPONENT_DESC" />
+        <action name="core.edit" title="JACTION_EDIT" description="JACTION_EDIT_COMPONENT_DESC" />
+        <action name="core.edit.state" title="JACTION_EDITSTATE" description="JACTION_ACCESS_EDITSTATE_DESC" />
+        <action name="core.edit.own" title="JACTION_EDITOWN" description="JACTION_EDITOWN_COMPONENT_DESC" />
+        <action name="core.edit.created_by" title="COM_JTAX_EDIT_CREATED_BY" description="COM_JTAX_EDIT_CREATED_BY_DESC" />
+        <action name="core.edit.created" title="COM_JTAX_EDIT_CREATED_DATE" description="COM_JTAX_EDIT_CREATED_DATE_DESC" />
+        <action name="impot.access" title="COM_JTAX_IMPOTS_ACCESS" description="COM_JTAX_IMPOTS_ACCESS_DESC" />
+        <action name="site.impots.access" title="COM_JTAX_IMPOTS_ACCESS_SITE" description="COM_JTAX_IMPOTS_ACCESS_SITE_DESC" />
+        <action name="impot.batch" title="COM_JTAX_IMPOTS_BATCH_USE" description="COM_JTAX_IMPOTS_BATCH_USE_DESC" />
+        <action name="impot.dashboard_add" title="COM_JTAX_IMPOTS_DASHBOARD_ADD" description="COM_JTAX_IMPOTS_DASHBOARD_ADD_DESC" />
+        <action name="impot.dashboard_list" title="COM_JTAX_IMPOTS_DASHBOARD_LIST" description="COM_JTAX_IMPOTS_DASHBOARD_LIST_DESC" />
+        <action name="impot.version" title="COM_JTAX_IMPOTS_EDIT_VERSION" description="COM_JTAX_IMPOTS_EDIT_VERSION_DESC" />
+        <action name="impot.export" title="COM_JTAX_IMPOTS_EXPORT" description="COM_JTAX_IMPOTS_EXPORT_DESC" />
+        <action name="impot.import" title="COM_JTAX_IMPOTS_IMPORT" description="COM_JTAX_IMPOTS_IMPORT_DESC" />
+        <action name="year.exportdata" title="COM_JTAX_YEAR_EXPORTDATA_BUTTON_ACCESS" description="COM_JTAX_YEAR_EXPORTDATA_BUTTON_ACCESS_DESC" />
+        <action name="year.importdata" title="COM_JTAX_YEAR_IMPORTDATA_BUTTON_ACCESS" description="COM_JTAX_YEAR_IMPORTDATA_BUTTON_ACCESS_DESC" />
+        <action name="year.access" title="COM_JTAX_YEARS_ACCESS" description="COM_JTAX_YEARS_ACCESS_DESC" />
+        <action name="year.batch" title="COM_JTAX_YEARS_BATCH_USE" description="COM_JTAX_YEARS_BATCH_USE_DESC" />
+        <action name="year.dashboard_add" title="COM_JTAX_YEARS_DASHBOARD_ADD" description="COM_JTAX_YEARS_DASHBOARD_ADD_DESC" />
+        <action name="year.dashboard_list" title="COM_JTAX_YEARS_DASHBOARD_LIST" description="COM_JTAX_YEARS_DASHBOARD_LIST_DESC" />
+        <action name="year.version" title="COM_JTAX_YEARS_EDIT_VERSION" description="COM_JTAX_YEARS_EDIT_VERSION_DESC" />
+        <action name="year.export" title="COM_JTAX_YEARS_EXPORT" description="COM_JTAX_YEARS_EXPORT_DESC" />
+        <action name="year.import" title="COM_JTAX_YEARS_IMPORT" description="COM_JTAX_YEARS_IMPORT_DESC" />
+        <action name="year.submenu" title="COM_JTAX_YEARS_SUBMENU" description="COM_JTAX_YEARS_SUBMENU_DESC" />
+    </section>
+    <section name="impot">
+        <action name="impot.version" title="COM_JTAX_IMPOTS_EDIT_VERSION" description="COM_JTAX_IMPOTS_EDIT_VERSION_DESC" />
+    </section>
+    <section name="year">
+        <action name="year.version" title="COM_JTAX_YEARS_EDIT_VERSION" description="COM_JTAX_YEARS_EDIT_VERSION_DESC" />
+    </section>
 </access>

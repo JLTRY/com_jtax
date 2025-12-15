@@ -3,8 +3,8 @@
                 JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-    @version		1.0.7
-    @build			8th December, 2025
+    @version		1.0.8
+    @build			15th December, 2025
     @created		4th March, 2025
     @package		JTax
     @subpackage		HtmlView.php
@@ -291,16 +291,16 @@ class HtmlView extends BaseHtmlView
                     $childBar->trash('years.trash')->listCheck(true);
                 }
             }
-            if ($this->user->authorise('year.exportdata', 'com_jtax'))
-            {
-                // add ExportData button.
-                ToolbarHelper::custom('years.ExportData', 'joomla custom-button-exportdata', '', 'COM_JTAX_EXPORTDATA', 'true');
-            }
-            if ($this->user->authorise('year.importdata', 'com_jtax'))
-            {
-                // add ImportData button.
-                ToolbarHelper::custom('years.ImportData', 'arrow-down-4 custom-button-importdata', '', 'COM_JTAX_IMPORTDATA', 'true');
-            }
+        }
+        if ($this->user->authorise('year.exportdata', 'com_jtax'))
+        {
+            // add ExportData button.
+            ToolbarHelper::custom('years.ExportData', 'joomla custom-button-exportdata', '', 'COM_JTAX_EXPORTDATA', false);
+        }
+        if ($this->user->authorise('year.importdata', 'com_jtax'))
+        {
+            // add ImportData button.
+            ToolbarHelper::custom('years.ImportData', 'arrow-down-4 custom-button-importdata', '', 'COM_JTAX_IMPORTDATA', false);
         }
 
         // set help url for this view if found

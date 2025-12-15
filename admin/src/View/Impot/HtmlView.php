@@ -3,8 +3,8 @@
                 JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-    @version		1.0.7
-    @build			8th December, 2025
+    @version		1.0.8
+    @build			15th December, 2025
     @created		4th March, 2025
     @package		JTax
     @subpackage		HtmlView.php
@@ -286,10 +286,77 @@ class HtmlView extends BaseHtmlView
         $isNew = $this->item->id == 0;
 
         ToolbarHelper::title( Text::_($isNew ? 'COM_JTAX_IMPOT_NEW' : 'COM_JTAX_IMPOT_EDIT'), 'pencil-2 article-add');
-/***[JCBGUI.admin_view.view_toolbar.288.$$$$]***/
-'COM_JTAX_CALCULER';
-ToolbarHelper::custom('impot.calculate', 'joomla custom-button-calculate', '', Text::_('COM_JTAX_CALCULER'), false);/***[/JCBGUI$$$$]***/
-
+        // Built the actions for new and existing records.
+        if (StringHelper::check($this->referral))
+        {
+            if ($this->canDo->get('core.create') && $isNew)
+            {
+                // We can create the record.
+                ToolbarHelper::save('impot.save', 'JTOOLBAR_SAVE');
+            }
+            elseif ($this->canDo->get('core.edit'))
+            {
+                // We can save the record.
+                ToolbarHelper::save('impot.save', 'JTOOLBAR_SAVE');
+            }
+            if ($isNew)
+            {
+                // Do not create but cancel.
+                ToolbarHelper::cancel('impot.cancel', 'JTOOLBAR_CANCEL');
+            }
+            else
+            {
+                // We can close it.
+                ToolbarHelper::cancel('impot.cancel', 'JTOOLBAR_CLOSE');
+            }
+        }
+        else
+        {
+            if ($isNew)
+            {
+                // For new records, check the create permission.
+                if ($this->canDo->get('core.create'))
+                {
+                    ToolbarHelper::apply('impot.apply', 'JTOOLBAR_APPLY');
+                    ToolbarHelper::save('impot.save', 'JTOOLBAR_SAVE');
+                    ToolbarHelper::custom('impot.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+                };
+                ToolbarHelper::cancel('impot.cancel', 'JTOOLBAR_CANCEL');
+            }
+            else
+            {
+                if ($this->canDo->get('core.edit'))
+                {
+                    // We can save the new record
+                    ToolbarHelper::apply('impot.apply', 'JTOOLBAR_APPLY');
+                    ToolbarHelper::save('impot.save', 'JTOOLBAR_SAVE');
+                    // We can save this record, but check the create permission to see
+                    // if we can return to make a new one.
+                    if ($this->canDo->get('core.create'))
+                    {
+                        ToolbarHelper::custom('impot.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+                    }
+                }
+                $canVersion = ($this->canDo->get('core.version') && $this->canDo->get('impot.version'));
+                if ($this->state->params->get('save_history', 1) && $this->canDo->get('core.edit') && $canVersion)
+                {
+                    ToolbarHelper::versions('com_jtax.impot', $this->item->id);
+                }
+                if ($this->canDo->get('core.create'))
+                {
+                    ToolbarHelper::custom('impot.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
+                }
+                ToolbarHelper::cancel('impot.cancel', 'JTOOLBAR_CLOSE');
+            }
+        }
+        ToolbarHelper::divider();
+        ToolbarHelper::inlinehelp();
+        // set help url for this view if found
+        $this->help_url = JtaxHelper::getHelpUrl('impot');
+        if (StringHelper::check($this->help_url))
+        {
+            ToolbarHelper::help('COM_JTAX_HELP_MANAGER', false, $this->help_url);
+        }
     }
 
     /**

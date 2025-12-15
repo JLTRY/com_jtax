@@ -2,8 +2,8 @@
 				JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-	@version		1.0.7
-	@build			8th December, 2025
+	@version		1.0.8
+	@build			15th December, 2025
 	@created		4th March, 2025
 	@package		JTax
 	@subpackage		publicimpot.js
@@ -44,7 +44,6 @@ function onselectname($, id) {
 $(document).ready(function() {
         $('#jform_name').parent().hide();
         $('#jform_name-lbl').parent().hide();
-	$('#adminForm').append($('<div class="row"><textarea id="impot" value="" rows="5" cols="20"></textarea>'));
 	var selectname = $('#jform_title');
 	onselectname($,  selectname.find(":selected").val());
 	selectname.on('change', function() {
@@ -83,7 +82,7 @@ $(document).ready(function() {
 				data: data,
 				dataType: "text",
 				success: function(data) {
-					$('#impot').val(data.replace("<br>", "\n"));
+					$('#jform_impot').val(data.replace("<br>", "\n"));
 				},
 				error: function (xhr, ajaxOptions, thrownError) {
 					alert(xhr.status);

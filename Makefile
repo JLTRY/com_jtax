@@ -1,4 +1,4 @@
-VERSION = "3.0.2"
+VERSION = "1.0.8"
 VERSION2 = $(shell echo $(VERSION)|sed 's/ /-/g')
 PACKAGE = pkg_jogallery
 ZIPFILE = $(PACKAGE)-$(VERSION2).zip
@@ -8,7 +8,7 @@ mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
 mkfile_dir := $(dir $(mkfile_path))
 
 
-all: parts $(ZIPFILE)
+all: parts
 
 INSTALLS = com_jtax
 
@@ -16,9 +16,9 @@ EXTRAS =
 
 NAMES = $(INSTALLS) $(EXTRAS)
 
-ZIPS = $(NAMES:=.zip)
+ZIPS = $(NAMES:=_$(VERSION).zip)
 
-ZIPIGNORES = -x "*.git*" -x "*/test/*"
+ZIPIGNORES = -x "*.git*" -x "*/test/*" -x "*.zip" -x "*.sh" -x Makefile -x "*Copie*"
 
 parts: $(ZIPS)
 
@@ -26,7 +26,7 @@ parts: $(ZIPS)
 	@echo "-------------------------------------------------------"
 	@echo "Creating zip file for: $*"
 	@rm -f $@
-	@(cd $*; zip -r ../$@ * $(ZIPIGNORES))
+	@(zip -r $@ * $(ZIPIGNORES))
 
 $(ZIPFILE): $(ZIPS)
 	@echo "-------------------------------------------------------"
