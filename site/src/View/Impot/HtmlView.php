@@ -374,6 +374,24 @@ class HtmlView extends BaseHtmlView
         {
             Html::_('script', $script, ['version' => 'auto']);
         }
+
+/***[JCBGUI.admin_view.php_document.288.$$$$]***/
+// Get the current user
+$user = \Joomla\CMS\Factory::getUser();
+
+// Prepare a small JS object (only non-sensitive data)
+$jsObject = json_encode([
+    'id'    => (int) $user->id,
+    'guest' => (bool) $user->guest,
+    'name'  => $user->name ?? ''
+]);
+
+// Inject as inline script via the WebAssetManager (Joomla 5)
+$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+$wa->addInlineScript('window.com_jtax = window.com_jtax || {}; window.com_jtax.user = ' . $jsObject . ';');
+
+/***[/JCBGUI$$$$]***/
+
     }
 
     /**
