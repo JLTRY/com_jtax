@@ -19,7 +19,7 @@
 /------------------------------------------------------------------------------------------------------*/
 
 use Joomla\CMS\Language\Text;
-use JCB\Joomla\Utilities\ArrayHelper;
+use JLTRY\Joomla\Utilities\ArrayHelper;
 
 // No direct access to this file
 defined('_JEXEC') or die;

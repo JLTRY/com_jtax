@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form
-	addruleprefix="JCB\Component\Jtax\Administrator\Rule"
-	addfieldprefix="JCB\Component\Jtax\Administrator\Field"
+	addruleprefix="JLTRY\Component\Jtax\Administrator\Rule"
+	addfieldprefix="JLTRY\Component\Jtax\Administrator\Field"
 >
 	<config>
 		<inlinehelp button="show"/>

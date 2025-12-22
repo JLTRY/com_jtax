@@ -17,7 +17,7 @@
 \____) (_____)(_____)(_/\/\_)(____)(__)(__)   \___)(_____)(_/\/\_)(__)  (_____)(_)\_)(____)(_)\_) (__) 
 
 /------------------------------------------------------------------------------------------------------*/
-namespace JCB\Component\Jtax\Site\View\Impot;
+namespace JLTRY\Component\Jtax\Site\View\Impot;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -33,9 +33,9 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Document\Document;
-use JCB\Component\Jtax\Administrator\Helper\JtaxHelper;
-use JCB\Joomla\Jtax\Utilities\Permitted\Actions;
-use JCB\Joomla\Utilities\StringHelper;
+use JLTRY\Component\Jtax\Administrator\Helper\JtaxHelper;
+use JLTRY\Joomla\Jtax\Utilities\Permitted\Actions;
+use JLTRY\Joomla\Utilities\StringHelper;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;

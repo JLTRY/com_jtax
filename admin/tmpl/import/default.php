@@ -21,8 +21,8 @@
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\HTML\HTMLHelper as Html;
-use JCB\Joomla\Utilities\ArrayHelper;
-use JCB\Joomla\Utilities\StringHelper;
+use JLTRY\Joomla\Utilities\ArrayHelper;
+use JLTRY\Joomla\Utilities\StringHelper;
 
 // No direct access to this file
 defined('_JEXEC') or die;

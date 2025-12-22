@@ -204,15 +204,6 @@ class Com_JtaxInstallerScript implements InstallerScriptInterface
 
         // Revert the assets table rules column back to the default.
         $this->removeDatabaseAssetsRulesFix();
-
-        // Remove component from action logs extensions table.
-        $this->removeActionLogsExtensions();
-
-        // Remove Impot from action logs config table.
-        $this->removeActionLogConfig('com_jtax.impot');
-
-        // Remove Year from action logs config table.
-        $this->removeActionLogConfig('com_jtax.year');
         // little notice as after service, in case of bad experience with component.
         echo '<div style="background-color: #fff;" class="alert alert-info">
         <h2>Did something go wrong? Are you disappointed?</h2>
@@ -293,7 +284,7 @@ class Com_JtaxInstallerScript implements InstallerScriptInterface
                 // typeAlias
                 'com_jtax.impot',
                 // table
-                '{"special": {"dbtable": "#__jtax_impot","key": "id","type": "ImpotTable","prefix": "JCB\Component\Jtax\Administrator\Table"}}',
+                '{"special": {"dbtable": "#__jtax_impot","key": "id","type": "ImpotTable","prefix": "JLTRY\Component\Jtax\Administrator\Table"}}',
                 // rules
                 '',
                 // fieldMappings
@@ -310,7 +301,7 @@ class Com_JtaxInstallerScript implements InstallerScriptInterface
                 // typeAlias
                 'com_jtax.year',
                 // table
-                '{"special": {"dbtable": "#__jtax_year","key": "id","type": "YearTable","prefix": "JCB\Component\Jtax\Administrator\Table"}}',
+                '{"special": {"dbtable": "#__jtax_year","key": "id","type": "YearTable","prefix": "JLTRY\Component\Jtax\Administrator\Table"}}',
                 // rules
                 '',
                 // fieldMappings
@@ -338,41 +329,6 @@ class Com_JtaxInstallerScript implements InstallerScriptInterface
             echo '<div style="background-color: #fff;" class="alert alert-info"><a target="_blank" href="http://www.jltryoen.fr" title="JTax">
                 <img src="components/com_jtax/assets/images/vdm-component.jpg"/>
                 </a></div>';
-
-            // Add component to the action logs extensions table.
-            $this->setActionLogsExtensions();
-
-            // Add Impot to the action logs config table.
-            $this->setActionLogConfig(
-                // typeTitle
-                'IMPOT',
-                // typeAlias
-                'com_jtax.impot',
-                // idHolder
-                'id',
-                // titleHolder
-                'year',
-                // tableName
-                '#__jtax_impot',
-                // textPrefix
-                'COM_JTAX'
-            );
-
-            // Add Year to the action logs config table.
-            $this->setActionLogConfig(
-                // typeTitle
-                'YEAR',
-                // typeAlias
-                'com_jtax.year',
-                // idHolder
-                'id',
-                // titleHolder
-                'name',
-                // tableName
-                '#__jtax_year',
-                // textPrefix
-                'COM_JTAX'
-            );
         }
 
         // do any updates needed
@@ -386,7 +342,7 @@ class Com_JtaxInstallerScript implements InstallerScriptInterface
                 // typeAlias
                 'com_jtax.impot',
                 // table
-                '{"special": {"dbtable": "#__jtax_impot","key": "id","type": "ImpotTable","prefix": "JCB\Component\Jtax\Administrator\Table"}}',
+                '{"special": {"dbtable": "#__jtax_impot","key": "id","type": "ImpotTable","prefix": "JLTRY\Component\Jtax\Administrator\Table"}}',
                 // rules
                 '',
                 // fieldMappings
@@ -403,7 +359,7 @@ class Com_JtaxInstallerScript implements InstallerScriptInterface
                 // typeAlias
                 'com_jtax.year',
                 // table
-                '{"special": {"dbtable": "#__jtax_year","key": "id","type": "YearTable","prefix": "JCB\Component\Jtax\Administrator\Table"}}',
+                '{"special": {"dbtable": "#__jtax_year","key": "id","type": "YearTable","prefix": "JLTRY\Component\Jtax\Administrator\Table"}}',
                 // rules
                 '',
                 // fieldMappings
@@ -420,41 +376,6 @@ class Com_JtaxInstallerScript implements InstallerScriptInterface
                 <img src="components/com_jtax/assets/images/vdm-component.jpg"/>
                 </a>
                 <h3>Upgrade to Version 1.0.8 Was Successful! Let us know if anything is not working as expected.</h3></div>';
-
-            // Add/Update component in the action logs extensions table.
-            $this->setActionLogsExtensions();
-
-            // Add/Update Impot in the action logs config table.
-            $this->setActionLogConfig(
-                // typeTitle
-                'IMPOT',
-                // typeAlias
-                'com_jtax.impot',
-                // idHolder
-                'id',
-                // titleHolder
-                'year',
-                // tableName
-                '#__jtax_impot',
-                // textPrefix
-                'COM_JTAX'
-            );
-
-            // Add/Update Year in the action logs config table.
-            $this->setActionLogConfig(
-                // typeTitle
-                'YEAR',
-                // typeAlias
-                'com_jtax.year',
-                // idHolder
-                'id',
-                // titleHolder
-                'name',
-                // tableName
-                '#__jtax_year',
-                // textPrefix
-                'COM_JTAX'
-            );
         }
 
         // move CLI files

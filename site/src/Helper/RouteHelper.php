@@ -17,7 +17,7 @@
 \____) (_____)(_____)(_/\/\_)(____)(__)(__)   \___)(_____)(_/\/\_)(__)  (_____)(_)\_)(____)(_)\_) (__) 
 
 /------------------------------------------------------------------------------------------------------*/
-namespace JCB\Component\Jtax\Site\Helper;
+namespace JLTRY\Component\Jtax\Site\Helper;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\Registry\Registry;

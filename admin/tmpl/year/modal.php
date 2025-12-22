@@ -21,7 +21,7 @@
 // No direct access to this file
 defined('_JEXEC') or die;
 
-/** @var \JCB\Component\Jtax\Administrator\View\Year\HtmlView $this */
+/** @var \JLTRY\Component\Jtax\Administrator\View\Year\HtmlView $this */
 ?>
 <div class="subhead noshadow mb-3">
     <?php echo $this->getDocument()->getToolbar('toolbar')->render(); ?>

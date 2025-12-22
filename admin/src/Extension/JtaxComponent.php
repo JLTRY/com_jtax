@@ -17,7 +17,7 @@
 \____) (_____)(_____)(_/\/\_)(____)(__)(__)   \___)(_____)(_/\/\_)(__)  (_____)(_)\_)(____)(_)\_) (__) 
 
 /------------------------------------------------------------------------------------------------------*/
-namespace JCB\Component\Jtax\Administrator\Extension;
+namespace JLTRY\Component\Jtax\Administrator\Extension;
 
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Association\AssociationServiceTrait;
@@ -35,7 +35,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Tag\TagServiceInterface;
 use Joomla\CMS\Tag\TagServiceTrait;
 use Joomla\CMS\User\UserFactoryInterface;
-// (soon) use JCB\Component\Jtax\Administrator\Service\HTML\AdministratorService;
+// (soon) use JLTRY\Component\Jtax\Administrator\Service\HTML\AdministratorService;
 use Psr\Container\ContainerInterface;
 
 // No direct access to this file

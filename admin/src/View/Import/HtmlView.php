@@ -17,14 +17,14 @@
 \____) (_____)(_____)(_/\/\_)(____)(__)(__)   \___)(_____)(_/\/\_)(__)  (_____)(_)\_)(____)(_)\_) (__) 
 
 /------------------------------------------------------------------------------------------------------*/
-namespace JCB\Component\Jtax\Administrator\View\Import;
+namespace JLTRY\Component\Jtax\Administrator\View\Import;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use JCB\Component\Jtax\Administrator\Helper\JtaxHelper;
-use JCB\Joomla\Utilities\StringHelper;
+use JLTRY\Component\Jtax\Administrator\Helper\JtaxHelper;
+use JLTRY\Joomla\Utilities\StringHelper;
 
 // No direct access to this file
 \defined('_JEXEC') or die;

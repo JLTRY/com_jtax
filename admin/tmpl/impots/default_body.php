@@ -21,8 +21,8 @@
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper as Html;
-use JCB\Component\Jtax\Administrator\Helper\JtaxHelper;
-use JCB\Joomla\Jtax\Utilities\Permitted\Actions;
+use JLTRY\Component\Jtax\Administrator\Helper\JtaxHelper;
+use JLTRY\Joomla\Jtax\Utilities\Permitted\Actions;
 use Joomla\CMS\User\UserFactoryInterface;
 
 // No direct access to this file

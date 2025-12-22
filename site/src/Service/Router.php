@@ -17,7 +17,7 @@
 \____) (_____)(_____)(_/\/\_)(____)(__)(__)   \___)(_____)(_/\/\_)(__)  (_____)(_)\_)(____)(_)\_) (__) 
 
 /------------------------------------------------------------------------------------------------------*/
-namespace JCB\Component\Jtax\Site\Service;
+namespace JLTRY\Component\Jtax\Site\Service;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -33,7 +33,7 @@ use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
-use JCB\Component\Jtax\Administrator\Helper\JtaxHelper;
+use JLTRY\Component\Jtax\Administrator\Helper\JtaxHelper;
 
 // No direct access to this file
 \defined('_JEXEC') or die;

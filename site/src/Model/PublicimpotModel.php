@@ -17,7 +17,7 @@
 \____) (_____)(_____)(_/\/\_)(____)(__)(__)   \___)(_____)(_/\/\_)(__)  (_____)(_)\_)(____)(_)\_) (__) 
 
 /------------------------------------------------------------------------------------------------------*/
-namespace JCB\Component\Jtax\Site\Model;
+namespace JLTRY\Component\Jtax\Site\Model;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -31,8 +31,8 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
-use JCB\Component\Jtax\Site\Helper\JtaxHelper;
-use JCB\Component\Jtax\Site\Helper\RouteHelper;
+use JLTRY\Component\Jtax\Site\Helper\JtaxHelper;
+use JLTRY\Component\Jtax\Site\Helper\RouteHelper;
 use Joomla\CMS\Helper\TagsHelper;
 
 // No direct access to this file

@@ -17,7 +17,7 @@
 \____) (_____)(_____)(_/\/\_)(____)(__)(__)   \___)(_____)(_/\/\_)(__)  (_____)(_)\_)(____)(_)\_) (__) 
 
 /------------------------------------------------------------------------------------------------------*/
-namespace JCB\Component\Jtax\Site\Helper;
+namespace JLTRY\Component\Jtax\Site\Helper;
 
 // The power autoloader for this project (JPATH_SITE) area.
 $power_autoloader = JPATH_SITE . '/components/com_jtax/src/Helper/PowerloaderHelper.php';
@@ -43,13 +43,13 @@ use Joomla\Database\DatabaseInterface;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
-use JCB\Joomla\Utilities\StringHelper as UtilitiesStringHelper;
-use JCB\Joomla\Utilities\JsonHelper;
-use JCB\Joomla\Utilities\ObjectHelper;
-use JCB\Joomla\Utilities\FormHelper;
-use JCB\Joomla\Utilities\GetHelper;
-use JCB\Joomla\Jtax\Utilities\Permitted\Actions;
-use JCB\Joomla\Utilities\ArrayHelper as UtilitiesArrayHelper;
+use JLTRY\Joomla\Utilities\StringHelper as UtilitiesStringHelper;
+use JLTRY\Joomla\Utilities\JsonHelper;
+use JLTRY\Joomla\Utilities\ObjectHelper;
+use JLTRY\Joomla\Utilities\FormHelper;
+use JLTRY\Joomla\Utilities\GetHelper;
+use JLTRY\Joomla\Jtax\Utilities\Permitted\Actions;
+use JLTRY\Joomla\Utilities\ArrayHelper as UtilitiesArrayHelper;
 
 // No direct access to this file
 \defined('_JEXEC') or die;

@@ -23,7 +23,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\HTML\HTMLHelper as Html;
-use JCB\Component\Jtax\Site\Helper\JtaxHelper;
+use JLTRY\Component\Jtax\Site\Helper\JtaxHelper;
 
 // No direct access to this file
 defined('_JEXEC') or die;
@@ -44,7 +44,7 @@ switch  ($this->getLayout()) {
                  $jinput = $app->getInput();
                   $this->id =  $jinput->getString('id', -1);
                   if ($this->id !== -1) {
-                $model = new \JCB\Component\Jtax\Site\Model\PublicimpotModel;
+                $model = new \JLTRY\Component\Jtax\Site\Model\PublicimpotModel;
                 $this->setModel($model);
                 $this->item = $model->getItem((int)$this->id);
                        ob_end_clean();

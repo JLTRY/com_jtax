@@ -17,7 +17,7 @@
 \____) (_____)(_____)(_/\/\_)(____)(__)(__)   \___)(_____)(_/\/\_)(__)  (_____)(_)\_)(____)(_)\_) (__) 
 
 /------------------------------------------------------------------------------------------------------*/
-namespace JCB\Component\Jtax\Administrator\Model;
+namespace JLTRY\Component\Jtax\Administrator\Model;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -30,11 +30,11 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\User\User;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\Input\Input;
-use JCB\Component\Jtax\Administrator\Helper\JtaxHelper;
+use JLTRY\Component\Jtax\Administrator\Helper\JtaxHelper;
 use Joomla\CMS\Helper\TagsHelper;
-use JCB\Joomla\Utilities\ArrayHelper as UtilitiesArrayHelper;
-use JCB\Joomla\Utilities\StringHelper;
-use JCB\Joomla\Utilities\ObjectHelper;
+use JLTRY\Joomla\Utilities\ArrayHelper as UtilitiesArrayHelper;
+use JLTRY\Joomla\Utilities\StringHelper;
+use JLTRY\Joomla\Utilities\ObjectHelper;
 
 // No direct access to this file
 \defined('_JEXEC') or die;

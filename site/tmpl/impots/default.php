@@ -23,7 +23,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\HTML\HTMLHelper as Html;
-use JCB\Component\Jtax\Site\Helper\JtaxHelper;
+use JLTRY\Component\Jtax\Site\Helper\JtaxHelper;
 
 // No direct access to this file
 defined('_JEXEC') or die;

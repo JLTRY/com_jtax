@@ -23,7 +23,7 @@ use Joomla\CMS\Router\Route;
 // No direct access to this file
 defined('_JEXEC') or die;
 
-/** @var \JCB\Component\Jtax\Administrator\View\Impot\HtmlView $this */
+/** @var \JLTRY\Component\Jtax\Administrator\View\Impot\HtmlView $this */
 
 $icon = 'icon-check';
 $title_key = $this->item->id ?? '';

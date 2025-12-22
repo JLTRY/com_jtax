@@ -24,12 +24,12 @@ use Joomla\CMS\Session\Session;
 use Joomla\CMS\HTML\HTMLHelper as Html;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
-use JCB\Component\Jtax\Administrator\Helper\JtaxHelper;
+use JLTRY\Component\Jtax\Administrator\Helper\JtaxHelper;
 
 // No direct access to this file
 defined('_JEXEC') or die;
 
-/** @var \JCB\Component\Jtax\Administrator\View\Years\HtmlView $this */
+/** @var \JLTRY\Component\Jtax\Administrator\View\Years\HtmlView $this */
 
 $app = Factory::getApplication();
 

@@ -68,21 +68,4 @@ CREATE TABLE IF NOT EXISTS `#__jtax_year` (
     KEY `idx_state` (`published`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 
-SET @user = (SELECT `id` from `#__users` LIMIT 1);
-INSERT INTO `#__jtax_year`
-  (`name`, `taux1`, `taux2`, `taux3`, `taux4`,
-  `tranche1`, `tranche2`, `tranche3`, `tranche4`,`created_by`, `modified_by`)
-VALUES ('2022', '0.11', '0.3', '0.41', '0.5', '10777', '27478', '78570', '168994', @user, @user ),
-('2023', '0.11', '0.3', '0.41', '0.5', '11294', '28797', '82347', '177106', @user, @user ),
-('2024', '0.11', '0.3', '0.41', '0.45', '11497', '29315', '83823', '180294', @user, @user ),
-('2025', '0.11', '0.3', '0.41', '0.45', '11727', '29901', '85499', '183900', @user, @user );
-
-
-INSERT INTO `#__jtax_impot` ( `deduction`,`fraisreels`,`name` ,`nbparts`,
-  `revenu`, `dons`, `pel`, `year`, `created_by`, `modified_by`, `access`)
-VALUES ('1', '0', 'Revenus 2022 smic', '1', '15948', '0', '0', '1', @user, @user, '1' ),
-('1', '0', 'Revenus 2023 smic', '1', '16236', '0', '0', '2', @user, @user, '1' ),
-('1', '0', 'Revenus 2024 smic', '1', '16839', '0', '0', '3', @user, @user, '1' ),
-('1', '0', 'Revenus 2025 smic', '1', '17115', '0', '0', '4', @user, @user, '1' );
-
 

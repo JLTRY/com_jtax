@@ -14,7 +14,7 @@
 		<p></p>
 		<p>Created by <a href="http://www.jltryoen.fr" target="_blank">Jean-Luc Tryoen</a><br /><small>Development started 4th March, 2025</small></p>
 	]]></description>
-	<namespace path="src">JCB\Component\Jtax</namespace>
+	<namespace path="src">JLTRY\Component\Jtax</namespace>
 
 	<!-- Runs on install -->
 	<install>

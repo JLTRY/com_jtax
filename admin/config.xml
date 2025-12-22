@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
 	<fieldset
-        addruleprefix="JCB\Component\Jtax\Administrator\Rule"
-        addfieldprefix="JCB\Component\Jtax\Administrator\Field"
+        addruleprefix="JLTRY\Component\Jtax\Administrator\Rule"
+        addfieldprefix="JLTRY\Component\Jtax\Administrator\Field"
         name="global_config"
         label="COM_JTAX_CONFIG_GLOBAL_LABEL"
         description="COM_JTAX_CONFIG_GLOBAL_DESC">

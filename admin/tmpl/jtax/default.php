@@ -21,7 +21,7 @@
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper as Html;
-use JCB\Component\Jtax\Administrator\Helper\JtaxHelper;
+use JLTRY\Component\Jtax\Administrator\Helper\JtaxHelper;
 
 // No direct access to this file
 defined('_JEXEC') or die;

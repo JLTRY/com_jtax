@@ -36,8 +36,8 @@ use Joomla\CMS\Extension\Service\Provider\MVCFactory;
 use Joomla\CMS\Extension\Service\Provider\RouterFactory;
 use Joomla\CMS\HTML\Registry;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use JCB\Component\Jtax\Administrator\Extension\JtaxComponent;
-// (soon) use JCB\Component\Jtax\Administrator\Helper\AssociationsHelper;
+use JLTRY\Component\Jtax\Administrator\Extension\JtaxComponent;
+// (soon) use JLTRY\Component\Jtax\Administrator\Helper\AssociationsHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
@@ -45,7 +45,7 @@ use Joomla\DI\ServiceProviderInterface;
 \defined('_JEXEC') or die;
 
 /**
- * The JCB Jtax service provider.
+ * The JLTRY Jtax service provider.
  *
  * @since  4.0.0
  */
@@ -64,10 +64,10 @@ return new class () implements ServiceProviderInterface
     {
         // (soon) $container->set(AssociationExtensionInterface::class, new AssociationsHelper());
 
-        $container->registerServiceProvider(new CategoryFactory('\\JCB\\Component\\Jtax'));
-        $container->registerServiceProvider(new MVCFactory('\\JCB\\Component\\Jtax'));
-        $container->registerServiceProvider(new ComponentDispatcherFactory('\\JCB\\Component\\Jtax'));
-        $container->registerServiceProvider(new RouterFactory('\\JCB\\Component\\Jtax'));
+        $container->registerServiceProvider(new CategoryFactory('\\JLTRY\\Component\\Jtax'));
+        $container->registerServiceProvider(new MVCFactory('\\JLTRY\\Component\\Jtax'));
+        $container->registerServiceProvider(new ComponentDispatcherFactory('\\JLTRY\\Component\\Jtax'));
+        $container->registerServiceProvider(new RouterFactory('\\JLTRY\\Component\\Jtax'));
 
         $container->set(
             ComponentInterface::class,

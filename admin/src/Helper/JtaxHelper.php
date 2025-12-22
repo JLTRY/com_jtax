@@ -17,7 +17,7 @@
 \____) (_____)(_____)(_/\/\_)(____)(__)(__)   \___)(_____)(_/\/\_)(__)  (_____)(_)\_)(____)(_)\_) (__) 
 
 /------------------------------------------------------------------------------------------------------*/
-namespace JCB\Component\Jtax\Administrator\Helper;
+namespace JLTRY\Component\Jtax\Administrator\Helper;
 
 // The power autoloader for this project (JPATH_ADMINISTRATOR) area.
 $power_autoloader = JPATH_ADMINISTRATOR . '/components/com_jtax/src/Helper/PowerloaderHelper.php';
@@ -43,16 +43,13 @@ use Joomla\Database\DatabaseInterface;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
-use JCB\Joomla\Utilities\StringHelper as UtilitiesStringHelper;
-use JCB\Joomla\Utilities\ObjectHelper;
-use JCB\Joomla\Utilities\ArrayHelper as UtilitiesArrayHelper;
-use JCB\Joomla\Utilities\GetHelper;
-use JCB\Joomla\Utilities\JsonHelper;
-use JCB\Joomla\Jtax\Utilities\Permitted\Actions;
-use JCB\Joomla\Utilities\FormHelper;
-use PhpOffice\PhpSpreadsheet\IOFactory;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use JLTRY\Joomla\Utilities\StringHelper as UtilitiesStringHelper;
+use JLTRY\Joomla\Utilities\ObjectHelper;
+use JLTRY\Joomla\Utilities\ArrayHelper as UtilitiesArrayHelper;
+use JLTRY\Joomla\Utilities\GetHelper;
+use JLTRY\Joomla\Utilities\JsonHelper;
+use JLTRY\Joomla\Jtax\Utilities\Permitted\Actions;
+use JLTRY\Joomla\Utilities\FormHelper;
 
 // No direct access to this file
 \defined('_JEXEC') or die;
@@ -199,8 +196,8 @@ abstract class JtaxHelper
         }
         // set modified if not set
         if (!$modified)
-        { //JLT
-            $modified = Factory::getDate()->format('jS_F_Y');//$user->name;
+        {
+            $modified = $user->name;
         }
         // set title if not set
         if (!$title)
@@ -297,7 +294,7 @@ abstract class JtaxHelper
                         {
                             $active_sheet->getColumnDimension($a)->setAutoSize(true);
                             $active_sheet->getStyle($a.$i)->applyFromArray($headerStyles);
-                            $active_sheet->getStyle($a.$i)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+                            $active_sheet->getStyle($a.$i)->getAlignment()->setHorizontal(PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
                         }
                         elseif ($a === 'A')
                         {
@@ -357,13 +354,13 @@ abstract class JtaxHelper
         if(isset($package['dir']))
         {
             // only load first three rows
-            //$chunkFilter = new PhpOffice\PhpSpreadsheet\Reader\chunkReadFilter(2,1);
+            $chunkFilter = new PhpOffice\PhpSpreadsheet\Reader\chunkReadFilter(2,1);
             // identify the file type
             $inputFileType = IOFactory::identify($package['dir']);
             // create the reader for this file type
             $excelReader = IOFactory::createReader($inputFileType);
             // load the limiting filter
-            //$excelReader->setReadFilter($chunkFilter);
+            $excelReader->setReadFilter($chunkFilter);
             $excelReader->setReadDataOnly(true);
             // load the rows (only first three)
             $excelObj = $excelReader->load($package['dir']);

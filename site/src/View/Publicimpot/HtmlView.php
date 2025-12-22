@@ -17,7 +17,7 @@
 \____) (_____)(_____)(_/\/\_)(____)(__)(__)   \___)(_____)(_/\/\_)(__)  (_____)(_)\_)(____)(_)\_) (__) 
 
 /------------------------------------------------------------------------------------------------------*/
-namespace JCB\Component\Jtax\Site\View\Publicimpot;
+namespace JLTRY\Component\Jtax\Site\View\Publicimpot;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -29,11 +29,11 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Document\Document;
-use JCB\Component\Jtax\Site\Helper\HeaderCheck;
-use JCB\Component\Jtax\Site\Helper\JtaxHelper;
-use JCB\Component\Jtax\Site\Helper\RouteHelper;
-use JCB\Joomla\Jtax\Utilities\Permitted\Actions;
-use JCB\Joomla\Utilities\StringHelper;
+use JLTRY\Component\Jtax\Site\Helper\HeaderCheck;
+use JLTRY\Component\Jtax\Site\Helper\JtaxHelper;
+use JLTRY\Component\Jtax\Site\Helper\RouteHelper;
+use JLTRY\Joomla\Jtax\Utilities\Permitted\Actions;
+use JLTRY\Joomla\Utilities\StringHelper;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
@@ -156,7 +156,7 @@ class HtmlView extends BaseHtmlView
         $this->editor = $jinput->getString('editor', null);
         $this->id =  $jinput->getString('id', -1);
         if ($this->id !== -1) {
-            $model = new \JCB\Component\Jtax\Site\Model\PublicimpotModel;
+            $model = new \JLTRY\Component\Jtax\Site\Model\PublicimpotModel;
             $this->setModel($model);
             $this->item = $model->getItem((int)$this->id);
                $this->form->bind($this->item);

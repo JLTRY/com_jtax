@@ -17,7 +17,7 @@
 \____) (_____)(_____)(_/\/\_)(____)(__)(__)   \___)(_____)(_/\/\_)(__)  (_____)(_)\_)(____)(_)\_) (__) 
 
 /------------------------------------------------------------------------------------------------------*/
-namespace JCB\Component\Jtax\Site\Dispatcher;
+namespace JLTRY\Component\Jtax\Site\Dispatcher;
 
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
 

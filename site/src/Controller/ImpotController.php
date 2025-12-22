@@ -17,7 +17,7 @@
 \____) (_____)(_____)(_/\/\_)(____)(__)(__)   \___)(_____)(_/\/\_)(__)  (_____)(_)\_)(____)(_)\_) (__) 
 
 /------------------------------------------------------------------------------------------------------*/
-namespace JCB\Component\Jtax\Site\Controller;
+namespace JLTRY\Component\Jtax\Site\Controller;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -28,7 +28,7 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
-use JCB\Component\Jtax\Administrator\Helper\JtaxHelper;
+use JLTRY\Component\Jtax\Administrator\Helper\JtaxHelper;
 
 // No direct access to this file
 \defined('_JEXEC') or die;
@@ -107,7 +107,7 @@ function calculate()
     $jinput = $application->input;
     $data = $jinput->get('jform', array(), 'array'); 
     $id =  (int)$data["year"];
-    $yearModel = \JCB\Component\Jtax\Administrator\Helper\JtaxHelper::GetModel('Years');
+    $yearModel = \JLTRY\Component\Jtax\Administrator\Helper\JtaxHelper::GetModel('Years');
     //workarround to set filter
     $jinput->set('filter', ['search' => "id:" . $id]);
     $items = $yearModel->getItems();
